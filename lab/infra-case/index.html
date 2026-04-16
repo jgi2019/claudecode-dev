@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIネイティブな組織に不可欠なインフラ設計 — UDLR LAB</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#f8f5f0;--fg:#0e0e0e;--accent-light:#c8f97a;--muted:#999;--border:#e0dbd4;--card:#fff}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font-family:'Noto Sans JP',sans-serif;line-height:1.8;font-weight:300}
+nav{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:1px solid var(--border);padding:16px 48px;display:flex;align-items:center;gap:12px}
+nav a{font-size:12px;color:var(--muted);text-decoration:none;letter-spacing:.08em}
+nav a:hover{color:var(--fg)}
+nav span{font-size:12px;color:var(--muted)}
+.hero{padding:80px 48px 64px;border-bottom:1px solid var(--border)}
+.hero-tag{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:24px}
+.hero h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(28px,4vw,52px);line-height:1.1;letter-spacing:-.02em;max-width:800px;margin-bottom:32px}
+.hero-sub{font-size:16px;color:#555;max-width:600px;line-height:1.9;font-weight:300}
+.hero-meta{margin-top:48px;display:flex;gap:48px;flex-wrap:wrap}
+.meta-item label{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px}
+.meta-item p{font-size:14px;font-weight:500}
+.content{max-width:800px;margin:0 auto;padding:64px 48px}
+.section{margin-bottom:72px}
+.section-label{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;display:flex;align-items:center;gap:12px}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border)}
+h2{font-family:'Syne',sans-serif;font-weight:700;font-size:26px;margin-bottom:24px;line-height:1.2}
+p{font-size:15px;color:#333;margin-bottom:16px;line-height:1.9;font-weight:300}
+p strong{font-weight:500;color:var(--fg)}
+.diagram{background:#0e0e0e;color:#f0ede8;border-radius:4px;padding:48px;margin:40px 0}
+.diagram-title{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#555;margin-bottom:32px}
+.layer{margin-bottom:24px}
+.layer:last-child{margin-bottom:0}
+.layer-label{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#555;margin-bottom:10px}
+.layer-nodes{display:flex;flex-wrap:wrap;gap:8px}
+.node{background:#1a1a1a;border:1px solid #2a2a2a;padding:8px 16px;border-radius:2px;font-size:13px;font-family:'Syne',sans-serif}
+.node.highlight{background:#c8f97a;color:#0a0a0a;border-color:#c8f97a}
+.node.mid{background:#222;border-color:#333}
+.layer-arrow{text-align:center;color:#333;font-size:20px;margin:8px 0}
+.callout{border-left:3px solid var(--fg);padding:24px 28px;margin:32px 0;background:var(--card)}
+.callout p{margin:0;font-size:14px;line-height:1.9}
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin:32px 0}
+.insight-card{background:var(--card);padding:28px;border:1px solid var(--border)}
+.insight-num{font-family:'Syne',sans-serif;font-size:40px;font-weight:800;color:var(--border);margin-bottom:12px;line-height:1}
+.insight-title{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;margin-bottom:8px}
+.insight-desc{font-size:13px;color:#666;line-height:1.7;font-weight:300}
+.quote{padding:48px;border:1px solid var(--border);margin:40px 0;text-align:center}
+.quote p{font-family:'Syne',sans-serif;font-size:clamp(18px,2.5vw,26px);font-weight:700;line-height:1.4;margin:0}
+.quote cite{display:block;margin-top:16px;font-size:12px;color:var(--muted);font-style:normal;letter-spacing:.08em}
+.profile{display:flex;gap:32px;align-items:flex-start;background:var(--card);padding:36px;border:1px solid var(--border);margin-top:48px}
+.profile-avatar{width:64px;height:64px;background:var(--fg);border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#f0ede8;font-family:'Syne',sans-serif;font-weight:800;font-size:20px}
+.profile-name{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;margin-bottom:4px}
+.profile-role{font-size:12px;color:var(--muted);letter-spacing:.06em;margin-bottom:12px}
+.profile-bio{font-size:13px;color:#555;line-height:1.8;font-weight:300}
+.profile-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.tag{font-size:11px;padding:4px 10px;border:1px solid var(--border);letter-spacing:.06em}
+.article-footer{border-top:1px solid var(--border);padding:48px;display:flex;justify-content:space-between;align-items:center}
+.article-footer a{font-size:12px;color:var(--muted);text-decoration:none;letter-spacing:.08em}
+.article-footer a:hover{color:var(--fg)}
+@media(max-width:640px){nav,.hero,.content,.article-footer{padding-left:24px;padding-right:24px}.cards{grid-template-columns:1fr}.profile{flex-direction:column}.hero-meta{gap:24px}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/">UDLR</a><span>/</span>
+  <a href="/lab/">LAB</a><span>/</span>
+  <span style="color:var(--fg)">AIインフラ設計</span>
+</nav>
+<div class="hero">
+  <div class="hero-tag">Case Study — 01</div>
+  <h1>AIネイティブな組織に<br>不可欠なインフラ設計</h1>
+  <p class="hero-sub">レジリエンス・リカバリー・生産性向上。クラウドに正本を置き、誰が欠けても1日で復旧できる組織インフラの思想と実装記録。</p>
+  <div class="hero-meta">
+    <div class="meta-item"><label>Author</label><p>江頭淳 / Jungle Gym Inc.</p></div>
+    <div class="meta-item"><label>Date</label><p>2026年4月</p></div>
+    <div class="meta-item"><label>Category</label><p>Infrastructure / AI Strategy</p></div>
+  </div>
+</div>
+<div class="content">
+  <div class="section">
+    <div class="section-label">01 — Background</div>
+    <h2>なぜ、このインフラを作ったのか</h2>
+    <p>2016年、持ち歩いていた4TBのポータブルHDDが振動で破損した。当時のデータが一瞬で消え、復旧に多大な時間とコストを失った。その経験が、すべての起点にある。</p>
+    <p>しかしこれは個人的な話ではない。複数の会社に属し、経営者として組織を見てきた中で、同じ構造的リスクが至る所に存在することに気づいた。</p>
+    <div class="callout">
+      <p><strong>中小企業の本質的なリスク：</strong>SMBは「辞めてもらっては困る人」で形成されている。しかしその人が急に離脱した時、引き継ぎ期間がなければプロジェクトは止まり、ナレッジは消え、組織は機能不全に陥る。これは経営者として絶対に避けなければならない事象だ。</p>
+    </div>
+    <p>AIが進化し、AI従業員という概念が現実になりつつある今、この問題を解決する手段がついて整った。AIをOSとして機能させ、クラウドと連携し、ハンドオフが常に残る状態を作る。それが本インフラの思想的出発点だ。</p>
+  </div>
+  <div class="section">
+    <div class="section-label">02 — Philosophy</div>
+    <h2>3つの設計原則</h2>
+    <div class="cards">
+      <div class="insight-card">
+        <div class="insight-num">01</div>
+        <div class="insight-title">クラウドに正本を置く</div>
+        <div class="insight-desc">ローカルは作業場所に過ぎない。揮発前提で動け。ローカルにしか存在しないファイルは存在しないも同然。</div>
+      </div>
+      <div class="insight-card">
+        <div class="insight-num">02</div>
+        <div class="insight-title">1日でリカバリできる</div>
+        <div class="insight-desc">誰が欠けても、翌日には業務が再開できる。そのためのハンドオフ・ドキュメンテーション・自動化を設計する。</div>
+      </div>
+      <div class="insight-card">
+        <div class="insight-num">03</div>
+        <div class="insight-title">AIをOSにする</div>
+        <div class="insight-desc">Claudeをバディとして中心に置き、全ての業務ツールをMCPで接続。AIが先読みして動く環境を作る。</div>
+      </div>
+      <div class="insight-card">
+        <div class="insight-num">04</div>
+        <div class="insight-title">自社で実証する</div>
+        <div class="insight-desc">クライアントに提供する前に、自社で実装・証明する。「これが今後のスタンダードです」と言える根拠を作る。</div>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-label">03 — Architecture</div>
+    <h2>インフラの全体構成</h2>
+    <p>以下の4層構造でレジリエンスを担保する。各層が連携することで、単一障害点が存在しない設計になっている。</p>
+    <div class="diagram">
+      <div class="diagram-title">Infrastructure Overview</div>
+      <div class="layer">
+        <div class="layer-label">☁ Cloud Truth Layer — 正本</div>
+        <div class="layer-nodes">
+          <div class="node highlight">Notion — ナレッジDB</div>
+          <div class="node highlight">GitHub — コード正本</div>
+          <div class="node highlight">Vercel — 自動デプロイ</div>
+          <div class="node highlight">Google Drive / Box — ファイル冗長化</div>
+        </div>
+      </div>
+      <div class="layer-arrow">↕</div>
+      <div class="layer">
+        <div class="layer-label">🤖 Agent Layer — AI実行</div>
+        <div class="layer-nodes">
+          <div class="node">Claude Code — ローカル実行</div>
+          <div class="node">Claude Cowork — GUI自動化</div>
+          <div class="node">CLAUDE.md — エージェント憲法</div>
+        </div>
+      </div>
+      <div class="layer-arrow">↕</div>
+      <div class="layer">
+        <div class="layer-label">🔄 MCP Connection Layer — 接続</div>
+        <div class="layer-nodes">
+          <div class="node mid">Notion</div>
+          <div class="node mid">Gmail</div>
+          <div class="node mid">Google Calendar</div>
+          <div class="node mid">Slack</div>
+          <div class="node mid">Figma</div>
+          <div class="node mid">GitHub</div>
+          <div class="node mid">Vercel</div>
+          <div class="node mid">Box</div>
+        </div>
+      </div>
+      <div class="layer-arrow">↕</div>
+      <div class="layer">
+        <div class="layer-label">💻 Local Layer — 揮発前提の作業場</div>
+        <div class="layer-nodes">
+          <div class="node">作業ディレクトリ</div>
+          <div class="node">Ghostty Terminal</div>
+          <div class="node">生成物（即commit）</div>
+        </div>
+      </div>
+    </div>
+    <p>ローカルで作業した内容はGitHubへ即時commit・push。GitHubへのpushがトリガーとなりVercelへ自動デプロイ。コンテキストが怪しくなればNotionへハンドオフ。次のセッションはNotionを読むことから始まる。</p>
+  </div>
+  <div class="section">
+    <div class="section-label">04 — Impact</div>
+    <h2>このインフラが生み出すもの</h2>
+    <div class="callout">
+      <p><strong>「タバコを取って」と言われたら、タバコだけでなくライターと灰皿も用意する。</strong>AIへの期待はここにある。指示待ちではなく先読みして動く。雑務はすべてAIが処理し、人間は判断と意思決定に集中できる。</p>
+    </div>
+    <p>このインフラが完成した組織では、特定の人物に依存した業務フローが消える。誰が欠けても、AIがNotionのハンドオフを読み、前回の続きから即座に再開できる。それが<strong>組織のレジリエンス</strong>だ。</p>
+    <p>同時に、Vercelへの自動デプロイとGitHub連携により、HTMLの修正のたびに全量出力するトークンの無駄がなくなる。差分commitだけでデプロイが走る。これが<strong>生産性向上</strong>の具体的な形だ。</p>
+  </div>
+  <div class="quote">
+    <p>「AIが会社のOSになっていく時代において、<br>インフラ設計は経営戦略そのものだ。」</p>
+    <cite>江頭淳 / Jungle Gym Inc.</cite>
+  </div>
+  <div class="section">
+    <div class="section-label">05 — Author</div>
+    <h2>このインフラを設計した人</h2>
+    <div class="profile">
+      <div class="profile-avatar">JE</div>
+      <div>
+        <div class="profile-name">江頭淳（Atsushi Egashira）</div>
+        <div class="profile-role">Jungle Gym Inc. 代表 / D&E Aggregate Inc. 代表</div>
+        <div class="profile-bio">2006年より累計2万人超の対面・電話面談経験を持つ。ブランディング・採用・DXを横断するコンサルタントとして日産・資生堂・オムロン等の大手プロジェクトに携わる。2019年にJGI設立。現在はAIオンボーディング事業に注力。Base44世界アンバサダー44名（国内初）。</div>
+        <div class="profile-tags">
+          <span class="tag">AI Onboarding</span>
+          <span class="tag">Base44 Ambassador</span>
+          <span class="tag">Salesforce Partner</span>
+          <span class="tag">Claude Code</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="article-footer">
+  <a href="/lab/">← Back to LAB</a>
+  <a href="mailto:hey@udlr.jp">お問い合わせ: hey@udlr.jp</a>
+</div>
+</body>
+</html>
