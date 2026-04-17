@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>【IT導入補助金認定】受発注システム | ジャングルジム株式会社</title>
+<meta name="description" content="ジャングルジム株式会社が開発した、IT導入補助金認定の受発注システム。顧客管理・見積書・発注書・納品書・請求書を一元管理し、業務のDX化を実現します。">
+<meta name="robots" content="noindex, nofollow">
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="assets/img/JGI_logo_sq_bk(en).png">
+<link rel="apple-touch-icon" href="assets/img/JGI_logo_sq_bk(en).png">
+
+<!-- OGP -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://oms.udlr.jp/">
+<meta property="og:title" content="【IT導入補助金認定】受発注システム | ジャングルジム株式会社">
+<meta property="og:description" content="ジャングルジム株式会社が開発した、IT導入補助金認定の受発注システム。顧客管理・見積書・発注書・納品書・請求書を一元管理し、業務のDX化を実現します。">
+<meta property="og:site_name" content="ジャングルジム株式会社">
+<meta property="og:image" content="https://oms.udlr.jp/assets/img/JGI_logo_sq_bk(en).png">
+<meta name="twitter:card" content="summary">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   Design Tokens — デジタル庁デザインシステム準拠
+   ============================================ */
+:root {
+  /* Primitive Color — Blue (プライマリーの色相を青系に) */
+  --blue-50:  #E8F1FE;
+  --blue-100: #CCE0FD;
+  --blue-200: #9BC1FB;
+  --blue-300: #63A0F9;
+  --blue-400: #2B7DF0;
+  --blue-500: #0A58CA;  /* Primary */
+  --blue-600: #0846A6;
+  --blue-700: #063582;
+  --blue-800: #042660;
+  --blue-900: #021940;
+
+  /* Primitive Color — Solid Gray */
+  --gray-0:   #FFFFFF;
+  --gray-25:  #F9FAFB;
+  --gray-50:  #F2F4F7;
+  --gray-100: #EAECF0;
+  --gray-200: #D0D5DD;
+  --gray-300: #98A2B3;
+  --gray-400: #667085;
+  --gray-500: #475467;
+  --gray-600: #344054;
+  --gray-700: #1D2939;
+  --gray-800: #101828;
+  --gray-900: #0C111D;
+
+  /* Supporting (アクセント：補助金バッジ用) */
+  --accent-orange: #E87722;
+  --accent-orange-light: #FFF4E8;
+
+  /* Semantic Tokens */
+  --color-primary: var(--blue-500);
+  --color-primary-hover: var(--blue-600);
+  --color-primary-active: var(--blue-700);
+  --color-secondary: var(--blue-50);
+  --color-tertiary: var(--blue-800);
+  --color-background: var(--gray-0);
+  --color-background-alt: var(--gray-25);
+  --color-surface: var(--gray-0);
+  --color-border: var(--gray-200);
+  --color-border-strong: var(--gray-300);
+  --color-text: var(--gray-800);
+  --color-text-secondary: var(--gray-500);
+  --color-text-muted: var(--gray-400);
+  --color-text-on-primary: var(--gray-0);
+
+  /* Typography */
+  --font-sans: "Noto Sans JP", -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Meiryo", sans-serif;
+  --font-serif: "Noto Serif JP", "Hiragino Mincho ProN", serif;
+
+  /* Spacing Scale (8pt grid) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+  --space-32: 128px;
+
+  /* Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+
+  /* Shadow */
+  --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.05);
+  --shadow-md: 0 4px 8px -2px rgba(16, 24, 40, 0.08), 0 2px 4px -2px rgba(16, 24, 40, 0.04);
+  --shadow-lg: 0 12px 24px -6px rgba(16, 24, 40, 0.10), 0 4px 8px -4px rgba(16, 24, 40, 0.06);
+  --shadow-xl: 0 20px 40px -8px rgba(10, 88, 202, 0.12);
+
+  /* Layout */
+  --max-width: 1200px;
+  --header-height: 72px;
+}
+
+/* ============================================
+   Reset / Base
+   ============================================ */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--color-text);
+  background: var(--color-background);
+  -webkit-font-smoothing: antialiased;
+}
+img, svg { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; }
+
+:focus-visible {
+  outline: 3px solid var(--blue-300);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
+@media (min-width: 768px) {
+  .container { padding: 0 var(--space-8); }
+}
+
+/* ============================================
+   Header
+   ============================================ */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: saturate(180%) blur(14px);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  border-bottom: 1px solid var(--color-border);
+  height: var(--header-height);
+}
+.header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-6);
+}
+@media (min-width: 768px) {
+  .header__inner { padding: 0 var(--space-8); }
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--color-text);
+  text-decoration: none;
+}
+.logo__img {
+  height: 21px;
+  width: auto;
+  display: block;
+}
+@media (min-width: 768px) {
+  .logo__img { height: 23px; }
+}
+.logo__img--square {
+  height: 44px;
+  width: auto;
+}
+.logo--footer {
+  align-items: center;
+  color: white;
+  gap: var(--space-4);
+}
+.logo__text-footer {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+}
+.logo__text-footer .logo__text-main {
+  font-size: 14px;
+  font-weight: 700;
+  color: white;
+  letter-spacing: 0.02em;
+}
+.logo__text-footer .logo__text-sub {
+  font-size: 10px;
+  color: var(--gray-400);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+}
+
+.nav { display: none; }
+@media (min-width: 1024px) {
+  .nav { display: flex; align-items: center; gap: var(--space-8); }
+}
+.nav a {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  transition: color 0.15s ease;
+}
+.nav a:hover { color: var(--color-primary); }
+
+/* ============================================
+   Buttons (デジタル庁デザインシステム準拠)
+   ============================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 12px 24px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+  min-height: 48px;
+  text-align: center;
+  line-height: 1.4;
+}
+.btn--primary {
+  background: var(--color-primary);
+  color: var(--color-text-on-primary);
+  box-shadow: var(--shadow-sm);
+}
+.btn--primary:hover { background: var(--color-primary-hover); box-shadow: var(--shadow-md); }
+.btn--primary:active { background: var(--color-primary-active); }
+
+.btn--secondary {
+  background: var(--color-background);
+  color: var(--color-primary);
+  border-color: var(--color-border-strong);
+}
+.btn--secondary:hover { border-color: var(--color-primary); background: var(--blue-50); }
+
+.btn--large { padding: 16px 32px; font-size: 16px; min-height: 56px; }
+
+.btn svg { width: 18px; height: 18px; }
+
+/* ============================================
+   Hero Section
+   ============================================ */
+.hero {
+  position: relative;
+  padding: var(--space-16) 0 var(--space-20);
+  background: linear-gradient(180deg, var(--blue-50) 0%, var(--color-background) 100%);
+  overflow: hidden;
+}
+.hero::before {
+  content: "";
+  position: absolute;
+  top: -200px;
+  right: -200px;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(10, 88, 202, 0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero__inner {
+  position: relative;
+  display: grid;
+  gap: var(--space-10);
+  align-items: center;
+}
+@media (min-width: 1024px) {
+  .hero__inner { grid-template-columns: 1.15fr 1fr; gap: var(--space-16); }
+  .hero { padding: var(--space-24) 0; }
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 6px 14px;
+  background: var(--accent-orange-light);
+  color: var(--accent-orange);
+  border: 1px solid rgba(232, 119, 34, 0.25);
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  margin-bottom: var(--space-6);
+}
+.badge svg { width: 16px; height: 16px; }
+
+.hero__title {
+  font-size: clamp(28px, 5vw, 48px);
+  font-weight: 900;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+  margin: 0 0 var(--space-6);
+}
+.hero__title .accent {
+  position: relative;
+  color: var(--color-primary);
+  display: inline-block;
+}
+.hero__title .accent::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 100%;
+  height: 6px;
+  background: var(--blue-100);
+  z-index: -1;
+}
+.hero__description {
+  font-size: 16px;
+  line-height: 1.9;
+  color: var(--color-text-secondary);
+  margin: 0 0 var(--space-8);
+}
+@media (min-width: 768px) {
+  .hero__description { font-size: 17px; }
+}
+.hero__description strong { color: var(--color-text); font-weight: 700; }
+
+.hero__cta {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+/* Hero Visual — 抽象的ダッシュボード */
+.hero__visual {
+  position: relative;
+  aspect-ratio: 5 / 4;
+}
+.mock-window {
+  position: absolute;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  overflow: hidden;
+}
+.mock-window--main {
+  inset: 8% 8% 12% 4%;
+  z-index: 2;
+}
+.mock-window--back {
+  inset: 0 0 auto auto;
+  width: 55%;
+  height: 55%;
+  z-index: 1;
+  transform: rotate(2deg);
+  opacity: 0.85;
+}
+.mock-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  background: var(--gray-50);
+  border-bottom: 1px solid var(--color-border);
+}
+.mock-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--gray-200); }
+.mock-body { padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+.mock-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 6px; }
+.mock-stat {
+  padding: 12px;
+  background: var(--blue-50);
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--color-primary);
+}
+.mock-stat__label { font-size: 10px; color: var(--color-text-secondary); }
+.mock-stat__value { font-size: 18px; font-weight: 900; color: var(--color-primary); }
+.mock-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--gray-25);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+.mock-row__icon {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  background: var(--blue-100);
+  display: grid;
+  place-items: center;
+  color: var(--color-primary);
+}
+.mock-row__icon svg { width: 16px; height: 16px; }
+.mock-row__lines { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+.mock-line { height: 6px; border-radius: 3px; background: var(--gray-100); }
+.mock-line--w80 { width: 80%; }
+.mock-line--w60 { width: 60%; }
+.mock-line--w40 { width: 40%; }
+.mock-status {
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  background: var(--blue-500);
+  color: white;
+}
+
+/* ============================================
+   Section Common
+   ============================================ */
+.section { padding: var(--space-20) 0; }
+@media (min-width: 768px) { .section { padding: var(--space-24) 0; } }
+
+.section--alt { background: var(--color-background-alt); }
+
+.section__head {
+  text-align: center;
+  margin-bottom: var(--space-12);
+}
+.section__eyebrow {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-primary);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-3);
+}
+.section__title {
+  font-size: clamp(26px, 4vw, 36px);
+  font-weight: 900;
+  line-height: 1.3;
+  letter-spacing: -0.005em;
+  color: var(--color-text);
+  margin: 0 0 var(--space-4);
+}
+.section__description {
+  font-size: 16px;
+  color: var(--color-text-secondary);
+  max-width: 640px;
+  margin: 0 auto;
+  line-height: 1.8;
+}
+
+/* ============================================
+   Value Proposition Grid
+   ============================================ */
+.values {
+  display: grid;
+  gap: var(--space-5);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 640px) { .values { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .values { grid-template-columns: repeat(4, 1fr); } }
+
+.value-card {
+  padding: var(--space-8) var(--space-6);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+.value-card:hover {
+  border-color: var(--color-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+.value-card__number {
+  font-family: var(--font-serif);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-primary);
+  letter-spacing: 0.1em;
+  margin-bottom: var(--space-4);
+}
+.value-card__icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  background: var(--blue-50);
+  color: var(--color-primary);
+  display: grid;
+  place-items: center;
+  margin-bottom: var(--space-5);
+}
+.value-card__icon svg { width: 24px; height: 24px; }
+.value-card__title {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--color-text);
+  margin: 0 0 var(--space-3);
+}
+.value-card__text {
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+/* ============================================
+   Pricing
+   ============================================ */
+.pricing-card {
+  max-width: 820px;
+  margin: 0 auto;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+.pricing-card__head {
+  padding: var(--space-6) var(--space-8);
+  background: var(--color-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+.pricing-card__head-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+}
+.pricing-card__head-note {
+  font-size: 13px;
+  opacity: 0.9;
+  padding: 4px 12px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
+}
+.pricing-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  padding: 0;
+}
+@media (min-width: 768px) {
+  .pricing-grid { grid-template-columns: repeat(3, 1fr); }
+}
+.pricing-cell {
+  padding: var(--space-10) var(--space-6);
+  text-align: center;
+  border-bottom: 1px solid var(--color-border);
+  position: relative;
+}
+@media (min-width: 768px) {
+  .pricing-cell { border-bottom: none; border-right: 1px solid var(--color-border); }
+  .pricing-cell:last-child { border-right: none; }
+}
+.pricing-cell:last-child { border-bottom: none; }
+.pricing-cell__label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.08em;
+  margin-bottom: var(--space-4);
+  text-transform: uppercase;
+}
+.pricing-cell__value {
+  font-size: 40px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  line-height: 1;
+}
+.pricing-cell__value .unit { font-size: 18px; font-weight: 700; color: var(--color-text-secondary); margin-left: 4px; }
+.pricing-cell--highlight { background: var(--blue-50); }
+.pricing-cell--highlight .pricing-cell__value { color: var(--color-primary); }
+
+.pricing-card__foot {
+  padding: var(--space-5) var(--space-8);
+  background: var(--gray-25);
+  border-top: 1px solid var(--color-border);
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+
+/* ============================================
+   Features List
+   ============================================ */
+.features {
+  display: grid;
+  gap: var(--space-5);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 640px) { .features { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .features { grid-template-columns: repeat(3, 1fr); } }
+
+.feature-card {
+  padding: var(--space-8) var(--space-6);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+.feature-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-primary);
+}
+.feature-card__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+  padding-bottom: var(--space-5);
+  border-bottom: 1px solid var(--color-border);
+}
+.feature-card__icon {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: var(--radius-md);
+  background: var(--blue-50);
+  color: var(--color-primary);
+  display: grid;
+  place-items: center;
+}
+.feature-card__icon svg { width: 22px; height: 22px; }
+.feature-card__title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+  line-height: 1.4;
+}
+.feature-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.feature-list li {
+  position: relative;
+  padding-left: 24px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--color-text);
+}
+.feature-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 14px;
+  height: 8px;
+  border-left: 2px solid var(--color-primary);
+  border-bottom: 2px solid var(--color-primary);
+  transform: rotate(-45deg);
+}
+.feature-list__note {
+  display: block;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  margin-top: 2px;
+}
+
+/* ============================================
+   CTA Section
+   ============================================ */
+.cta {
+  position: relative;
+  padding: var(--space-20) 0;
+  background: var(--color-tertiary);
+  color: white;
+  overflow: hidden;
+}
+.cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(99, 160, 249, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(10, 88, 202, 0.25) 0%, transparent 45%);
+  pointer-events: none;
+}
+.cta__inner { position: relative; text-align: center; }
+.cta__eyebrow {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--blue-200);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-3);
+}
+.cta__title {
+  font-size: clamp(28px, 5vw, 42px);
+  font-weight: 900;
+  line-height: 1.35;
+  margin: 0 0 var(--space-5);
+}
+.cta__description {
+  font-size: 16px;
+  line-height: 1.9;
+  opacity: 0.85;
+  max-width: 640px;
+  margin: 0 auto var(--space-10);
+}
+.cta .btn--primary {
+  background: white;
+  color: var(--color-primary);
+}
+.cta .btn--primary:hover { background: var(--blue-50); }
+.cta .btn--secondary {
+  background: transparent;
+  color: white;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+.cta .btn--secondary:hover { background: rgba(255, 255, 255, 0.1); border-color: white; }
+.cta__buttons {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* ============================================
+   Footer
+   ============================================ */
+.footer {
+  background: var(--gray-800);
+  color: var(--gray-300);
+  padding: var(--space-16) 0 var(--space-8);
+}
+.footer__inner {
+  display: grid;
+  gap: var(--space-10);
+  margin-bottom: var(--space-10);
+}
+@media (min-width: 768px) {
+  .footer__inner { grid-template-columns: 1.5fr 1fr 1fr; }
+}
+.footer__brand .logo { margin-bottom: var(--space-4); }
+.footer__description {
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--gray-400);
+  margin: 0;
+}
+.footer__heading {
+  font-size: 13px;
+  font-weight: 700;
+  color: white;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 0 0 var(--space-4);
+}
+.footer__nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.footer__nav a {
+  font-size: 14px;
+  color: var(--gray-300);
+  transition: color 0.15s ease;
+}
+.footer__nav a:hover { color: white; }
+.footer__bottom {
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--gray-700);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  font-size: 12px;
+  color: var(--gray-400);
+}
+
+/* ============================================
+   Animations
+   ============================================ */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.reveal {
+  opacity: 0;
+  animation: fadeInUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.reveal[data-delay="1"] { animation-delay: 0.08s; }
+.reveal[data-delay="2"] { animation-delay: 0.16s; }
+.reveal[data-delay="3"] { animation-delay: 0.24s; }
+.reveal[data-delay="4"] { animation-delay: 0.32s; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============ Header ============ -->
+<header class="header">
+  <div class="header__inner">
+    <a class="logo" target="_blank" rel="noopener" href="https://udlr.jp" aria-label="ジャングルジム株式会社 トップへ">
+      <img src="assets/img/logo_en_dark.png" alt="JGI ジャングルジム株式会社" class="logo__img">
+    </a>
+    <nav class="nav" aria-label="サイトナビゲーション">
+      <a href="#values">特長</a>
+      <a href="#pricing">料金</a>
+      <a href="#features">機能一覧</a>
+      <a target="_blank" rel="noopener" href="https://udlr.jp/contact">お問い合わせ</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- ============ Hero ============ -->
+<section class="hero">
+  <div class="container">
+    <div class="hero__inner">
+      <div class="hero__text reveal">
+        <span class="badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2l2.39 6.95h7.31l-5.91 4.29 2.26 6.96L12 15.9l-6.05 4.3 2.26-6.96L2.3 8.95h7.31z"/>
+          </svg>
+          IT導入補助金 認定システム
+        </span>
+        <h1 class="hero__title">
+          書類業務を、<br>
+          <span class="accent">ひとつに、正確に。</span>
+        </h1>
+        <p class="hero__description">
+          ジャングルジム株式会社が開発した受発注システムは、<strong>IT導入補助金に認定されたシステム</strong>です。顧客管理から見積書・発注書・納品書・請求書までを一元管理し、売上データの自動生成により請求漏れを防止します。業務のDX化で、生産性と正確性を同時に高めます。
+        </p>
+        <div class="hero__cta">
+          <a target="_blank" rel="noopener" href="https://udlr.jp/contact" class="btn btn--primary btn--large">
+            無料で相談する
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </a>
+          <a href="#features" class="btn btn--secondary btn--large">機能を見る</a>
+        </div>
+      </div>
+
+      <div class="hero__visual reveal" data-delay="2" aria-hidden="true">
+        <!-- 後方ウィンドウ -->
+        <div class="mock-window mock-window--back">
+          <div class="mock-header">
+            <span class="mock-dot"></span>
+            <span class="mock-dot"></span>
+            <span class="mock-dot"></span>
+          </div>
+          <div class="mock-body">
+            <div class="mock-row">
+              <div class="mock-row__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              </div>
+              <div class="mock-row__lines">
+                <span class="mock-line mock-line--w80"></span>
+                <span class="mock-line mock-line--w40"></span>
+              </div>
+            </div>
+            <div class="mock-row">
+              <div class="mock-row__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              </div>
+              <div class="mock-row__lines">
+                <span class="mock-line mock-line--w60"></span>
+                <span class="mock-line mock-line--w40"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- メインウィンドウ -->
+        <div class="mock-window mock-window--main">
+          <div class="mock-header">
+            <span class="mock-dot"></span>
+            <span class="mock-dot"></span>
+            <span class="mock-dot"></span>
+          </div>
+          <div class="mock-body">
+            <div class="mock-stats">
+              <div class="mock-stat">
+                <div class="mock-stat__label">今期売上高</div>
+                <div class="mock-stat__value">¥24.8M</div>
+              </div>
+              <div class="mock-stat">
+                <div class="mock-stat__label">未送付請求書</div>
+                <div class="mock-stat__value">3件</div>
+              </div>
+            </div>
+            <div class="mock-row">
+              <div class="mock-row__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              </div>
+              <div class="mock-row__lines">
+                <span class="mock-line mock-line--w80"></span>
+                <span class="mock-line mock-line--w60"></span>
+              </div>
+              <span class="mock-status">送付済</span>
+            </div>
+            <div class="mock-row">
+              <div class="mock-row__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              </div>
+              <div class="mock-row__lines">
+                <span class="mock-line mock-line--w60"></span>
+                <span class="mock-line mock-line--w40"></span>
+              </div>
+              <span class="mock-status" style="background: var(--accent-orange);">未送付</span>
+            </div>
+            <div class="mock-row">
+              <div class="mock-row__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              </div>
+              <div class="mock-row__lines">
+                <span class="mock-line mock-line--w80"></span>
+                <span class="mock-line mock-line--w60"></span>
+              </div>
+              <span class="mock-status">送付済</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Values ============ -->
+<section class="section" id="values">
+  <div class="container">
+    <div class="section__head">
+      <span class="section__eyebrow">Why Choose Us</span>
+      <h2 class="section__title">導入する4つの価値</h2>
+      <p class="section__description">
+        バラバラな書類管理から解放され、データに基づく意思決定へ。<br>
+        業務をDX化することは、生産性と正確性の向上に直結します。
+      </p>
+    </div>
+
+    <div class="values">
+      <article class="value-card reveal" data-delay="1">
+        <div class="value-card__number">01 / 04</div>
+        <div class="value-card__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        </div>
+        <h3 class="value-card__title">書類業務の<br>一元管理</h3>
+        <p class="value-card__text">見積書・発注書・納品書・請求書を、一つのシステムでシームレスに管理。書類間の変換もワンクリックで完了します。</p>
+      </article>
+
+      <article class="value-card reveal" data-delay="2">
+        <div class="value-card__number">02 / 04</div>
+        <div class="value-card__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20v-6M6 20v-4M18 20v-8M3 4h18M3 4l3 8 6-4 6 2 3-6"/></svg>
+        </div>
+        <h3 class="value-card__title">売上データの<br>自動生成</h3>
+        <p class="value-card__text">登録されたデータから売上を自動集計し、ダッシュボードでリアルタイムに可視化。経営判断のスピードが変わります。</p>
+      </article>
+
+      <article class="value-card reveal" data-delay="3">
+        <div class="value-card__number">03 / 04</div>
+        <div class="value-card__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 5-3.5 9-9 9s-9-4-9-9 3.5-9 9-9c2 0 4 .5 5.5 1.5"/></svg>
+        </div>
+        <h3 class="value-card__title">請求漏れの<br>防止</h3>
+        <p class="value-card__text">未送付請求書を自動で検出・表示。人的ミスによる請求漏れを未然に防ぎ、キャッシュフローを健全化します。</p>
+      </article>
+
+      <article class="value-card reveal" data-delay="4">
+        <div class="value-card__number">04 / 04</div>
+        <div class="value-card__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.39 6.95h7.31l-5.91 4.29 2.26 6.96L12 15.9l-6.05 4.3 2.26-6.96L2.3 8.95h7.31z"/></svg>
+        </div>
+        <h3 class="value-card__title">IT導入補助金<br>対象システム</h3>
+        <p class="value-card__text">経済産業省のIT導入補助金に認定。導入コストの一部を補助金でまかない、投資対効果を最大化できます。</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Pricing ============ -->
+<section class="section section--alt" id="pricing">
+  <div class="container">
+    <div class="section__head">
+      <span class="section__eyebrow">Pricing</span>
+      <h2 class="section__title">受発注システムの利用料</h2>
+      <p class="section__description">
+        シンプルな年間契約プラン。機能制限なしで全機能をご利用いただけます。
+      </p>
+    </div>
+
+    <div class="pricing-card reveal">
+      <div class="pricing-card__head">
+        <h3 class="pricing-card__head-title">受発注システム スタンダードプラン</h3>
+        <span class="pricing-card__head-note">年間契約</span>
+      </div>
+      <div class="pricing-grid">
+        <div class="pricing-cell">
+          <div class="pricing-cell__label">月額</div>
+          <div class="pricing-cell__value">20<span class="unit">万円</span></div>
+        </div>
+        <div class="pricing-cell">
+          <div class="pricing-cell__label">契約月数</div>
+          <div class="pricing-cell__value">12<span class="unit">ヶ月</span></div>
+        </div>
+        <div class="pricing-cell pricing-cell--highlight">
+          <div class="pricing-cell__label">年額</div>
+          <div class="pricing-cell__value">240<span class="unit">万円</span></div>
+        </div>
+      </div>
+      <div class="pricing-card__foot">
+        ※ 月額・年額は税別表記です。別途、消費税がかかります。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Features ============ -->
+<section class="section" id="features">
+  <div class="container">
+    <div class="section__head">
+      <span class="section__eyebrow">Features</span>
+      <h2 class="section__title">機能一覧</h2>
+      <p class="section__description">
+        管理者権限から書類管理、ダッシュボードまで。業務運営に必要な機能を網羅しています。
+      </p>
+    </div>
+
+    <div class="features">
+
+      <article class="feature-card reveal">
+        <div class="feature-card__head">
+          <div class="feature-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a6 6 0 016-6h4a6 6 0 016 6v2"/><path d="M18 5l2 2 3-3" stroke-width="2.5"/></svg>
+          </div>
+          <h3 class="feature-card__title">管理者管理</h3>
+        </div>
+        <ul class="feature-list">
+          <li>管理者権限設定機能</li>
+          <li>利用状況設定機能</li>
+        </ul>
+      </article>
+
+      <article class="feature-card reveal" data-delay="1">
+        <div class="feature-card__head">
+          <div class="feature-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <h3 class="feature-card__title">顧客管理</h3>
+        </div>
+        <ul class="feature-list">
+          <li>取引先マスタ<span class="feature-list__note">法人・組織／個人</span></li>
+          <li>フィルタ・検索機能</li>
+        </ul>
+      </article>
+
+      <article class="feature-card reveal" data-delay="2">
+        <div class="feature-card__head">
+          <div class="feature-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+          </div>
+          <h3 class="feature-card__title">見積書管理</h3>
+        </div>
+        <ul class="feature-list">
+          <li>フィルタ・検索機能</li>
+          <li>変更履歴機能<span class="feature-list__note">自動保存</span></li>
+          <li>PDF表示・作成機能</li>
+          <li>別書類への変換機能</li>
+          <li>コピー機能</li>
+          <li>任意選択PDF一括ダウンロード<span class="feature-list__note">PDF・ZIP</span></li>
+          <li>封筒宛名PDFダウンロード</li>
+          <li>送付状PDFダウンロード</li>
+        </ul>
+      </article>
+
+      <article class="feature-card reveal" data-delay="3">
+        <div class="feature-card__head">
+          <div class="feature-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>
+          </div>
+          <h3 class="feature-card__title">発注書管理</h3>
+        </div>
+        <ul class="feature-list">
+          <li>フィルタ・検索機能</li>
+          <li>変更履歴機能<span class="feature-list__note">自動保存</span></li>
+          <li>PDF表示・作成機能</li>
+          <li>別書類への変換機能</li>
+          <li>コピー機能</li>
+          <li>任意選択PDF一括ダウンロード<span class="feature-list__note">PDF・ZIP</span></li>
+          <li>封筒宛名PDFダウンロード</li>
+          <li>送付状PDFダウンロード</li>
+        </ul>
+      </article>
+
+      <article class="feature-card reveal">
+        <div class="feature-card__head">
+          <div class="feature-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+          </div>
+          <h3 class="feature-card__title">納品書管理</h3>
+        </div>
+        <ul class="feature-list">
+          <li>フィルタ・検索機能</li>
+          <li>変更履歴機能<span class="feature-list__note">自動保存</span></li>
+          <li>PDF表示・作成機能</li>
+          <li>別書類への変換機能</li>
+          <li>コピー機能</li>
+          <li>任意選択PDF一括ダウンロード<span class="feature-list__note">PDF・ZIP</span></li>
+          <li>封筒宛名PDFダウンロード</li>
+          <li>送付状PDFダウンロード</li>
+        </ul>
+      </article>
+
+      <article class="feature-card reveal" data-delay="1">
+        <div class="feature-card__head">
+          <div class="feature-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          </div>
+          <h3 class="feature-card__title">請求書管理</h3>
+        </div>
+        <ul class="feature-list">
+          <li>フィルタ・検索機能</li>
+          <li>変更履歴機能<span class="feature-list__note">自動保存</span></li>
+          <li>PDF表示・作成機能</li>
+          <li>別書類への変換機能</li>
+          <li>コピー機能</li>
+          <li>任意選択PDF一括ダウンロード<span class="feature-list__note">PDF・ZIP</span></li>
+          <li>封筒宛名PDFダウンロード</li>
+          <li>送付状PDFダウンロード</li>
+          <li>ステータス変更機能<span class="feature-list__note">任意選択一括変更可能</span></li>
+          <li>クレジットカード決済URL発行機能</li>
+        </ul>
+      </article>
+
+      <article class="feature-card reveal" data-delay="2">
+        <div class="feature-card__head">
+          <div class="feature-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+          </div>
+          <h3 class="feature-card__title">環境設定</h3>
+        </div>
+        <ul class="feature-list">
+          <li>自社設定機能</li>
+          <li>会計設定機能</li>
+          <li>各種書類設定機能</li>
+          <li>売上目標設定機能</li>
+        </ul>
+      </article>
+
+      <article class="feature-card reveal" data-delay="3">
+        <div class="feature-card__head">
+          <div class="feature-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+          </div>
+          <h3 class="feature-card__title">ダッシュボード</h3>
+        </div>
+        <ul class="feature-list">
+          <li>請求書検索機能</li>
+          <li>今期売上高表示機能<span class="feature-list__note">自動計算</span></li>
+          <li>売上比率表示機能<span class="feature-list__note">自動計算</span></li>
+          <li>未送付請求書表示機能<span class="feature-list__note">自動データ取得</span></li>
+        </ul>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="cta" id="contact">
+  <div class="container cta__inner">
+    <span class="cta__eyebrow">Contact</span>
+    <h2 class="cta__title">業務のDX化、<br>ジャングルジムと始めませんか。</h2>
+    <p class="cta__description">
+      IT導入補助金の活用相談から、お客様の業務フローに合わせた導入プランのご提案まで。<br>
+      まずはお気軽にお問い合わせください。
+    </p>
+    <div class="cta__buttons">
+      <a target="_blank" rel="noopener" href="https://udlr.jp/contact" class="btn btn--primary btn--large">
+        お問い合わせ
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ Footer ============ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <a class="logo logo--footer" target="_blank" rel="noopener" href="https://udlr.jp" aria-label="ジャングルジム株式会社 トップへ">
+          <img src="assets/img/JGI_logo_sq_wh(en).png" alt="JGI" class="logo__img logo__img--square">
+          <span class="logo__text-footer">
+            <span class="logo__text-main">ジャングルジム株式会社</span>
+            <span class="logo__text-sub">JUNGLE GYM INC.</span>
+          </span>
+        </a>
+      </div>
+      <div>
+        <h4 class="footer__heading">Product</h4>
+        <ul class="footer__nav">
+          <li><a href="#values">特長</a></li>
+          <li><a href="#pricing">料金</a></li>
+          <li><a href="#features">機能一覧</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer__heading">Company</h4>
+        <ul class="footer__nav">
+          <li><a target="_blank" rel="noopener" href="https://udlr.jp">会社案内</a></li>
+          <li><a target="_blank" rel="noopener" href="https://udlr.jp/contact">お問い合わせ</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2026 JUNGLE GYM Co., Ltd. All Rights Reserved.</span>
+      <span>IT導入補助金 認定システム</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

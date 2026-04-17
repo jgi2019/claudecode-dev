@@ -1,4 +1,10 @@
 {
+  "rewrites": [
+    {"source": "/(.*)", "has": [{"type": "host", "value": "oms.udlr.jp"}], "destination": "/dev/jungle-gym-lp/$1"},
+    {"source": "/(.*)", "has": [{"type": "host", "value": "lab.udlr.jp"}], "destination": "/lab/$1"},
+    {"source": "/(.*)", "has": [{"type": "host", "value": "dev.udlr.jp"}], "destination": "/dev/$1"},
+    {"source": "/(.*)", "has": [{"type": "host", "value": "ai.udlr.jp"}], "destination": "/ai/$1"}
+  ],
   "headers": [
     {
       "source": "/(.*)",
