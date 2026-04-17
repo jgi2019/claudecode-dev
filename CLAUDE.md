@@ -37,6 +37,7 @@
 ## 作業開始ルール
 1. セッション開始時、必ずNotionのハンドオフDBを確認し前回の続きから始めよ
 2. ハンドオフDB URL：https://www.notion.so/344505f6b5a580f99f4fea109de871ee
+3. TaskBoard URL：https://www.notion.so/bb4246510e8747ca88df0c4de58aa98d
 
 ## ハンドオフルール
 - コンテキストが怪しくなってきたと感じたら即座にNotionのハンドオフDBに書き出せ
