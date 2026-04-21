@@ -381,200 +381,103 @@
   .ag-gap-ref {
     font-size: 10px; color: var(--text-muted); font-style: italic;
   }
-
-/* ══════════════════════════════════════════
-   MODAL
-══════════════════════════════════════════ */
-.card-modal-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(17, 24, 39, 0.55);
-  backdrop-filter: blur(2px);
-  z-index: 1000;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  animation: cm-fade-in 0.12s ease-out;
-}
-.card-modal-overlay.active { display: flex; }
-@keyframes cm-fade-in { from { opacity: 0; } to { opacity: 1; } }
-
-.card-modal {
-  background: var(--surface);
-  border-radius: 10px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
-  width: 100%;
-  max-width: 640px;
-  max-height: 85vh;
-  display: flex;
-  flex-direction: column;
-  animation: cm-slide-up 0.18s ease-out;
-}
-@keyframes cm-slide-up { from { transform: translateY(10px); opacity:0; } to { transform: translateY(0); opacity:1; } }
-
-.cm-head {
-  padding: 20px 24px 14px;
-  border-bottom: 1px solid var(--border2);
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
-}
-.cm-head-left { flex: 1; min-width: 0; }
-.cm-type-badge {
-  display: inline-block;
-  font-size: 10px;
-  font-family: 'Space Mono', monospace;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  padding: 3px 8px;
-  border-radius: 4px;
-  margin-bottom: 8px;
-}
-.cm-type-badge.t-customer { background: var(--cu-bg); color: var(--cu); border: 1px solid var(--cu-bdr); }
-.cm-type-badge.t-front    { background: var(--fr-bg); color: var(--fr); border: 1px solid var(--fr-bdr); }
-.cm-type-badge.t-back     { background: var(--bk-bg); color: var(--bk); border: 1px solid var(--bk-bdr); }
-.cm-type-badge.t-system   { background: #f9fafb; color: #4b5563; border: 1px solid #d1d5db; }
-.cm-type-badge.t-gap      { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
-.cm-type-badge.t-agenda   { background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; }
-
-.cm-label {
-  font-size: 17px;
-  font-weight: 700;
-  color: var(--text);
-  line-height: 1.4;
-  margin: 0;
-}
-.cm-close {
-  background: transparent;
-  border: none;
-  font-size: 22px;
-  line-height: 1;
-  color: var(--text-muted);
-  cursor: pointer;
-  padding: 4px 8px;
-  border-radius: 4px;
-  transition: background 0.12s;
-}
-.cm-close:hover { background: var(--surface2); color: var(--text); }
-
-.cm-body {
-  padding: 16px 24px;
-  overflow-y: auto;
-  flex: 1;
-}
-
-.cm-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 14px;
-}
-.cm-meta-item {
-  font-size: 10px;
-  font-family: 'Space Mono', monospace;
-  padding: 2px 8px;
-  background: var(--surface2);
-  border: 1px solid var(--border2);
-  border-radius: 4px;
-  color: var(--text-sub);
-}
-.cm-meta-item.priority-p1 { background: #fef2f2; border-color: #fecaca; color: #991b1b; font-weight: 700; }
-.cm-meta-item.priority-p2 { background: #fffbeb; border-color: #fde68a; color: #92400e; font-weight: 700; }
-.cm-meta-item.priority-p3 { background: #eff6ff; border-color: #bfdbfe; color: #1e40af; }
-
-.cm-section {
-  margin-top: 16px;
-}
-.cm-section-label {
-  font-size: 10px;
-  font-family: 'Space Mono', monospace;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--text-muted);
-  margin-bottom: 6px;
-}
-.cm-text {
-  font-size: 13px;
-  line-height: 1.7;
-  color: var(--text-sub);
-  white-space: pre-wrap;
-  word-wrap: break-word;
-}
-.cm-detail {
-  font-size: 13px;
-  line-height: 1.7;
-  color: var(--text-sub);
-  white-space: pre-wrap;
-  background: var(--surface2);
-  padding: 12px 14px;
-  border-radius: 6px;
-  border-left: 3px solid var(--border);
-}
-
-.cm-notion-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 14px;
-  background: #111827;
-  color: #fff !important;
-  text-decoration: none;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 500;
-  transition: background 0.12s;
-}
-.cm-notion-link:hover { background: #374151; }
-.cm-notion-empty {
-  font-size: 12px;
-  color: var(--text-muted);
-  font-style: italic;
-}
-
-.cm-foot {
-  padding: 14px 24px;
-  border-top: 1px solid var(--border2);
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  background: var(--surface2);
-  border-radius: 0 0 10px 10px;
-}
-.cm-foot-btn {
-  font-size: 12px;
-  padding: 7px 14px;
-  border: 1px solid var(--border);
-  background: var(--surface);
-  color: var(--text-sub);
-  border-radius: 6px;
-  cursor: pointer;
-  font-family: inherit;
-}
-.cm-foot-btn:hover { background: var(--surface2); }
-.cm-foot-btn.primary {
-  background: var(--text);
-  color: #fff;
-  border-color: var(--text);
-}
-.cm-foot-btn.primary:hover { background: #000; }
-
-/* Clickable card indicator */
-.card[data-card-id], .ag-card[data-card-id] {
-  cursor: pointer;
-}
-.card[data-card-id]:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
-}
-.ag-card[data-card-id]:hover {
-  box-shadow: 0 3px 10px rgba(0,0,0,0.10);
-}
-
 </style>
+
+<style id="card-modal-css">
+/* ───── カードモーダル ───── */
+.card, .ag-card { cursor: pointer; transition: transform .12s ease, box-shadow .12s ease; }
+.card:hover { transform: translateY(-1px); box-shadow: 0 3px 10px rgba(0,0,0,0.08); }
+.card-modal-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(3px);
+  z-index: 9998;
+  display: none;
+  align-items: center; justify-content: center;
+  padding: 24px;
+  animation: cm-fadein .15s ease;
+}
+.card-modal-backdrop.open { display: flex; }
+@keyframes cm-fadein { from { opacity: 0; } to { opacity: 1; } }
+.card-modal {
+  background: #fff;
+  border-radius: 12px;
+  max-width: 640px; width: 100%;
+  max-height: 85vh;
+  display: flex; flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  overflow: hidden;
+  animation: cm-slidein .18s ease;
+}
+@keyframes cm-slidein { from { transform: translateY(8px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.card-modal-head {
+  padding: 18px 22px 14px;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.card-modal-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+.card-modal-badge {
+  font-size: 10px; font-family: 'Space Mono', monospace;
+  font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+  padding: 3px 8px; border-radius: 4px;
+}
+.cmb-customer  { background: #eff6ff; color: #2563eb; }
+.cmb-front     { background: #ecfdf5; color: #059669; }
+.cmb-back      { background: #fffbeb; color: #d97706; }
+.cmb-system    { background: #f9fafb; color: #4b5563; border: 1px solid #d1d5db; }
+.cmb-gap       { background: #fef2f2; color: #dc2626; }
+.cmb-agenda    { background: #f5f3ff; color: #7c3aed; }
+.cmb-curriculum{ background: #fdf2f8; color: #db2777; }
+.cmb-sysdesign { background: #f0fdfa; color: #0d9488; }
+.cmb-priority  { background: #fee2e2; color: #b91c1c; }
+.cmb-meta      { background: #f3f4f6; color: #374151; }
+.card-modal-title {
+  font-size: 18px; font-weight: 700; line-height: 1.4;
+  color: #111827; margin: 0;
+}
+.card-modal-body {
+  padding: 18px 22px; overflow-y: auto; flex: 1;
+  font-size: 13.5px; line-height: 1.7; color: #374151;
+}
+.card-modal-section {
+  font-size: 10.5px; font-family: 'Space Mono', monospace;
+  font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+  color: #6b7280;
+  margin: 14px 0 6px; padding-bottom: 4px;
+  border-bottom: 1px solid #e5e7eb;
+}
+.card-modal-section:first-child { margin-top: 0; }
+.card-modal-text {
+  white-space: pre-wrap;
+  font-size: 13.5px; line-height: 1.75;
+}
+.card-modal-foot {
+  padding: 12px 22px; border-top: 1px solid #e5e7eb;
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 10px;
+  background: #fafafa;
+}
+.card-modal-meta-inline {
+  font-size: 11px; color: #6b7280;
+  font-family: 'Space Mono', monospace;
+}
+.card-modal-actions { display: flex; gap: 8px; }
+.card-modal-btn {
+  border: none; cursor: pointer;
+  padding: 7px 14px; border-radius: 6px;
+  font-size: 12px; font-weight: 600;
+  transition: background .15s;
+}
+.card-modal-btn.secondary { background: #f3f4f6; color: #374151; }
+.card-modal-btn.secondary:hover { background: #e5e7eb; }
+.card-modal-btn.primary { background: #2563eb; color: #fff; text-decoration: none; display: inline-flex; align-items: center; }
+.card-modal-btn.primary:hover { background: #1d4ed8; }
+.card-modal-btn.primary.disabled { background: #cbd5e1; cursor: not-allowed; pointer-events: none; }
+</style>
+
+<script id="cards-data" type="application/json">
+[{"id": "bp-cu-001", "type": "customer", "type_abbr": "cu", "label": "イベントA — ウェビナー", "text": "集団営業型。4/28を叩き台にマスター化・随時展開", "tab": "blueprint", "layer": "customer", "category": "顧客行動", "priority": "", "line_no": 516, "detail": "集団営業型。4/28を叩き台にマスター化・随時展開", "notion_url": ""}, {"id": "bp-cu-002", "type": "customer", "type_abbr": "cu", "label": "イベントB — Base44デモデイ", "text": "小規模：外部AI勉強会との共催（第1回：5月下旬）/ 中規模：複数社共催・ハイブリッド型（〜100名）", "tab": "blueprint", "layer": "customer", "category": "顧客行動", "priority": "", "line_no": 517, "detail": "小規模：外部AI勉強会との共催（第1回：5月下旬）/ 中規模：複数社共催・ハイブリッド型（〜100名）", "notion_url": ""}, {"id": "bp-cu-003", "type": "customer", "type_abbr": "cu", "label": "モデルケース", "text": "新潟よろず相談所でのBase44講習会（打診予定）→ エリア展開のひな型に", "tab": "blueprint", "layer": "customer", "category": "顧客行動", "priority": "", "line_no": 518, "detail": "新潟よろず相談所でのBase44講習会（打診予定）→ エリア展開のひな型に", "notion_url": ""}, {"id": "bp-cu-004", "type": "customer", "type_abbr": "cu", "label": "外部イベント", "text": "他社・外部イベントで登壇者と接触", "tab": "blueprint", "layer": "customer", "category": "顧客行動", "priority": "", "line_no": 519, "detail": "他社・外部イベントで登壇者と接触", "notion_url": ""}, {"id": "bp-cu-005", "type": "customer", "type_abbr": "cu", "label": "ナベラ流入", "text": "フライホイール整備・自動稼働に戻す（現在停止中）", "tab": "blueprint", "layer": "customer", "category": "顧客行動", "priority": "", "line_no": 521, "detail": "フライホイール整備・自動稼働に戻す（現在停止中）", "notion_url": ""}, {"id": "bp-cu-006", "type": "customer", "type_abbr": "cu", "label": "法人SNS", "text": "Base44公式パートナー・アンバサダー視点で発信（Base44 Japanとの役割分担）", "tab": "blueprint", "layer": "customer", "category": "顧客行動", "priority": "", "line_no": 523, "detail": "Base44公式パートナー・アンバサダー視点で発信（Base44 Japanとの役割分担）", "notion_url": ""}, {"id": "bp-cu-007", "type": "customer", "type_abbr": "cu", "label": "個人SNS（X・LinkedIn）", "text": "海外コミュニティのユースケース日本語解説・アンバサダーインタビュー等", "tab": "blueprint", "layer": "customer", "category": "顧客行動", "priority": "", "line_no": 524, "detail": "海外コミュニティのユースケース日本語解説・アンバサダーインタビュー等", "notion_url": ""}, {"id": "bp-cu-008", "type": "customer", "type_abbr": "cu", "label": "純粋な紹介", "text": "既存顧客・知人から紹介を受ける", "tab": "blueprint", "layer": "customer", "category": "顧客行動", "priority": "", "line_no": 526, "detail": "既存顧客・知人から紹介を受ける", "notion_url": ""}, {"id": "bp-cu-009", "type": "customer", "type_abbr": "cu", "label": "営業代行紹介", "text": "代行パートナー経由で接触", "tab": "blueprint", "layer": "customer", "category": "顧客行動", "priority": "", "line_no": 527, "detail": "代行パートナー経由で接触", "notion_url": ""}, {"id": "bp-cu-010", "type": "customer", "type_abbr": "in", "label": "将来検討", "text": "有料広告（現時点は意図的に除外）", "tab": "blueprint", "layer": "customer", "category": "顧客行動", "priority": "", "line_no": 528, "detail": "有料広告（現時点は意図的に除外）", "notion_url": ""}, {"id": "bp-cu-011", "type": "customer", "type_abbr": "cu", "label": "契約", "text": "契約書への署名・締結", "tab": "blueprint", "layer": "customer", "category": "顧客行動", "priority": "", "line_no": 665, "detail": "契約書への署名・締結", "notion_url": ""}, {"id": "bp-cu-012", "type": "customer", "type_abbr": "cu", "label": "補助金確認", "text": "希望・対象要件の確認（IT導入補助金等）", "tab": "blueprint", "layer": "customer", "category": "顧客行動", "priority": "", "line_no": 668, "detail": "希望・対象要件の確認（IT導入補助金等）", "notion_url": ""}, {"id": "bp-cu-013", "type": "customer", "type_abbr": "cu", "label": "書類準備", "text": "必要書類の収集・期限の把握・提出フロー確認", "tab": "blueprint", "layer": "customer", "category": "顧客行動", "priority": "", "line_no": 669, "detail": "必要書類の収集・期限の把握・提出フロー確認", "notion_url": ""}, {"id": "bp-cu-014", "type": "customer", "type_abbr": "cu", "label": "情報提供", "text": "現状業務・課題・目標をヒアリングシートに記入", "tab": "blueprint", "layer": "customer", "category": "顧客行動", "priority": "", "line_no": 674, "detail": "現状業務・課題・目標をヒアリングシートに記入", "notion_url": ""}, {"id": "bp-cu-015", "type": "customer", "type_abbr": "cu", "label": "合意", "text": "カリキュラム・スケジュール・ゴールの確認・承認", "tab": "blueprint", "layer": "customer", "category": "顧客行動", "priority": "", "line_no": 675, "detail": "カリキュラム・スケジュール・ゴールの確認・承認", "notion_url": ""}, {"id": "bp-cu-016", "type": "customer", "type_abbr": "cu", "label": "環境準備①", "text": "Claudeの契約・アカウント発行（Claude Codeインストールは土台構築フェーズ）", "tab": "blueprint", "layer": "customer", "category": "顧客行動", "priority": "", "line_no": 676, "detail": "Claudeの契約・アカウント発行（Claude Codeインストールは土台構築フェーズ）", "notion_url": ""}, {"id": "bp-cu-017", "type": "customer", "type_abbr": "cu", "label": "環境準備②", "text": "社内利用ツールのリストアップ（Slack・Notion・Drive等、連携候補の棚卸し）", "tab": "blueprint", "layer": "customer", "category": "顧客行動", "priority": "", "line_no": 677, "detail": "社内利用ツールのリストアップ（Slack・Notion・Drive等、連携候補の棚卸し）", "notion_url": ""}, {"id": "bp-cu-018", "type": "customer", "type_abbr": "cu", "label": "Kickoff", "text": "キックオフセッション参加", "tab": "blueprint", "layer": "customer", "category": "顧客行動", "priority": "", "line_no": 681, "detail": "キックオフセッション参加", "notion_url": ""}, {"id": "bp-cu-019", "type": "customer", "type_abbr": "cu", "label": "Practice", "text": "Base44でスキル作成・初実践", "tab": "blueprint", "layer": "customer", "category": "顧客行動", "priority": "", "line_no": 682, "detail": "Base44でスキル作成・初実践", "notion_url": ""}, {"id": "bp-cu-020", "type": "customer", "type_abbr": "cu", "label": "Session", "text": "月次セッション参加", "tab": "blueprint", "layer": "customer", "category": "顧客行動", "priority": "", "line_no": 686, "detail": "月次セッション参加", "notion_url": ""}, {"id": "bp-cu-021", "type": "customer", "type_abbr": "cu", "label": "Connect", "text": "Notionコネクタ連携を実装", "tab": "blueprint", "layer": "customer", "category": "顧客行動", "priority": "", "line_no": 687, "detail": "Notionコネクタ連携を実装", "notion_url": ""}, {"id": "bp-cu-022", "type": "customer", "type_abbr": "cu", "label": "Deploy", "text": "E2E自動化フローを本番稼働", "tab": "blueprint", "layer": "customer", "category": "顧客行動", "priority": "", "line_no": 691, "detail": "E2E自動化フローを本番稼働", "notion_url": ""}, {"id": "bp-cu-023", "type": "customer", "type_abbr": "cu", "label": "Goal Check", "text": "ゴールチェック・成果棚卸し", "tab": "blueprint", "layer": "customer", "category": "顧客行動", "priority": "", "line_no": 692, "detail": "ゴールチェック・成果棚卸し", "notion_url": ""}, {"id": "bp-cu-024", "type": "customer", "type_abbr": "cu", "label": "支給申請", "text": "受講修了後2ヶ月以内に助成金支給申請を実施（事務局へ提出）", "tab": "blueprint", "layer": "customer", "category": "顧客行動", "priority": "", "line_no": 697, "detail": "受講修了後2ヶ月以内に助成金支給申請を実施（事務局へ提出）", "notion_url": ""}, {"id": "bp-cu-025", "type": "customer", "type_abbr": "cu", "label": "書類確認", "text": "申請書類・受講実績証明の最終確認・署名", "tab": "blueprint", "layer": "customer", "category": "顧客行動", "priority": "", "line_no": 698, "detail": "申請書類・受講実績証明の最終確認・署名", "notion_url": ""}, {"id": "bp-cu-026", "type": "customer", "type_abbr": "cu", "label": "プランA — ¥30,000/月・社", "text": "Discordコミュニティ参加・共有・Q&A", "tab": "blueprint", "layer": "customer", "category": "顧客行動", "priority": "", "line_no": 706, "detail": "Discordコミュニティ参加・共有・Q&A", "notion_url": ""}, {"id": "bp-cu-027", "type": "customer", "type_abbr": "cu", "label": "プランB — ¥100,000/月・社", "text": "コミュニティ＋月1回の個別レビューセッション", "tab": "blueprint", "layer": "customer", "category": "顧客行動", "priority": "", "line_no": 707, "detail": "コミュニティ＋月1回の個別レビューセッション", "notion_url": ""}, {"id": "bp-cu-028", "type": "customer", "type_abbr": "cu", "label": "将来像", "text": "業種・業態・カテゴリー別コミュニティへ分化（規模拡大後）", "tab": "blueprint", "layer": "customer", "category": "顧客行動", "priority": "", "line_no": 708, "detail": "業種・業態・カテゴリー別コミュニティへ分化（規模拡大後）", "notion_url": ""}, {"id": "bp-cu-029", "type": "customer", "type_abbr": "nr", "label": "個別契約 — ¥1.2〜1.5M/月・社", "text": "CAIOとして社内AI戦略・実装を専任でサポート", "tab": "blueprint", "layer": "customer", "category": "顧客行動", "priority": "", "line_no": 714, "detail": "CAIOとして社内AI戦略・実装を専任でサポート", "notion_url": ""}, {"id": "bp-cu-030", "type": "customer", "type_abbr": "nr", "label": "契約形態", "text": "年間契約のみ（単発・短期契約は受けない）", "tab": "blueprint", "layer": "customer", "category": "顧客行動", "priority": "", "line_no": 715, "detail": "年間契約のみ（単発・短期契約は受けない）", "notion_url": ""}, {"id": "bp-fr-001", "type": "front", "type_abbr": "fr", "label": "AI選定ナビ", "text": "「これはCowork？Claude Code？エージェント？」をいつでも自己診断できるツール", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 721, "detail": "「これはCowork？Claude Code？エージェント？」をいつでも自己診断できるツール", "notion_url": ""}, {"id": "bp-fr-002", "type": "front", "type_abbr": "fr", "label": "イベントA — ウェビナー設計", "text": "4/28を叩き台にマスター化。認知＞営業 / 認知＜営業の2軸シナリオで設計", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 751, "detail": "4/28を叩き台にマスター化。認知＞営業 / 認知＜営業の2軸シナリオで設計", "notion_url": ""}, {"id": "bp-fr-003", "type": "front", "type_abbr": "fr", "label": "イベントB — Base44デモデイ", "text": "小規模：外部AI勉強会共催（5月下旬）/ 中規模：複数社共催ハイブリッド型 / エリア展開", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 752, "detail": "小規模：外部AI勉強会共催（5月下旬）/ 中規模：複数社共催ハイブリッド型 / エリア展開", "notion_url": ""}, {"id": "bp-fr-004", "type": "front", "type_abbr": "fr", "label": "よろず相談所モデル", "text": "新潟よろず相談所への打診・Base44講習会をエリア展開のひな型として先行実施", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 753, "detail": "新潟よろず相談所への打診・Base44講習会をエリア展開のひな型として先行実施", "notion_url": ""}, {"id": "bp-fr-005", "type": "front", "type_abbr": "fr", "label": "外部イベント登壇", "text": "外部イベントへの出演・露出設計", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 754, "detail": "外部イベントへの出演・露出設計", "notion_url": ""}, {"id": "bp-fr-006", "type": "front", "type_abbr": "fr", "label": "ナベラ フライホイール整備", "text": "停止中の自動化フローを再整備・自動稼働に戻す（優先対応）", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 756, "detail": "停止中の自動化フローを再整備・自動稼働に戻す（優先対応）", "notion_url": ""}, {"id": "bp-ga-001", "type": "gap", "type_abbr": "gp", "label": "穴", "text": "ナベラの自動化フローが停止中。復旧・設計し直しが必要", "tab": "blueprint", "layer": "gap", "category": "穴リスト", "priority": "", "line_no": 757, "detail": "ナベラの自動化フローが停止中。復旧・設計し直しが必要", "notion_url": ""}, {"id": "bp-fr-007", "type": "front", "type_abbr": "fr", "label": "法人SNS運用方針", "text": "Base44公式パートナー・アンバサダーの立場を前面に。Base44 Japanと役割分担しコンテンツ協力", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 759, "detail": "Base44公式パートナー・アンバサダーの立場を前面に。Base44 Japanと役割分担しコンテンツ協力", "notion_url": ""}, {"id": "bp-fr-008", "type": "front", "type_abbr": "fr", "label": "個人SNS（X・LinkedIn）", "text": "海外Base44コミュニティのユースケースを日本語解説。アンバサダーインタビュー等（言語ハードル要検討）", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 760, "detail": "海外Base44コミュニティのユースケースを日本語解説。アンバサダーインタビュー等（言語ハードル要検討）", "notion_url": ""}, {"id": "bp-fr-009", "type": "front", "type_abbr": "fr", "label": "Base44マーケ支援", "text": "Base44 Japanから依頼のマーケティング施策の立案を並行対応", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 761, "detail": "Base44 Japanから依頼のマーケティング施策の立案を並行対応", "notion_url": ""}, {"id": "bp-fr-010", "type": "front", "type_abbr": "fr", "label": "純粋な紹介設計", "text": "既存顧客フォロー・紹介依頼設計", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 763, "detail": "既存顧客フォロー・紹介依頼設計", "notion_url": ""}, {"id": "bp-ga-002", "type": "gap", "type_abbr": "gp", "label": "穴 — 営業代行", "text": "代行パートナーの報酬設計・契約スキームが未整備", "tab": "blueprint", "layer": "gap", "category": "穴リスト", "priority": "", "line_no": 764, "detail": "代行パートナーの報酬設計・契約スキームが未整備", "notion_url": ""}, {"id": "bp-ga-003", "type": "gap", "type_abbr": "gp", "label": "穴 — WX体験設計（No.3）", "text": "イベント・商談1発目・社内未参加スタッフそれぞれのWow体験演出が未設計", "tab": "blueprint", "layer": "gap", "category": "穴リスト", "priority": "", "line_no": 765, "detail": "イベント・商談1発目・社内未参加スタッフそれぞれのWow体験演出が未設計", "notion_url": ""}, {"id": "bp-cu-031", "type": "customer", "type_abbr": "in", "label": "将来検討", "text": "有料広告（意図的に除外中）", "tab": "blueprint", "layer": "customer", "category": "顧客行動", "priority": "", "line_no": 766, "detail": "有料広告（意図的に除外中）", "notion_url": ""}, {"id": "bp-fr-011", "type": "front", "type_abbr": "fr", "label": "プランナー — カジュアル面談・プチ商談", "text": "意識転換トーク / テストクロージング / 温度感確認・振り分け判断", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 780, "detail": "意識転換トーク / テストクロージング / 温度感確認・振り分け判断", "notion_url": ""}, {"id": "bp-ga-004", "type": "gap", "type_abbr": "gp", "label": "穴", "text": "振り分け基準・スクリプトが未定義", "tab": "blueprint", "layer": "gap", "category": "穴リスト", "priority": "", "line_no": 781, "detail": "振り分け基準・スクリプトが未定義", "notion_url": ""}, {"id": "bp-fr-012", "type": "front", "type_abbr": "fr", "label": "プランナー — 商談・クロージング", "text": "課題整理・A/Bプラン提案", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 782, "detail": "課題整理・A/Bプラン提案", "notion_url": ""}, {"id": "bp-fr-013", "type": "front", "type_abbr": "fr", "label": "壁打ちAI 活用", "text": "ヒアリング内容を入力 → 最適カリキュラム・計画表をAIが自動提案 → 商談資料として即活用", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 783, "detail": "ヒアリング内容を入力 → 最適カリキュラム・計画表をAIが自動提案 → 商談資料として即活用", "notion_url": ""}, {"id": "bp-ga-005", "type": "gap", "type_abbr": "gp", "label": "穴", "text": "商談ステージ定義・失注理由トラッキングが未整備", "tab": "blueprint", "layer": "gap", "category": "穴リスト", "priority": "", "line_no": 784, "detail": "商談ステージ定義・失注理由トラッキングが未整備", "notion_url": ""}, {"id": "bp-fr-014", "type": "front", "type_abbr": "fr", "label": "プランナー — 契約締結", "text": "契約書締結・オンボーディング準備の案内", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 789, "detail": "契約書締結・オンボーディング準備の案内", "notion_url": ""}, {"id": "bp-fr-015", "type": "front", "type_abbr": "fr", "label": "補助金対象確認", "text": "適用可能な補助金の種類・要件・上限額を案内", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 792, "detail": "適用可能な補助金の種類・要件・上限額を案内", "notion_url": ""}, {"id": "bp-fr-016", "type": "front", "type_abbr": "fr", "label": "書類・期限サポート", "text": "提出必要書類リスト・提出期限・申請フローを提供", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 793, "detail": "提出必要書類リスト・提出期限・申請フローを提供", "notion_url": ""}, {"id": "bp-fr-017", "type": "front", "type_abbr": "fr", "label": "申請進捗確認", "text": "書類提出状況の確認・差戻し対応のフォロー", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 794, "detail": "書類提出状況の確認・差戻し対応のフォロー", "notion_url": ""}, {"id": "bp-fr-018", "type": "front", "type_abbr": "fr", "label": "トレーナー — ゴール設定", "text": "顧客の目標・成功基準をすり合わせ・文書化", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 799, "detail": "顧客の目標・成功基準をすり合わせ・文書化", "notion_url": ""}, {"id": "bp-fr-019", "type": "front", "type_abbr": "fr", "label": "トレーナー — レベル診断", "text": "現状AIリテラシー・業務フロー・社内ツールをヒアリングで把握", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 800, "detail": "現状AIリテラシー・業務フロー・社内ツールをヒアリングで把握", "notion_url": ""}, {"id": "bp-fr-020", "type": "front", "type_abbr": "fr", "label": "トレーナー — カリキュラム設計（AI生成）", "text": "ヒアリング内容をDBへ登録 → 伴走AIが共通7割＋独自3割のカリキュラムプランを自動生成", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 801, "detail": "ヒアリング内容をDBへ登録 → 伴走AIが共通7割＋独自3割のカリキュラムプランを自動生成", "notion_url": ""}, {"id": "bp-fr-021", "type": "front", "type_abbr": "fr", "label": "トレーナー — マスタープラン合意", "text": "生成されたプランを顧客と確認・調整し確定", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 802, "detail": "生成されたプランを顧客と確認・調整し確定", "notion_url": ""}, {"id": "bp-ga-006", "type": "gap", "type_abbr": "gp", "label": "穴", "text": "伴走型AI・ヒアリングDBが未構築。カリキュラムマスター（共通70%テンプレ）も未整備", "tab": "blueprint", "layer": "gap", "category": "穴リスト", "priority": "", "line_no": 803, "detail": "伴走型AI・ヒアリングDBが未構築。カリキュラムマスター（共通70%テンプレ）も未整備", "notion_url": ""}, {"id": "bp-fr-022", "type": "front", "type_abbr": "fr", "label": "トレーナー — Kickoff", "text": "ゴール設定・現状レベル把握", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 807, "detail": "ゴール設定・現状レベル把握", "notion_url": ""}, {"id": "bp-fr-023", "type": "front", "type_abbr": "fr", "label": "トレーナー — Session 1", "text": "Base44スキル作成・Wow体験設計", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 808, "detail": "Base44スキル作成・Wow体験設計", "notion_url": ""}, {"id": "bp-fr-024", "type": "front", "type_abbr": "fr", "label": "トレーナー — 環境構築サポート", "text": "Claude Codeのインストール・初期設定を顧客とともに実施", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 809, "detail": "Claude Codeのインストール・初期設定を顧客とともに実施", "notion_url": ""}, {"id": "bp-fr-025", "type": "front", "type_abbr": "fr", "label": "トレーナー — Session 2", "text": "コネクタ連携・自動化1件設計", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 813, "detail": "コネクタ連携・自動化1件設計", "notion_url": ""}, {"id": "bp-fr-026", "type": "front", "type_abbr": "fr", "label": "Report", "text": "月次レポート提供", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 814, "detail": "月次レポート提供", "notion_url": ""}, {"id": "bp-fr-027", "type": "front", "type_abbr": "fr", "label": "顧客満足度調査", "text": "M1終了時アンケート実施・FAQ・質問ログをLMSに蓄積", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 815, "detail": "M1終了時アンケート実施・FAQ・質問ログをLMSに蓄積", "notion_url": ""}, {"id": "bp-ga-007", "type": "gap", "type_abbr": "gp", "label": "穴", "text": "離脱キャッチアップの仕組みが未設計", "tab": "blueprint", "layer": "gap", "category": "穴リスト", "priority": "", "line_no": 816, "detail": "離脱キャッチアップの仕組みが未設計", "notion_url": ""}, {"id": "bp-fr-028", "type": "front", "type_abbr": "fr", "label": "Discord 設計", "text": "チャンネル構成・参加ルール・初期メンバー招待の準備", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 819, "detail": "チャンネル構成・参加ルール・初期メンバー招待の準備", "notion_url": ""}, {"id": "bp-fr-029", "type": "front", "type_abbr": "fr", "label": "トレーナー — Session 3", "text": "E2E自動化・Claude Code導入", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 824, "detail": "E2E自動化・Claude Code導入", "notion_url": ""}, {"id": "bp-fr-030", "type": "front", "type_abbr": "fr", "label": "Goal Check", "text": "ゴールCHECK・成果物検収", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 825, "detail": "ゴールCHECK・成果物検収", "notion_url": ""}, {"id": "bp-fr-031", "type": "front", "type_abbr": "fr", "label": "最終満足度調査・FAQ総括", "text": "M2〜M3のアンケート・質問ログ収集。フライホイールへ引き渡し", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 826, "detail": "M2〜M3のアンケート・質問ログ収集。フライホイールへ引き渡し", "notion_url": ""}, {"id": "bp-ga-008", "type": "gap", "type_abbr": "gp", "label": "穴", "text": "通過判定基準が未定義", "tab": "blueprint", "layer": "gap", "category": "穴リスト", "priority": "", "line_no": 827, "detail": "通過判定基準が未定義", "notion_url": ""}, {"id": "bp-fr-032", "type": "front", "type_abbr": "fr", "label": "コミュニティ案内", "text": "継続・発展プラン（A/B）の案内・Discord正式招待・移行設計", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 830, "detail": "継続・発展プラン（A/B）の案内・Discord正式招待・移行設計", "notion_url": ""}, {"id": "bp-fr-033", "type": "front", "type_abbr": "fr", "label": "報告書作成・提出", "text": "LMS出力の学習レポート・出席記録・修了証明を束ねて事務局へ提出", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 836, "detail": "LMS出力の学習レポート・出席記録・修了証明を束ねて事務局へ提出", "notion_url": ""}, {"id": "bp-fr-034", "type": "front", "type_abbr": "fr", "label": "支給申請サポート", "text": "顧客の申請書類最終確認・不備対応・提出期限管理（修了後2ヶ月以内）", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 837, "detail": "顧客の申請書類最終確認・不備対応・提出期限管理（修了後2ヶ月以内）", "notion_url": ""}, {"id": "bp-ga-009", "type": "gap", "type_abbr": "gp", "label": "穴", "text": "支給申請の標準対応フロー・チェックリストが未整備", "tab": "blueprint", "layer": "gap", "category": "穴リスト", "priority": "", "line_no": 838, "detail": "支給申請の標準対応フロー・チェックリストが未整備", "notion_url": ""}, {"id": "bp-fr-035", "type": "front", "type_abbr": "fr", "label": "コミュニケーター — Discord 運営", "text": "コミュニティ設計・チャンネル管理・モデレート", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 846, "detail": "コミュニティ設計・チャンネル管理・モデレート", "notion_url": ""}, {"id": "bp-fr-036", "type": "front", "type_abbr": "fr", "label": "定期コンテンツ", "text": "事例共有・Q&A・勉強会の定期開催", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 847, "detail": "事例共有・Q&A・勉強会の定期開催", "notion_url": ""}, {"id": "bp-fr-037", "type": "front", "type_abbr": "fr", "label": "プランB 個別セッション", "text": "月1回の個別レビュー・フィードバック対応", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 848, "detail": "月1回の個別レビュー・フィードバック対応", "notion_url": ""}, {"id": "bp-fr-038", "type": "front", "type_abbr": "fr", "label": "将来設計", "text": "業種・業態別コミュニティへの分化・運営移管", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 849, "detail": "業種・業態別コミュニティへの分化・運営移管", "notion_url": ""}, {"id": "bp-ga-010", "type": "gap", "type_abbr": "gp", "label": "穴", "text": "コミュニティ運営ルール・モデレーター体制が未整備", "tab": "blueprint", "layer": "gap", "category": "穴リスト", "priority": "", "line_no": 850, "detail": "コミュニティ運営ルール・モデレーター体制が未整備", "notion_url": ""}, {"id": "bp-cu-032", "type": "customer", "type_abbr": "nr", "label": "受注・契約管理", "text": "年間契約のみ受付・SLA・稼働条件の設定", "tab": "blueprint", "layer": "customer", "category": "顧客行動", "priority": "", "line_no": 856, "detail": "年間契約のみ受付・SLA・稼働条件の設定", "notion_url": ""}, {"id": "bp-cu-033", "type": "customer", "type_abbr": "nr", "label": "CAIO アサイン", "text": "担当CAIOの選定・スコープ定義・KPI設計", "tab": "blueprint", "layer": "customer", "category": "顧客行動", "priority": "", "line_no": 857, "detail": "担当CAIOの選定・スコープ定義・KPI設計", "notion_url": ""}, {"id": "bp-ga-011", "type": "gap", "type_abbr": "gp", "label": "穴", "text": "CAIO候補の人材プール・アサイン基準が未定義", "tab": "blueprint", "layer": "gap", "category": "穴リスト", "priority": "", "line_no": 858, "detail": "CAIO候補の人材プール・アサイン基準が未定義", "notion_url": ""}, {"id": "bp-fr-039", "type": "front", "type_abbr": "fr", "label": "AI選定ナビ 設計", "text": "Cowork / Claude Code / エージェントの使い分けロジックを設計・実装・継続更新", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 864, "detail": "Cowork / Claude Code / エージェントの使い分けロジックを設計・実装・継続更新", "notion_url": ""}, {"id": "bp-ga-012", "type": "gap", "type_abbr": "gp", "label": "穴", "text": "選定ロジック・判断フローの設計が未着手", "tab": "blueprint", "layer": "gap", "category": "穴リスト", "priority": "", "line_no": 865, "detail": "選定ロジック・判断フローの設計が未着手", "notion_url": ""}, {"id": "bp-ba-001", "type": "back", "type_abbr": "bk", "label": "イベント企画・運営", "text": "カテゴリ設計・集客・運営フロー", "tab": "blueprint", "layer": "back", "category": "バック", "priority": "", "line_no": 884, "detail": "カテゴリ設計・集客・運営フロー", "notion_url": ""}, {"id": "bp-ba-002", "type": "back", "type_abbr": "bk", "label": "面談スクリプト設計", "text": "意識転換・テストクロージングスクリプト", "tab": "blueprint", "layer": "back", "category": "バック", "priority": "", "line_no": 885, "detail": "意識転換・テストクロージングスクリプト", "notion_url": ""}, {"id": "bp-ba-003", "type": "back", "type_abbr": "bk", "label": "コンテンツ制作", "text": "Note・X・SEO・ナベラ記事スケジュール管理", "tab": "blueprint", "layer": "back", "category": "バック", "priority": "", "line_no": 886, "detail": "Note・X・SEO・ナベラ記事スケジュール管理", "notion_url": ""}, {"id": "bp-ba-004", "type": "back", "type_abbr": "bk", "label": "PR・HP（No.7）", "text": "PRTIMESリリース計画 / HP段階的移行 / 各サービスのブランド化", "tab": "blueprint", "layer": "back", "category": "バック", "priority": "", "line_no": 887, "detail": "PRTIMESリリース計画 / HP段階的移行 / 各サービスのブランド化", "notion_url": ""}, {"id": "bp-ga-013", "type": "gap", "type_abbr": "gp", "label": "穴 — WX体験設計（No.3）", "text": "イベント・商談1発目・社内未参加スタッフへのWow体験の演出設計が未定義", "tab": "blueprint", "layer": "gap", "category": "穴リスト", "priority": "", "line_no": 888, "detail": "イベント・商談1発目・社内未参加スタッフへのWow体験の演出設計が未定義", "notion_url": ""}, {"id": "bp-ba-005", "type": "back", "type_abbr": "bk", "label": "紹介トラッキング", "text": "紹介元・経路・転換率のSFA記録", "tab": "blueprint", "layer": "back", "category": "バック", "priority": "", "line_no": 889, "detail": "紹介元・経路・転換率のSFA記録", "notion_url": ""}, {"id": "bp-ga-014", "type": "gap", "type_abbr": "gp", "label": "穴 — 代行スキーム", "text": "営業代行の報酬率・契約書・精算フローが未整備", "tab": "blueprint", "layer": "gap", "category": "穴リスト", "priority": "", "line_no": 890, "detail": "営業代行の報酬率・契約書・精算フローが未整備", "notion_url": ""}, {"id": "bp-ba-006", "type": "back", "type_abbr": "bk", "label": "振り分け記録", "text": "商談 or ナーチャリングへのルーティングをSFAに記録", "tab": "blueprint", "layer": "back", "category": "バック", "priority": "", "line_no": 904, "detail": "商談 or ナーチャリングへのルーティングをSFAに記録", "notion_url": ""}, {"id": "bp-ba-007", "type": "back", "type_abbr": "bk", "label": "提案書作成", "text": "Salesパッケージ（Notion/Drive）活用", "tab": "blueprint", "layer": "back", "category": "バック", "priority": "", "line_no": 905, "detail": "Salesパッケージ（Notion/Drive）活用", "notion_url": ""}, {"id": "bp-ba-008", "type": "back", "type_abbr": "bk", "label": "Salesデック整備（No.11）", "text": "メイン資料は経営者・決裁者向けに統一。マネジメント/現場向けはアペンディックスとして分離（Drive管理）", "tab": "blueprint", "layer": "back", "category": "バック", "priority": "", "line_no": 906, "detail": "メイン資料は経営者・決裁者向けに統一。マネジメント/現場向けはアペンディックスとして分離（Drive管理）", "notion_url": ""}, {"id": "bp-ba-009", "type": "back", "type_abbr": "bk", "label": "ROI・事例資料整備（No.5）", "text": "導入効果の数字・ROI試算・成功事例を経営者が意思決定できる形で言語化（Drive管理）", "tab": "blueprint", "layer": "back", "category": "バック", "priority": "", "line_no": 907, "detail": "導入効果の数字・ROI試算・成功事例を経営者が意思決定できる形で言語化（Drive管理）", "notion_url": ""}, {"id": "bp-ba-010", "type": "back", "type_abbr": "bk", "label": "カリキュラム設計", "text": "顧客別ゴール・レベル設定", "tab": "blueprint", "layer": "back", "category": "バック", "priority": "", "line_no": 908, "detail": "顧客別ゴール・レベル設定", "notion_url": ""}, {"id": "bp-ba-011", "type": "back", "type_abbr": "bk", "label": "失注管理", "text": "失注理由記録 → ナーチャリングキューへ", "tab": "blueprint", "layer": "back", "category": "バック", "priority": "", "line_no": 909, "detail": "失注理由記録 → ナーチャリングキューへ", "notion_url": ""}, {"id": "bp-ba-012", "type": "back", "type_abbr": "bk", "label": "契約書管理", "text": "契約書の作成・締結・保管", "tab": "blueprint", "layer": "back", "category": "バック", "priority": "", "line_no": 914, "detail": "契約書の作成・締結・保管", "notion_url": ""}, {"id": "bp-ba-013", "type": "back", "type_abbr": "bk", "label": "補助金管理台帳", "text": "対象顧客・補助金種別・提出書類・期限をNotionで一元管理", "tab": "blueprint", "layer": "back", "category": "バック", "priority": "", "line_no": 917, "detail": "対象顧客・補助金種別・提出書類・期限をNotionで一元管理", "notion_url": ""}, {"id": "bp-ba-014", "type": "back", "type_abbr": "bk", "label": "書類テンプレ整備", "text": "申請書類の雛形・記載例・チェックリストを整備", "tab": "blueprint", "layer": "back", "category": "バック", "priority": "", "line_no": 918, "detail": "申請書類の雛形・記載例・チェックリストを整備", "notion_url": ""}, {"id": "bp-ga-015", "type": "gap", "type_abbr": "gp", "label": "穴", "text": "補助金対応の標準フロー・書類テンプレが未整備", "tab": "blueprint", "layer": "gap", "category": "穴リスト", "priority": "", "line_no": 919, "detail": "補助金対応の標準フロー・書類テンプレが未整備", "notion_url": ""}, {"id": "bp-ba-015", "type": "back", "type_abbr": "bk", "label": "顧客カルテ作成", "text": "業種・規模・課題・ゴール・担当者情報をNotionに登録", "tab": "blueprint", "layer": "back", "category": "バック", "priority": "", "line_no": 924, "detail": "業種・規模・課題・ゴール・担当者情報をNotionに登録", "notion_url": ""}, {"id": "bp-ba-016", "type": "back", "type_abbr": "bk", "label": "スケジュール確定", "text": "3ヶ月セッション日程・担当講師のアサイン", "tab": "blueprint", "layer": "back", "category": "バック", "priority": "", "line_no": 925, "detail": "3ヶ月セッション日程・担当講師のアサイン", "notion_url": ""}, {"id": "bp-ba-017", "type": "back", "type_abbr": "bk", "label": "初回資料準備", "text": "キックオフ資料・カリキュラム資料の作成", "tab": "blueprint", "layer": "back", "category": "バック", "priority": "", "line_no": 926, "detail": "キックオフ資料・カリキュラム資料の作成", "notion_url": ""}, {"id": "bp-ba-018", "type": "back", "type_abbr": "bk", "label": "必須ヒアリング項目", "text": "業種・従業員数・AI習熟度・解決したい業務課題・導入決裁者・予算感・スケジュール感", "tab": "blueprint", "layer": "back", "category": "バック", "priority": "", "line_no": 929, "detail": "業種・従業員数・AI習熟度・解決したい業務課題・導入決裁者・予算感・スケジュール感", "notion_url": ""}, {"id": "bp-ba-019", "type": "back", "type_abbr": "bk", "label": "備考情報（任意）", "text": "組織構造・既存ツール・競合検討状況など、追加で取得できた情報を蓄積", "tab": "blueprint", "layer": "back", "category": "バック", "priority": "", "line_no": 930, "detail": "組織構造・既存ツール・競合検討状況など、追加で取得できた情報を蓄積", "notion_url": ""}, {"id": "bp-ga-016", "type": "gap", "type_abbr": "gp", "label": "穴", "text": "マスト回収項目の最終定義・SFAへの項目設定が未着手", "tab": "blueprint", "layer": "gap", "category": "穴リスト", "priority": "", "line_no": 931, "detail": "マスト回収項目の最終定義・SFAへの項目設定が未着手", "notion_url": ""}, {"id": "bp-ba-020", "type": "back", "type_abbr": "bk", "label": "議事録", "text": "セッション記録 → Notion自動格納", "tab": "blueprint", "layer": "back", "category": "バック", "priority": "", "line_no": 935, "detail": "セッション記録 → Notion自動格納", "notion_url": ""}, {"id": "bp-ba-021", "type": "back", "type_abbr": "bk", "label": "テンプレ整備", "text": "agent.md / soul.md 標準化", "tab": "blueprint", "layer": "back", "category": "バック", "priority": "", "line_no": 936, "detail": "agent.md / soul.md 標準化", "notion_url": ""}, {"id": "bp-ba-022", "type": "back", "type_abbr": "bk", "label": "進捗管理", "text": "KPI追跡・フォローアップ設計", "tab": "blueprint", "layer": "back", "category": "バック", "priority": "", "line_no": 939, "detail": "KPI追跡・フォローアップ設計", "notion_url": ""}, {"id": "bp-ba-023", "type": "back", "type_abbr": "bk", "label": "ナレッジ更新", "text": "社内共有会（2週間ごと）実施", "tab": "blueprint", "layer": "back", "category": "バック", "priority": "", "line_no": 940, "detail": "社内共有会（2週間ごと）実施", "notion_url": ""}, {"id": "bp-ba-024", "type": "back", "type_abbr": "bk", "label": "アンケート集計", "text": "M1終了アンケートを集計・FAQ・質問ログをLMSに記録・次回改善に反映", "tab": "blueprint", "layer": "back", "category": "バック", "priority": "", "line_no": 941, "detail": "M1終了アンケートを集計・FAQ・質問ログをLMSに記録・次回改善に反映", "notion_url": ""}, {"id": "bp-ba-025", "type": "back", "type_abbr": "bk", "label": "成果物管理", "text": "設計書・スキルファイル保管", "tab": "blueprint", "layer": "back", "category": "バック", "priority": "", "line_no": 944, "detail": "設計書・スキルファイル保管", "notion_url": ""}, {"id": "bp-ba-026", "type": "back", "type_abbr": "bk", "label": "振り返り", "text": "カリキュラム改善・テンプレ更新", "tab": "blueprint", "layer": "back", "category": "バック", "priority": "", "line_no": 945, "detail": "カリキュラム改善・テンプレ更新", "notion_url": ""}, {"id": "bp-ba-027", "type": "back", "type_abbr": "bk", "label": "最終アンケート集計・総括", "text": "3ヶ月分のFAQ・満足度データをフライホイールへ引き渡し。次期カリキュラム改訂の起点に", "tab": "blueprint", "layer": "back", "category": "バック", "priority": "", "line_no": 946, "detail": "3ヶ月分のFAQ・満足度データをフライホイールへ引き渡し。次期カリキュラム改訂の起点に", "notion_url": ""}, {"id": "bp-ba-028", "type": "back", "type_abbr": "bk", "label": "報告書・書類作成", "text": "LMSから学習レポート・出席記録を出力し申請書類一式を整備", "tab": "blueprint", "layer": "back", "category": "バック", "priority": "", "line_no": 951, "detail": "LMSから学習レポート・出席記録を出力し申請書類一式を整備", "notion_url": ""}, {"id": "bp-ba-029", "type": "back", "type_abbr": "bk", "label": "提出・進捗管理", "text": "事務局への提出期限管理（修了後2ヶ月以内）・補助金管理台帳（Notion）更新", "tab": "blueprint", "layer": "back", "category": "バック", "priority": "", "line_no": 952, "detail": "事務局への提出期限管理（修了後2ヶ月以内）・補助金管理台帳（Notion）更新", "notion_url": ""}, {"id": "bp-ba-030", "type": "back", "type_abbr": "bk", "label": "入金確認", "text": "支給決定通知の受領・顧客への連絡・台帳へ反映", "tab": "blueprint", "layer": "back", "category": "バック", "priority": "", "line_no": 953, "detail": "支給決定通知の受領・顧客への連絡・台帳へ反映", "notion_url": ""}, {"id": "bp-ba-031", "type": "back", "type_abbr": "bk", "label": "請求管理", "text": "プランA（3万）/ プランB（10万）の月次請求・入金管理", "tab": "blueprint", "layer": "back", "category": "バック", "priority": "", "line_no": 960, "detail": "プランA（3万）/ プランB（10万）の月次請求・入金管理", "notion_url": ""}, {"id": "bp-ba-032", "type": "back", "type_abbr": "bk", "label": "事例収集", "text": "コミュニティ内の活用事例を収集・整理・横展開", "tab": "blueprint", "layer": "back", "category": "バック", "priority": "", "line_no": 961, "detail": "コミュニティ内の活用事例を収集・整理・横展開", "notion_url": ""}, {"id": "bp-ba-033", "type": "back", "type_abbr": "bk", "label": "稼働管理", "text": "CAIO稼働レポート・KPI進捗・月次報告書作成", "tab": "blueprint", "layer": "back", "category": "バック", "priority": "", "line_no": 967, "detail": "CAIO稼働レポート・KPI進捗・月次報告書作成", "notion_url": ""}, {"id": "bp-ba-034", "type": "back", "type_abbr": "bk", "label": "請求管理", "text": "月120〜150万 × 年間契約の請求・更新管理", "tab": "blueprint", "layer": "back", "category": "バック", "priority": "", "line_no": 968, "detail": "月120〜150万 × 年間契約の請求・更新管理", "notion_url": ""}, {"id": "bp-ba-035", "type": "back", "type_abbr": "bk", "label": "ツール更新管理", "text": "AI選定ナビの判断ロジック・事例データを定期更新", "tab": "blueprint", "layer": "back", "category": "バック", "priority": "", "line_no": 974, "detail": "AI選定ナビの判断ロジック・事例データを定期更新", "notion_url": ""}, {"id": "bp-sy-001", "type": "system", "type_abbr": "sy", "label": "", "text": "", "tab": "blueprint", "layer": "system", "category": "システム", "priority": "", "line_no": 995, "detail": "", "notion_url": ""}, {"id": "bp-sy-002", "type": "system", "type_abbr": "sy", "label": "", "text": "", "tab": "blueprint", "layer": "system", "category": "システム", "priority": "", "line_no": 996, "detail": "", "notion_url": ""}, {"id": "bp-sy-003", "type": "system", "type_abbr": "sy", "label": "", "text": "", "tab": "blueprint", "layer": "system", "category": "システム", "priority": "", "line_no": 1011, "detail": "", "notion_url": ""}, {"id": "bp-sy-004", "type": "system", "type_abbr": "sy", "label": "", "text": "", "tab": "blueprint", "layer": "system", "category": "システム", "priority": "", "line_no": 1012, "detail": "", "notion_url": ""}, {"id": "bp-sy-005", "type": "system", "type_abbr": "sy", "label": "商談円滑化フォーム", "text": "事前ヒアリング・マスト回収項目の入力フォーム（Base44製）", "tab": "blueprint", "layer": "system", "category": "システム", "priority": "", "line_no": 1013, "detail": "事前ヒアリング・マスト回収項目の入力フォーム（Base44製）", "notion_url": ""}, {"id": "bp-sy-006", "type": "system", "type_abbr": "sy", "label": "壁打ちAI（社内専用）", "text": "ヒアリングDB → カリキュラム・計画表を自動生成", "tab": "blueprint", "layer": "system", "category": "システム", "priority": "", "line_no": 1014, "detail": "ヒアリングDB → カリキュラム・計画表を自動生成", "notion_url": ""}, {"id": "bp-ga-017", "type": "gap", "type_abbr": "gp", "label": "穴", "text": "SFA〜CRM連携・壁打ちAI構築が未整備", "tab": "blueprint", "layer": "gap", "category": "穴リスト", "priority": "", "line_no": 1015, "detail": "SFA〜CRM連携・壁打ちAI構築が未整備", "notion_url": ""}, {"id": "bp-sy-007", "type": "system", "type_abbr": "sy", "label": "", "text": "", "tab": "blueprint", "layer": "system", "category": "システム", "priority": "", "line_no": 1021, "detail": "", "notion_url": ""}, {"id": "bp-ba-036", "type": "back", "type_abbr": "bk", "label": "Notion", "text": "補助金管理台帳（社内）", "tab": "blueprint", "layer": "back", "category": "バック", "priority": "", "line_no": 1028, "detail": "補助金管理台帳（社内）", "notion_url": ""}, {"id": "bp-cu-034", "type": "customer", "type_abbr": "cu", "label": "Drive", "text": "申請書類テンプレ → 顧客へ自動送付", "tab": "blueprint", "layer": "customer", "category": "顧客行動", "priority": "", "line_no": 1029, "detail": "申請書類テンプレ → 顧客へ自動送付", "notion_url": ""}, {"id": "bp-cu-035", "type": "customer", "type_abbr": "cu", "label": "Notion / Drive", "text": "カリキュラム資料・マスタープラン（顧客閲覧可）", "tab": "blueprint", "layer": "customer", "category": "顧客行動", "priority": "", "line_no": 1039, "detail": "カリキュラム資料・マスタープラン（顧客閲覧可）", "notion_url": ""}, {"id": "bp-fr-040", "type": "front", "type_abbr": "fr", "label": "Notion", "text": "ヒアリングDB・顧客カルテ・Google Calendar", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 1045, "detail": "ヒアリングDB・顧客カルテ・Google Calendar", "notion_url": ""}, {"id": "bp-fr-041", "type": "front", "type_abbr": "fr", "label": "Drive", "text": "プランナーハンドブック・プランナーセット", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 1046, "detail": "プランナーハンドブック・プランナーセット", "notion_url": ""}, {"id": "bp-fr-042", "type": "front", "type_abbr": "fr", "label": "Drive", "text": "トレーナーハンドブック", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 1047, "detail": "トレーナーハンドブック", "notion_url": ""}, {"id": "bp-fr-043", "type": "front", "type_abbr": "fr", "label": "社内AI", "text": "伴走AI（DBフェッチ → カリキュラム自動生成）", "tab": "blueprint", "layer": "front", "category": "フロント", "priority": "", "line_no": 1048, "detail": "伴走AI（DBフェッチ → カリキュラム自動生成）", "notion_url": ""}, {"id": "bp-ga-018", "type": "gap", "type_abbr": "gp", "label": "穴", "text": "顧客向け / 社内向けシステム設計・構築が未着手", "tab": "blueprint", "layer": "gap", "category": "穴リスト", "priority": "", "line_no": 1049, "detail": "顧客向け / 社内向けシステム設計・構築が未着手", "notion_url": ""}, {"id": "bp-sy-008", "type": "system", "type_abbr": "sy", "label": "", "text": "", "tab": "blueprint", "layer": "system", "category": "システム", "priority": "", "line_no": 1056, "detail": "", "notion_url": ""}, {"id": "bp-sy-009", "type": "system", "type_abbr": "sy", "label": "", "text": "", "tab": "blueprint", "layer": "system", "category": "システム", "priority": "", "line_no": 1057, "detail": "", "notion_url": ""}, {"id": "bp-sy-010", "type": "system", "type_abbr": "sy", "label": "", "text": "", "tab": "blueprint", "layer": "system", "category": "システム", "priority": "", "line_no": 1060, "detail": "", "notion_url": ""}, {"id": "bp-sy-011", "type": "system", "type_abbr": "sy", "label": "", "text": "", "tab": "blueprint", "layer": "system", "category": "システム", "priority": "", "line_no": 1066, "detail": "", "notion_url": ""}, {"id": "bp-sy-012", "type": "system", "type_abbr": "sy", "label": "", "text": "", "tab": "blueprint", "layer": "system", "category": "システム", "priority": "", "line_no": 1067, "detail": "", "notion_url": ""}, {"id": "bp-sy-013", "type": "system", "type_abbr": "sy", "label": "", "text": "", "tab": "blueprint", "layer": "system", "category": "システム", "priority": "", "line_no": 1069, "detail": "", "notion_url": ""}, {"id": "bp-sy-014", "type": "system", "type_abbr": "sy", "label": "", "text": "", "tab": "blueprint", "layer": "system", "category": "システム", "priority": "", "line_no": 1075, "detail": "", "notion_url": ""}, {"id": "bp-sy-015", "type": "system", "type_abbr": "sy", "label": "", "text": "", "tab": "blueprint", "layer": "system", "category": "システム", "priority": "", "line_no": 1077, "detail": "", "notion_url": ""}, {"id": "bp-sy-016", "type": "system", "type_abbr": "sy", "label": "Notion", "text": "補助金管理台帳（提出期限・進捗・支給確定の記録）", "tab": "blueprint", "layer": "system", "category": "システム", "priority": "", "line_no": 1083, "detail": "補助金管理台帳（提出期限・進捗・支給確定の記録）", "notion_url": ""}, {"id": "bp-sy-017", "type": "system", "type_abbr": "sy", "label": "LMS 出力", "text": "学習レポート・出席記録・修了証明を申請書類用に出力", "tab": "blueprint", "layer": "system", "category": "システム", "priority": "", "line_no": 1084, "detail": "学習レポート・出席記録・修了証明を申請書類用に出力", "notion_url": ""}, {"id": "bp-sy-018", "type": "system", "type_abbr": "sy", "label": "Drive", "text": "申請書類一式の格納・顧客との共有URL", "tab": "blueprint", "layer": "system", "category": "システム", "priority": "", "line_no": 1085, "detail": "申請書類一式の格納・顧客との共有URL", "notion_url": ""}, {"id": "bp-sy-019", "type": "system", "type_abbr": "sy", "label": "", "text": "", "tab": "blueprint", "layer": "system", "category": "システム", "priority": "", "line_no": 1094, "detail": "", "notion_url": ""}, {"id": "bp-ga-019", "type": "gap", "type_abbr": "gp", "label": "穴", "text": "Discord〜業種別チャンネル設計が未整備", "tab": "blueprint", "layer": "gap", "category": "穴リスト", "priority": "", "line_no": 1095, "detail": "Discord〜業種別チャンネル設計が未整備", "notion_url": ""}, {"id": "bp-sy-020", "type": "system", "type_abbr": "sy", "label": "", "text": "", "tab": "blueprint", "layer": "system", "category": "システム", "priority": "", "line_no": 1101, "detail": "", "notion_url": ""}, {"id": "bp-sy-021", "type": "system", "type_abbr": "sy", "label": "", "text": "", "tab": "blueprint", "layer": "system", "category": "システム", "priority": "", "line_no": 1102, "detail": "", "notion_url": ""}, {"id": "bp-sy-022", "type": "system", "type_abbr": "sy", "label": "AI選定ナビ（Base44製）", "text": "Cowork / Claude Code / エージェントの使い分けを常時診断できるツール", "tab": "blueprint", "layer": "system", "category": "システム", "priority": "", "line_no": 1108, "detail": "Cowork / Claude Code / エージェントの使い分けを常時診断できるツール", "notion_url": ""}, {"id": "bp-ga-020", "type": "gap", "type_abbr": "gp", "label": "穴", "text": "選定ロジック・判断フロー・実装が未着手", "tab": "blueprint", "layer": "gap", "category": "穴リスト", "priority": "", "line_no": 1112, "detail": "選定ロジック・判断フロー・実装が未着手", "notion_url": ""}, {"id": "bp-ag-001", "type": "agenda", "type_abbr": "ag", "label": "プライシング設計", "text": "論点 現在の価格で採算が取れるか？価格根拠・計算式が未整理 伴走支援は労働集約的。「忙しいけど儲からない」地獄になっていないか AI人材育成・アサイン・Agent開発の市場価格調査は済んでいるか 100名規模企業へのAIエンジニアアサインは150〜180万/月。安すぎないか 八尾東洋「新しいもの作りましょう」80万/月。対象ターゲットゾーンの整合は 価格上昇は後からハードルが高い。今のうちに議論を", "tab": "agenda", "layer": "agenda", "category": "議題", "priority": "最優先", "tags": ["Strategy", "Product"], "number": "01", "line_no": 1137, "detail": "【論点】\n・現在の価格で採算が取れるか？価格根拠・計算式が未整理\n・伴走支援は労働集約的。「忙しいけど儲からない」地獄になっていないか\n・AI人材育成・アサイン・Agent開発の市場価格調査は済んでいるか\n・100名規模企業へのAIエンジニアアサインは150〜180万/月。安すぎないか\n・八尾東洋「新しいもの作りましょう」80万/月。対象ターゲットゾーンの整合は\n・価格上昇は後からハードルが高い。今のうちに議論を尽くすべき\n\n【関連する穴】\n・営業代行パートナーの報酬設計・契約スキームが未整備（採算に影響）", "notion_url": ""}, {"id": "bp-ag-002", "type": "agenda", "type_abbr": "ag", "label": "カリキュラムの具体定義", "text": "論点 単元ごとの成果物定義が未設計。何が「できた」かの基準がない 70%の顧客にハマるゴールと標準カリキュラムは今すぐ作れるはず 「ヒアリングしながらゴールを決める」は甘え。事前定義が必要 Base44 ↔ Claude Codeの線引きとカリキュラムへの単元組み込みが未詳細 「定着」の指標とは？（例：作成アプリの社内使用率など） 🕳 関連する穴 伴走型AI・ヒアリングDBが未構築 カリキュラムマ", "tab": "agenda", "layer": "agenda", "category": "議題", "priority": "最優先", "tags": ["Product"], "number": "02", "line_no": 1177, "detail": "【論点】\n・単元ごとの成果物定義が未設計。何が「できた」かの基準がない\n・70%の顧客にハマるゴールと標準カリキュラムは今すぐ作れるはず\n・「ヒアリングしながらゴールを決める」は甘え。事前定義が必要\n・Base44 ↔ Claude Codeの線引きとカリキュラムへの単元組み込みが未詳細\n・「定着」の指標とは？（例：作成アプリの社内使用率など）\n\n【関連する穴】\n・伴走型AI・ヒアリングDBが未構築\n・カリキュラムマスター（共通70%テンプレ）が未整備", "notion_url": ""}, {"id": "bp-ag-003", "type": "agenda", "type_abbr": "ag", "label": "WX（ワオ体験）の設計", "text": "論点 イベントでのWXは何か？顧客がシェアしたくなる文脈が未設計 商談1発目のWXは何か？ 社内未参加スタッフへのWXは何か？ 体裁Jobへの応答が「デモがある」で止まっている。具体的な演出設計が必要", "tab": "agenda", "layer": "agenda", "category": "議題", "priority": "最優先", "tags": ["Marketing", "Sales"], "number": "03", "line_no": 1216, "detail": "【論点】\n・イベントでのWXは何か？顧客がシェアしたくなる文脈が未設計\n・商談1発目のWXは何か？\n・社内未参加スタッフへのWXは何か？\n・体裁Jobへの応答が「デモがある」で止まっている。具体的な演出設計が必要", "notion_url": ""}, {"id": "bp-ag-004", "type": "agenda", "type_abbr": "ag", "label": "ターゲット別コミュニケーション設計", "text": "論点 決裁者 / マネジメント / 現場で伝える文脈・資料・フックが異なるが未分離 DECKは決裁権者向けに絞り、効果・目的に重点を置く必要あり 感情Job①（取り残される不安）が3層で混同されている 各層向けの資料・スクリプトが未整備", "tab": "agenda", "layer": "agenda", "category": "議題", "priority": "最優先", "tags": ["Sales", "Marketing"], "number": "04", "line_no": 1250, "detail": "【論点】\n・決裁者 / マネジメント / 現場で伝える文脈・資料・フックが異なるが未分離\n・DECKは決裁権者向けに絞り、効果・目的に重点を置く必要あり\n・感情Job①（取り残される不安）が3層で混同されている\n・各層向けの資料・スクリプトが未整備", "notion_url": ""}, {"id": "bp-ag-005", "type": "agenda", "type_abbr": "ag", "label": "ROI・効果の言語化", "text": "論点 コスト削減数字（24.2万→12万）はあるが効果のROI試算ツール・導入事例が未整備 経営層が意思決定できる数字の根拠が薄い 社会Job（経営としての意思決定根拠）への応答が現状弱い", "tab": "agenda", "layer": "agenda", "category": "議題", "priority": "優先", "tags": ["Product", "Sales"], "number": "05", "line_no": 1284, "detail": "【論点】\n・コスト削減数字（24.2万→12万）はあるが効果のROI試算ツール・導入事例が未整備\n・経営層が意思決定できる数字の根拠が薄い\n・社会Job（経営としての意思決定根拠）への応答が現状弱い", "notion_url": ""}, {"id": "bp-ag-006", "type": "agenda", "type_abbr": "ag", "label": "イベント設計の2軸シナリオ", "text": "論点 認知＞営業：DEMO WX → 10分FAQ → 悩む人はナーチャリング 認知＜営業（集団営業）：生存戦略プレゼン → DEMO → 個別商談ポケット 「10分カジュアル相談のポケット」が必須。設計がまだない イベント終了後の個別商談への導線設計が未詳細", "tab": "agenda", "layer": "agenda", "category": "議題", "priority": "優先", "tags": ["Marketing", "Sales"], "number": "06", "line_no": 1317, "detail": "【論点】\n・認知＞営業：DEMO WX → 10分FAQ → 悩む人はナーチャリング\n・認知＜営業（集団営業）：生存戦略プレゼン → DEMO → 個別商談ポケット\n・「10分カジュアル相談のポケット」が必須。設計がまだない\n・イベント終了後の個別商談への導線設計が未詳細", "notion_url": ""}, {"id": "bp-ag-007", "type": "agenda", "type_abbr": "ag", "label": "PR・HP・ブランド戦略", "text": "論点 サービスローンチに伴うPRTIMESリリースのタイミングと内容 HPの段階的移行計画（現状→次フェーズへの移行スケジュール） 各商品・サービスのブランド化（AI Onboarding / CAIO / コミュニティ） 🕳 関連する穴 ナベラの自動化フロー（フライホイール）が停止中。復旧・再設計が必要", "tab": "agenda", "layer": "agenda", "category": "議題", "priority": "優先", "tags": ["Marketing"], "number": "07", "line_no": 1351, "detail": "【論点】\n・サービスローンチに伴うPRTIMESリリースのタイミングと内容\n・HPの段階的移行計画（現状→次フェーズへの移行スケジュール）\n・各商品・サービスのブランド化（AI Onboarding / CAIO / コミュニティ）\n\n【関連する穴】\n・ナベラの自動化フロー（フライホイール）が停止中。復旧・再設計が必要", "notion_url": ""}, {"id": "bp-ag-008", "type": "agenda", "type_abbr": "ag", "label": "チャネル別スクリプト・提案フロー", "text": "論点 チャネル流入ごとの提案フローが未設計（大まかなスクリプトは？） 短時間で何を覚えてもらい持ち帰ってもらうか？フックは何か？ 専用CRMをさっさと組む。パイプライン・商談進捗管理もそこで 🕳 関連する穴 カジュアル面談の振り分け基準・スクリプトが未定義 商談ステージ定義・失注理由トラッキングが未整備 ナーチャリング再浮上トリガー・期間定義が未設計", "tab": "agenda", "layer": "agenda", "category": "議題", "priority": "優先", "tags": ["Sales"], "number": "08", "line_no": 1387, "detail": "【論点】\n・チャネル流入ごとの提案フローが未設計（大まかなスクリプトは？）\n・短時間で何を覚えてもらい持ち帰ってもらうか？フックは何か？\n・専用CRMをさっさと組む。パイプライン・商談進捗管理もそこで\n\n【関連する穴】\n・カジュアル面談の振り分け基準・スクリプトが未定義\n・商談ステージ定義・失注理由トラッキングが未整備\n・ナーチャリング再浮上トリガー・期間定義が未設計", "notion_url": ""}, {"id": "bp-ag-009", "type": "agenda", "type_abbr": "ag", "label": "役務提供体制の設計", "text": "論点 誰が・何人で・どう動くか。スケール時の体制設計 CAIO候補の人材プール・アサイン基準が未定義 講師・伴走担当の育成・標準化が未着手 スケール時の限界点（ボトルネック）の把握が必要 🕳 関連する穴 CAIO候補の人材プール・アサイン基準が未定義 コミュニティ運営ルール・モデレーター体制が未整備", "tab": "agenda", "layer": "agenda", "category": "議題", "priority": "中優先", "tags": ["Strategy", "Product"], "number": "09", "line_no": 1425, "detail": "【論点】\n・誰が・何人で・どう動くか。スケール時の体制設計\n・CAIO候補の人材プール・アサイン基準が未定義\n・講師・伴走担当の育成・標準化が未着手\n・スケール時の限界点（ボトルネック）の把握が必要\n\n【関連する穴】\n・CAIO候補の人材プール・アサイン基準が未定義\n・コミュニティ運営ルール・モデレーター体制が未整備", "notion_url": ""}, {"id": "bp-ag-010", "type": "agenda", "type_abbr": "ag", "label": "情報集積所・ナレッジ基盤の整備", "text": "論点 情報がCanvas・Slack・会話等にバラバラ。全員が参照できる集約場所が未決定 Notionの4チャンネル構成（strategy/product/marketing/sales）への移行計画 このブループリントとNotionの紐づけ設計（穴→議題のリンク） CRM構築の着手計画が未決定 🕳 関連する穴 SFA〜CRM連携が未整備 AI選定ナビの選定ロジック・判断フロー・ツール実装が未着手", "tab": "agenda", "layer": "agenda", "category": "議題", "priority": "中優先", "tags": ["All"], "number": "10", "line_no": 1464, "detail": "【論点】\n・情報がCanvas・Slack・会話等にバラバラ。全員が参照できる集約場所が未決定\n・Notionの4チャンネル構成（strategy/product/marketing/sales）への移行計画\n・このブループリントとNotionの紐づけ設計（穴→議題のリンク）\n・CRM構築の着手計画が未決定\n\n【関連する穴】\n・SFA〜CRM連携が未整備\n・AI選定ナビの選定ロジック・判断フロー・ツール実装が未着手", "notion_url": ""}, {"id": "bp-ag-011", "type": "agenda", "type_abbr": "ag", "label": "資料の統一方針（経営者向けへの一本化）", "text": "論点 現状：経営者・マネジメント・現場向けが1資料に混在している 方針：メイン資料は経営者・決裁者向けに一本化（効果・目的に重点） アペンディックスとしてマネジメント向け・現場向けの詳細を補足で付ける DECKの構成・ページ順・強調ポイントを決裁者視点で再設計する必要あり", "tab": "agenda", "layer": "agenda", "category": "議題", "priority": "優先", "tags": ["Sales", "Marketing"], "number": "11", "line_no": 1502, "detail": "【論点】\n・現状：経営者・マネジメント・現場向けが1資料に混在している\n・方針：メイン資料は経営者・決裁者向けに一本化（効果・目的に重点）\n・アペンディックスとしてマネジメント向け・現場向けの詳細を補足で付ける\n・DECKの構成・ページ順・強調ポイントを決裁者視点で再設計する必要あり", "notion_url": ""}, {"id": "bp-ag-012", "type": "agenda", "type_abbr": "ag", "label": "他社AI研修プログラムのベンチマーク調査", "text": "論点 AI人材育成・AI人材アサイン・AIAgent開発企業の市場価格を調査・整理 他社の仕組み設計・サービス内容を調べ、カリキュラム設計の参考にする フルオーダー・ワンオフを避け、セミオーダー型（共通70%＋独自30%）設計の根拠を固める 調査結果をプライシング議題（No.01）とカリキュラム議題（No.02）に接続する", "tab": "agenda", "layer": "agenda", "category": "議題", "priority": "優先", "tags": ["Product", "Strategy"], "number": "12", "line_no": 1536, "detail": "【論点】\n・AI人材育成・AI人材アサイン・AIAgent開発企業の市場価格を調査・整理\n・他社の仕組み設計・サービス内容を調べ、カリキュラム設計の参考にする\n・フルオーダー・ワンオフを避け、セミオーダー型（共通70%＋独自30%）設計の根拠を固める\n・調査結果をプライシング議題（No.01）とカリキュラム議題（No.02）に接続する", "notion_url": ""}, {"id": "bp-ag-013", "type": "agenda", "type_abbr": "ag", "label": "プランナー向けカリキュラム設計", "text": "論点 AIネイティブ組織の定義を文書化し、プランナーが語れる状態にする Base44 / Claude / Claude Code / Coworkの使い分けをプランナー全員が説明できるか 外部プランナーへの展開方法・習得確認の基準を設ける 🕳 関連する穴 プランナー向けカリキュラムが未設計 AIネイティブ組織の定義が未文書化", "tab": "agenda", "layer": "agenda", "category": "議題", "priority": "最優先", "tags": ["Product"], "number": "13", "line_no": 1570, "detail": "【論点】\n・AIネイティブ組織の定義を文書化し、プランナーが語れる状態にする\n・Base44 / Claude / Claude Code / Coworkの使い分けをプランナー全員が説明できるか\n・外部プランナーへの展開方法・習得確認の基準を設ける\n\n【関連する穴】\n・プランナー向けカリキュラムが未設計\n・AIネイティブ組織の定義が未文書化", "notion_url": ""}, {"id": "bp-ag-014", "type": "agenda", "type_abbr": "ag", "label": "トレーナー向けカリキュラム・認定基準設計", "text": "論点 M1〜M3全単元を自分で実装・説明できることを認定基準とするか 模擬セッション・受講生満足度スコアを認定評価に組み込むか トレーナー間の品質平準化の仕組み（フィードバック共有・マニュアル） 🕳 関連する穴 習得度測定指標・トレーナー認定基準が未定義 指導マニュアル・想定Q&A集が未整備", "tab": "agenda", "layer": "agenda", "category": "議題", "priority": "最優先", "tags": ["Product"], "number": "14", "line_no": 1607, "detail": "【論点】\n・M1〜M3全単元を自分で実装・説明できることを認定基準とするか\n・模擬セッション・受講生満足度スコアを認定評価に組み込むか\n・トレーナー間の品質平準化の仕組み（フィードバック共有・マニュアル）\n\n【関連する穴】\n・習得度測定指標・トレーナー認定基準が未定義\n・指導マニュアル・想定Q&A集が未整備", "notion_url": ""}, {"id": "bp-ag-015", "type": "agenda", "type_abbr": "ag", "label": "受講生向けシラバス詳細設計（M1〜M3）", "text": "論点 各月の単元・成果物・レポートの詳細定義（社内ヒアリング後に確定） 共通70%テンプレートの具体的な内容・単元数・時間配分 補助金提出用レポートの書式と必要項目の標準化 LMS（Base44製）への単元・進捗管理の実装仕様 🕳 関連する穴 シラバスの単元・成果物定義が未設計 補助金対応の標準フロー・書類テンプレが未整備 LMS（Base44製）の実装が未着手", "tab": "agenda", "layer": "agenda", "category": "議題", "priority": "最優先", "tags": ["Product"], "number": "15", "line_no": 1644, "detail": "【論点】\n・各月の単元・成果物・レポートの詳細定義（社内ヒアリング後に確定）\n・共通70%テンプレートの具体的な内容・単元数・時間配分\n・補助金提出用レポートの書式と必要項目の標準化\n・LMS（Base44製）への単元・進捗管理の実装仕様\n\n【関連する穴】\n・シラバスの単元・成果物定義が未設計\n・補助金対応の標準フロー・書類テンプレが未整備\n・LMS（Base44製）の実装が未着手", "notion_url": ""}, {"id": "bp-ag-016", "type": "agenda", "type_abbr": "ag", "label": "フライホイール設計・運用体制", "text": "論点 FAQ・質問ログ・アンケートをカリキュラムに反映するサイクルの設計 コミュニティ（Discord）での事例収集 → 共通70%テンプレート改訂の仕組み 改訂の頻度・責任者・承認フローの定義 🕳 関連する穴 Discord〜LMS連携・業種別チャンネル設計が未整備 フライホイールの運用設計が未着手", "tab": "agenda", "layer": "agenda", "category": "議題", "priority": "優先", "tags": ["Product", "All"], "number": "16", "line_no": 1683, "detail": "【論点】\n・FAQ・質問ログ・アンケートをカリキュラムに反映するサイクルの設計\n・コミュニティ（Discord）での事例収集 → 共通70%テンプレート改訂の仕組み\n・改訂の頻度・責任者・承認フローの定義\n\n【関連する穴】\n・Discord〜LMS連携・業種別チャンネル設計が未整備\n・フライホイールの運用設計が未着手", "notion_url": ""}, {"id": "bp-ag-017", "type": "agenda", "type_abbr": "ag", "label": "外部プランナー・トレーナーの採用・登録フロー", "text": "論点 外部プランナー・トレーナーをどこで募集・選定するか（採用チャネル） 登録・審査・認定のフローとそれを管理する仕組み 報酬体系・契約形態（業務委託等）の設計 ジャングルジム版AI基礎教養の習得を採用要件とするか、入社後に研修するか 品質担保のためのトライアル期間・評価基準の設計 🕳 関連する穴 外部プランナー・トレーナーの採用・登録フローが未設計 報酬体系・契約形態が未定義", "tab": "agenda", "layer": "agenda", "category": "議題", "priority": "優先", "tags": ["Strategy", "Product"], "number": "17", "line_no": 1721, "detail": "【論点】\n・外部プランナー・トレーナーをどこで募集・選定するか（採用チャネル）\n・登録・審査・認定のフローとそれを管理する仕組み\n・報酬体系・契約形態（業務委託等）の設計\n・ジャングルジム版AI基礎教養の習得を採用要件とするか、入社後に研修するか\n・品質担保のためのトライアル期間・評価基準の設計\n\n【関連する穴】\n・外部プランナー・トレーナーの採用・登録フローが未設計\n・報酬体系・契約形態が未定義", "notion_url": ""}, {"id": "bp-ag-018", "type": "agenda", "type_abbr": "ag", "label": "入金ルール・決済タイミングの設計", "text": "基本方針（案） 教育事業の原則は「前納」。「支援内容の設計」フェーズ開始を入金必須の線引きとする 助成金なし：契約締結後、支援内容の設計開始前（月末）までに全額入金を原則とする 助成金利用時の論点 申請書類に「受講内容を決めた書面」が必要 → 事務局提出（月末）までに支援内容の設計が実質完了している必要がある 入金は「提出完了後・受講開始前」になる可能性が高い → 入金期日の別途設計が必要 例：4", "tab": "agenda", "layer": "agenda", "category": "議題", "priority": "最優先", "tags": ["Strategy", "Product"], "number": "18", "line_no": 1761, "detail": "【論点】\n・教育事業の原則は「前納」。「支援内容の設計」フェーズ開始を入金必須の線引きとする\n・助成金なし：契約締結後、支援内容の設計開始前（月末）までに全額入金を原則とする\n・申請書類に「受講内容を決めた書面」が必要 → 事務局提出（月末）までに支援内容の設計が実質完了している必要がある\n・入金は「提出完了後・受講開始前」になる可能性が高い → 入金期日の別途設計が必要\n・例：4/15申込 → 4/20契約締結・書類準備 → 4/30事務局提出 → 6/1受講開始、入金は5月末など\n・助成金なしより+5万/月（+15万/3ヶ月）の設定を検討\n・内訳：申請書類手続き費用・事務手数料として説明可能\n・顧客の実質負担増は12,500円/月程度（助成金の補助割合次第）。許容範囲と判断\n\n【関連する穴】\n・助成金利用時の入金期日・条件の明文化\n・助成金パックの価格（+5万/月）と内訳説明の確定\n・「支援内容の設計」を入金ゲートとした場合の契約書への反映", "notion_url": ""}, {"id": "bp-cr-001", "type": "curriculum", "type_abbr": "cr", "label": "AIネイティブ組織の定義", "text": "習得目標 AIネイティブ組織とはどんな状態か定義できる 組織の現在地（フェーズ1〜5）を診断できる 顧客にAI活用の必要性を語れる", "tab": "curriculum", "layer": "curriculum", "category": "カリキュラム", "priority": "", "tags": ["基礎教養"], "number": "", "line_no": 1856, "detail": "【論点】\n・AIネイティブ組織とはどんな状態か定義できる\n・組織の現在地（フェーズ1〜5）を診断できる\n・顧客にAI活用の必要性を語れる", "notion_url": ""}, {"id": "bp-cr-002", "type": "curriculum", "type_abbr": "cr", "label": "ジャングルジム版 AI基礎教養", "text": "習得目標 Base44 / Claude / Claude Code / Coworkの使い分けを説明できる Harness Engineeringの概念を顧客に伝えられる AI活用の5段階フェーズを語れる", "tab": "curriculum", "layer": "curriculum", "category": "カリキュラム", "priority": "", "tags": ["必修"], "number": "", "line_no": 1875, "detail": "【論点】\n・Base44 / Claude / Claude Code / Coworkの使い分けを説明できる\n・Harness Engineeringの概念を顧客に伝えられる\n・AI活用の5段階フェーズを語れる", "notion_url": ""}, {"id": "bp-cr-003", "type": "curriculum", "type_abbr": "cr", "label": "商談・プランニングスキル", "text": "習得目標 マスト回収項目を正確にヒアリングできる 壁打ちAIを使って最適プランを提案できる A/Bプランの使い分けを説明・クロージングできる", "tab": "curriculum", "layer": "curriculum", "category": "カリキュラム", "priority": "", "tags": ["実践"], "number": "", "line_no": 1894, "detail": "【論点】\n・マスト回収項目を正確にヒアリングできる\n・壁打ちAIを使って最適プランを提案できる\n・A/Bプランの使い分けを説明・クロージングできる", "notion_url": ""}, {"id": "bp-cr-004", "type": "curriculum", "type_abbr": "cr", "label": "提供カリキュラムの完全習得", "text": "習得目標 M1〜M3の全単元を自分で実装・説明できる Base44 / Claude / Coworkを実際に使いこなせる 受講生の質問に現場対応できる", "tab": "curriculum", "layer": "curriculum", "category": "カリキュラム", "priority": "", "tags": ["必修"], "number": "", "line_no": 1923, "detail": "【論点】\n・M1〜M3の全単元を自分で実装・説明できる\n・Base44 / Claude / Coworkを実際に使いこなせる\n・受講生の質問に現場対応できる", "notion_url": ""}, {"id": "bp-cr-005", "type": "curriculum", "type_abbr": "cr", "label": "習得度測定・認定基準", "text": "設計が必要な項目 トレーナー認定のための評価指標（チェックリスト形式） 模擬セッションによる実技評価 受講生満足度スコアとの連動", "tab": "curriculum", "layer": "curriculum", "category": "カリキュラム", "priority": "", "tags": ["品質管理"], "number": "", "line_no": 1946, "detail": "【論点】\n・トレーナー認定のための評価指標（チェックリスト形式）\n・模擬セッションによる実技評価\n・受講生満足度スコアとの連動", "notion_url": ""}, {"id": "bp-cr-006", "type": "curriculum", "type_abbr": "cr", "label": "品質平準化の仕組み", "text": "設計が必要な項目 トレーナー間のフィードバック共有会（定期） 指導マニュアル・想定Q&A集の整備 セッション録画レビューによる品質チェック", "tab": "curriculum", "layer": "curriculum", "category": "カリキュラム", "priority": "", "tags": ["運用"], "number": "", "line_no": 1969, "detail": "【論点】\n・トレーナー間のフィードバック共有会（定期）\n・指導マニュアル・想定Q&A集の整備\n・セッション録画レビューによる品質チェック", "notion_url": ""}, {"id": "bp-cr-007", "type": "curriculum", "type_abbr": "cr", "label": "Month 1 — 土台構築", "text": "単元（詳細は社内ヒアリング後追記） AIとの付き合い方・基本操作（Claude） スキルファイル作成（Base44） 業務特化プロンプト設計 成果物・レポート 自社業務に特化したスキル1本 Month 1 学習レポート（LMS出力）", "tab": "curriculum", "layer": "curriculum", "category": "カリキュラム", "priority": "", "tags": ["シラバス"], "number": "", "line_no": 2006, "detail": "【論点】\n・AIとの付き合い方・基本操作（Claude）\n・スキルファイル作成（Base44）\n・業務特化プロンプト設計\n・自社業務に特化したスキル1本\n・Month 1 学習レポート（LMS出力）", "notion_url": ""}, {"id": "bp-cr-008", "type": "curriculum", "type_abbr": "cr", "label": "Month 2 — 習慣化・定着", "text": "単元（詳細は社内ヒアリング後追記） コネクタ連携（Notion / Drive等） 自動化ワークフローの設計と実装 エージェント基礎（Cowork） 成果物・レポート 自動化フロー1件の稼働 Month 2 学習レポート・満足度アンケート（LMS出力）", "tab": "curriculum", "layer": "curriculum", "category": "カリキュラム", "priority": "", "tags": ["シラバス"], "number": "", "line_no": 2034, "detail": "【論点】\n・コネクタ連携（Notion / Drive等）\n・自動化ワークフローの設計と実装\n・エージェント基礎（Cowork）\n・自動化フロー1件の稼働\n・Month 2 学習レポート・満足度アンケート（LMS出力）", "notion_url": ""}, {"id": "bp-cr-009", "type": "curriculum", "type_abbr": "cr", "label": "Month 3 — 自走・拡張", "text": "単元（詳細は社内ヒアリング後追記） E2E自動化設計 Claude Code導入・外部API連携 社内展開・他者へのティーチング 成果物・レポート E2E自動化フロー1本・エージェント設計書 最終レポート（補助金提出書類兼用・LMS出力）", "tab": "curriculum", "layer": "curriculum", "category": "カリキュラム", "priority": "", "tags": ["シラバス"], "number": "", "line_no": 2062, "detail": "【論点】\n・E2E自動化設計\n・Claude Code導入・外部API連携\n・社内展開・他者へのティーチング\n・E2E自動化フロー1本・エージェント設計書\n・最終レポート（補助金提出書類兼用・LMS出力）", "notion_url": ""}, {"id": "bp-cr-010", "type": "curriculum", "type_abbr": "cr", "label": "インプット：収集する情報", "text": "受講生の質問・FAQ（LMSで蓄積） セッション後のアンケート・満足度スコア トレーナーの指導メモ・詰まりポイント コミュニティでの活用事例・成功パターン", "tab": "curriculum", "layer": "curriculum", "category": "カリキュラム", "priority": "", "tags": ["運用"], "number": "", "line_no": 2096, "detail": "【論点】\n・受講生の質問・FAQ（LMSで蓄積）\n・セッション後のアンケート・満足度スコア\n・トレーナーの指導メモ・詰まりポイント\n・コミュニティでの活用事例・成功パターン", "notion_url": ""}, {"id": "bp-cr-011", "type": "curriculum", "type_abbr": "cr", "label": "アウトプット：カリキュラムへの反映", "text": "共通70%テンプレートの定期改訂（3ヶ月ごと） FAQ集・指導マニュアルへの追記 優良事例のシラバスへの組み込み トレーナー向け勉強会での共有", "tab": "curriculum", "layer": "curriculum", "category": "カリキュラム", "priority": "", "tags": ["運用"], "number": "", "line_no": 2112, "detail": "【論点】\n・共通70%テンプレートの定期改訂（3ヶ月ごと）\n・FAQ集・指導マニュアルへの追記\n・優良事例のシラバスへの組み込み\n・トレーナー向け勉強会での共有", "notion_url": ""}, {"id": "bp-sd-001", "type": "sysdesign", "type_abbr": "sd", "label": "CRM / SFA 設計", "text": "CRM（全フェーズ横断） 顧客データの一元管理（リードジェネ → 継続・発展まで） 使用ツール候補：Notion DB / HubSpot / 独自Base44製 顧客カルテ・契約情報・請求情報を統合管理 SFA（リードジェネ〜商談） 温度感スコア・ナーチャリングキュー・商談進捗の管理 失注理由の記録 → ナーチャリングキューへの自動移行 CRMとの連携設計（同一ツール or API連携） 🕳 関", "tab": "sysdesign", "layer": "sysdesign", "category": "システム設計", "priority": "最優先", "tags": ["Product"], "number": "", "line_no": 2152, "detail": "【論点】\n・顧客データの一元管理（リードジェネ → 継続・発展まで）\n・使用ツール候補：Notion DB / HubSpot / 独自Base44製\n・顧客カルテ・契約情報・請求情報を統合管理\n・温度感スコア・ナーチャリングキュー・商談進捗の管理\n・失注理由の記録 → ナーチャリングキューへの自動移行\n・CRMとの連携設計（同一ツール or API連携）\n\n【関連する穴】\n・SFA〜CRM連携が未整備・ツール未選定", "notion_url": ""}, {"id": "bp-sd-002", "type": "sysdesign", "type_abbr": "sd", "label": "壁打ちAI 構築仕様", "text": "概要 商談時にヒアリング内容を入力 → 最適カリキュラム・計画表を自動生成（社内専用） 共通70%テンプレート＋独自30%カスタムのセミオーダー設計に基づく出力 実装仕様 構築ツール：Base44（社内専用アプリ） 入力：マスト回収項目（業種・規模・AI習熟度・課題・予算・スケジュール） 出力：カリキュラムプラン・3ヶ月スケジュール・成果物定義 ヒアリングDBとの連携設計（Notion or CR", "tab": "sysdesign", "layer": "sysdesign", "category": "システム設計", "priority": "最優先", "tags": ["Product"], "number": "", "line_no": 2185, "detail": "【論点】\n・商談時にヒアリング内容を入力 → 最適カリキュラム・計画表を自動生成（社内専用）\n・共通70%テンプレート＋独自30%カスタムのセミオーダー設計に基づく出力\n・構築ツール：Base44（社内専用アプリ）\n・入力：マスト回収項目（業種・規模・AI習熟度・課題・予算・スケジュール）\n・出力：カリキュラムプラン・3ヶ月スケジュール・成果物定義\n・ヒアリングDBとの連携設計（Notion or CRM）\n\n【関連する穴】\n・壁打ちAI未構築・ヒアリングDB未設計", "notion_url": ""}, {"id": "bp-sd-003", "type": "sysdesign", "type_abbr": "sd", "label": "LMS 実装仕様（Base44製）", "text": "概要 M1〜M3全フェーズで使用する学習管理システム（Base44で内製） 補助金申請に必要な学習計画・出席率・学習レポートの記録・出力が必須 必要機能 出席記録 / 進捗管理 / 単元別完了チェック 学習レポート自動生成（補助金提出書類フォーマット対応） 満足度アンケート / FAQ・質問ログの蓄積 フライホイールへのデータ引き渡し機能 🕳 関連する穴 LMS（Base44製）の実装が未着手", "tab": "sysdesign", "layer": "sysdesign", "category": "システム設計", "priority": "最優先", "tags": ["Product"], "number": "", "line_no": 2218, "detail": "【論点】\n・M1〜M3全フェーズで使用する学習管理システム（Base44で内製）\n・補助金申請に必要な学習計画・出席率・学習レポートの記録・出力が必須\n・出席記録 / 進捗管理 / 単元別完了チェック\n・学習レポート自動生成（補助金提出書類フォーマット対応）\n・満足度アンケート / FAQ・質問ログの蓄積\n・フライホイールへのデータ引き渡し機能\n\n【関連する穴】\n・LMS（Base44製）の実装が未着手", "notion_url": ""}, {"id": "bp-sd-004", "type": "sysdesign", "type_abbr": "sd", "label": "Notion / Drive 資料管理設計", "text": "Drive 管理（社内・顧客提供） プランナーセット：商談用資料一式（DECK・ROI試算・FAQ） プランナーハンドブック：商談スクリプト・マスト回収項目・壁打ちAI操作手順 トレーナーハンドブック：セッション進行・想定Q&A・品質チェックリスト 補助金申請書類：テンプレート一式 → 顧客へURL自動送付 Notion 管理（社内） 顧客カルテ・ヒアリングDB 補助金管理台帳（対象顧客・種別・期", "tab": "sysdesign", "layer": "sysdesign", "category": "システム設計", "priority": "優先", "tags": ["Product"], "number": "", "line_no": 2251, "detail": "【論点】\n・プランナーセット：商談用資料一式（DECK・ROI試算・FAQ）\n・プランナーハンドブック：商談スクリプト・マスト回収項目・壁打ちAI操作手順\n・トレーナーハンドブック：セッション進行・想定Q&A・品質チェックリスト\n・補助金申請書類：テンプレート一式 → 顧客へURL自動送付\n・顧客カルテ・ヒアリングDB\n・補助金管理台帳（対象顧客・種別・期限・進捗）\n・CAIO稼働レポート・KPI管理\n\n【関連する穴】\n・各ハンドブック・Salesデックが未作成\n・補助金書類の自動送付フローが未設計", "notion_url": ""}, {"id": "bp-sd-005", "type": "sysdesign", "type_abbr": "sd", "label": "AI選定ナビ 構築仕様", "text": "概要 「これはCowork？Claude Code？エージェント？」をいつでも自己診断できる常設AIツール 継続・発展フェーズの受講修了者が使用（全プラン共通） 実装仕様 構築ツール：Base44 or Claude製 入力：やりたいこと・現在の環境・スキルレベル 出力：最適ツール選定理由・実装ステップ・参考事例 定期更新：新ツール・事例データを追加するメンテナンス体制 🕳 関連する穴 選定ロジッ", "tab": "sysdesign", "layer": "sysdesign", "category": "システム設計", "priority": "優先", "tags": ["Product"], "number": "", "line_no": 2288, "detail": "【論点】\n・「これはCowork？Claude Code？エージェント？」をいつでも自己診断できる常設AIツール\n・継続・発展フェーズの受講修了者が使用（全プラン共通）\n・構築ツール：Base44 or Claude製\n・入力：やりたいこと・現在の環境・スキルレベル\n・出力：最適ツール選定理由・実装ステップ・参考事例\n・定期更新：新ツール・事例データを追加するメンテナンス体制\n\n【関連する穴】\n・選定ロジック・判断フロー・ツール実装が未着手", "notion_url": ""}, {"id": "bp-sd-006", "type": "sysdesign", "type_abbr": "sd", "label": "伴走AI 構築仕様（カリキュラム自動生成）", "text": "概要 ヒアリングDBのデータをフェッチし、最適カリキュラムプランを自動生成 壁打ちAIとの役割分担：壁打ちAI=商談時、伴走AI=支援内容設計フェーズ 実装仕様 入力：顧客カルテ（業種・AI習熟度・課題・ゴール） 出力：共通70%＋独自30%のカリキュラムプラン・単元割り当て 構築ツール：Base44（社内専用） 🕳 関連する穴 伴走AI・ヒアリングDBが未構築", "tab": "sysdesign", "layer": "sysdesign", "category": "システム設計", "priority": "優先", "tags": ["Product"], "number": "", "line_no": 2321, "detail": "【論点】\n・ヒアリングDBのデータをフェッチし、最適カリキュラムプランを自動生成\n・壁打ちAIとの役割分担：壁打ちAI=商談時、伴走AI=支援内容設計フェーズ\n・入力：顧客カルテ（業種・AI習熟度・課題・ゴール）\n・出力：共通70%＋独自30%のカリキュラムプラン・単元割り当て\n・構築ツール：Base44（社内専用）\n\n【関連する穴】\n・伴走AI・ヒアリングDBが未構築", "notion_url": ""}]
+</script>
 </head>
 <body>
 
@@ -718,7 +621,7 @@
       <div class="ch mt">④ 紹介</div>
       <div class="card cu" data-card-id="bp-cu-008"><div class="cl">純粋な紹介</div><div class="ct">既存顧客・知人から紹介を受ける</div></div>
       <div class="card cu" data-card-id="bp-cu-009"><div class="cl">営業代行紹介</div><div class="ct">代行パートナー経由で接触</div></div>
-      <div class="card in"><div class="cl">将来検討</div><div class="ct">有料広告（現時点は意図的に除外）</div></div>
+      <div class="card in" data-card-id="bp-cu-010"><div class="cl">将来検討</div><div class="ct">有料広告（現時点は意図的に除外）</div></div>
     </div>
 
     <!-- 営業フロー（ルート描画） -->
@@ -855,40 +758,40 @@
 
     <!-- 契約締結 -->
     <div class="layer-col">
-      <div class="card cu" data-card-id="bp-cu-010"><div class="cl">契約</div><div class="ct">契約書への署名・締結</div></div>
+      <div class="card cu" data-card-id="bp-cu-011"><div class="cl">契約</div><div class="ct">契約書への署名・締結</div></div>
       <div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--border);">
         <div class="ch" style="margin-bottom:6px;">補助金希望者のみ</div>
-        <div class="card cu" data-card-id="bp-cu-011"><div class="cl">補助金確認</div><div class="ct">希望・対象要件の確認（IT導入補助金等）</div></div>
-        <div class="card cu" data-card-id="bp-cu-012"><div class="cl">書類準備</div><div class="ct">必要書類の収集・期限の把握・提出フロー確認</div></div>
+        <div class="card cu" data-card-id="bp-cu-012"><div class="cl">補助金確認</div><div class="ct">希望・対象要件の確認（IT導入補助金等）</div></div>
+        <div class="card cu" data-card-id="bp-cu-013"><div class="cl">書類準備</div><div class="ct">必要書類の収集・期限の把握・提出フロー確認</div></div>
       </div>
     </div>
     <!-- 支援内容の設計 -->
     <div class="layer-col">
-      <div class="card cu" data-card-id="bp-cu-013"><div class="cl">情報提供</div><div class="ct">現状業務・課題・目標をヒアリングシートに記入</div></div>
-      <div class="card cu" data-card-id="bp-cu-014"><div class="cl">合意</div><div class="ct">カリキュラム・スケジュール・ゴールの確認・承認</div></div>
-      <div class="card cu" data-card-id="bp-cu-015"><div class="cl">環境準備①</div><div class="ct">Claudeの契約・アカウント発行（Claude Codeインストールは土台構築フェーズ）</div></div>
-      <div class="card cu" data-card-id="bp-cu-016"><div class="cl">環境準備②</div><div class="ct">社内利用ツールのリストアップ（Slack・Notion・Drive等、連携候補の棚卸し）</div></div>
+      <div class="card cu" data-card-id="bp-cu-014"><div class="cl">情報提供</div><div class="ct">現状業務・課題・目標をヒアリングシートに記入</div></div>
+      <div class="card cu" data-card-id="bp-cu-015"><div class="cl">合意</div><div class="ct">カリキュラム・スケジュール・ゴールの確認・承認</div></div>
+      <div class="card cu" data-card-id="bp-cu-016"><div class="cl">環境準備①</div><div class="ct">Claudeの契約・アカウント発行（Claude Codeインストールは土台構築フェーズ）</div></div>
+      <div class="card cu" data-card-id="bp-cu-017"><div class="cl">環境準備②</div><div class="ct">社内利用ツールのリストアップ（Slack・Notion・Drive等、連携候補の棚卸し）</div></div>
     </div>
     <!-- M1 -->
     <div class="layer-col">
-      <div class="card cu" data-card-id="bp-cu-017"><div class="cl">Kickoff</div><div class="ct">キックオフセッション参加</div></div>
-      <div class="card cu" data-card-id="bp-cu-018"><div class="cl">Practice</div><div class="ct">Base44でスキル作成・初実践</div></div>
+      <div class="card cu" data-card-id="bp-cu-018"><div class="cl">Kickoff</div><div class="ct">キックオフセッション参加</div></div>
+      <div class="card cu" data-card-id="bp-cu-019"><div class="cl">Practice</div><div class="ct">Base44でスキル作成・初実践</div></div>
     </div>
     <!-- M2 -->
     <div class="layer-col">
-      <div class="card cu" data-card-id="bp-cu-019"><div class="cl">Session</div><div class="ct">月次セッション参加</div></div>
-      <div class="card cu" data-card-id="bp-cu-020"><div class="cl">Connect</div><div class="ct">Notionコネクタ連携を実装</div></div>
+      <div class="card cu" data-card-id="bp-cu-020"><div class="cl">Session</div><div class="ct">月次セッション参加</div></div>
+      <div class="card cu" data-card-id="bp-cu-021"><div class="cl">Connect</div><div class="ct">Notionコネクタ連携を実装</div></div>
     </div>
     <!-- M3 -->
     <div class="layer-col">
-      <div class="card cu" data-card-id="bp-cu-021"><div class="cl">Deploy</div><div class="ct">E2E自動化フローを本番稼働</div></div>
-      <div class="card cu" data-card-id="bp-cu-022"><div class="cl">Goal Check</div><div class="ct">ゴールチェック・成果棚卸し</div></div>
+      <div class="card cu" data-card-id="bp-cu-022"><div class="cl">Deploy</div><div class="ct">E2E自動化フローを本番稼働</div></div>
+      <div class="card cu" data-card-id="bp-cu-023"><div class="cl">Goal Check</div><div class="ct">ゴールチェック・成果棚卸し</div></div>
     </div>
     <!-- 支給申請（助成金利用者のみ） -->
     <div class="layer-col">
       <div class="ch" style="margin-bottom:6px;">助成金利用者のみ</div>
-      <div class="card cu" data-card-id="bp-cu-023"><div class="cl">支給申請</div><div class="ct">受講修了後2ヶ月以内に助成金支給申請を実施（事務局へ提出）</div></div>
-      <div class="card cu" data-card-id="bp-cu-024"><div class="cl">書類確認</div><div class="ct">申請書類・受講実績証明の最終確認・署名</div></div>
+      <div class="card cu" data-card-id="bp-cu-024"><div class="cl">支給申請</div><div class="ct">受講修了後2ヶ月以内に助成金支給申請を実施（事務局へ提出）</div></div>
+      <div class="card cu" data-card-id="bp-cu-025"><div class="cl">書類確認</div><div class="ct">申請書類・受講実績証明の最終確認・署名</div></div>
     </div>
     <!-- After -->
     <div class="layer-col" style="padding:0;gap:0;">
@@ -896,16 +799,16 @@
         <span style="font-size:9px;font-family:'Space Mono',monospace;color:var(--cu);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;">① コミュニティ</span>
       </div>
       <div style="padding:8px 10px;display:flex;flex-direction:column;gap:6px;border-bottom:2px dashed var(--border);">
-        <div class="card cu" data-card-id="bp-cu-025"><div class="cl">プランA — ¥30,000/月・社</div><div class="ct">Discordコミュニティ参加・共有・Q&A</div></div>
-        <div class="card cu" data-card-id="bp-cu-026"><div class="cl">プランB — ¥100,000/月・社</div><div class="ct">コミュニティ＋月1回の個別レビューセッション</div></div>
-        <div class="card cu" data-card-id="bp-cu-027"><div class="cl">将来像</div><div class="ct">業種・業態・カテゴリー別コミュニティへ分化（規模拡大後）</div></div>
+        <div class="card cu" data-card-id="bp-cu-026"><div class="cl">プランA — ¥30,000/月・社</div><div class="ct">Discordコミュニティ参加・共有・Q&A</div></div>
+        <div class="card cu" data-card-id="bp-cu-027"><div class="cl">プランB — ¥100,000/月・社</div><div class="ct">コミュニティ＋月1回の個別レビューセッション</div></div>
+        <div class="card cu" data-card-id="bp-cu-028"><div class="cl">将来像</div><div class="ct">業種・業態・カテゴリー別コミュニティへ分化（規模拡大後）</div></div>
       </div>
       <div style="padding:6px 10px 4px;background:#f5f3ff;border-bottom:1px solid var(--nurture-bdr);margin-top:2px;">
         <span style="font-size:9px;font-family:'Space Mono',monospace;color:var(--nurture);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;">② CAIO 個別派遣</span>
       </div>
       <div style="padding:8px 10px;display:flex;flex-direction:column;gap:6px;">
-        <div class="card nr"><div class="cl">個別契約 — ¥1.2〜1.5M/月・社</div><div class="ct">CAIOとして社内AI戦略・実装を専任でサポート</div></div>
-        <div class="card nr"><div class="cl">契約形態</div><div class="ct">年間契約のみ（単発・短期契約は受けない）</div></div>
+        <div class="card nr" data-card-id="bp-cu-029"><div class="cl">個別契約 — ¥1.2〜1.5M/月・社</div><div class="ct">CAIOとして社内AI戦略・実装を専任でサポート</div></div>
+        <div class="card nr" data-card-id="bp-cu-030"><div class="cl">契約形態</div><div class="ct">年間契約のみ（単発・短期契約は受けない）</div></div>
       </div>
       <div style="padding:6px 10px 4px;background:#f0fdf4;border-bottom:1px solid var(--fr-bdr);border-top:2px dashed var(--border);margin-top:2px;">
         <span style="font-size:9px;font-family:'Space Mono',monospace;color:var(--fr);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;">③ 常設ツール（全プラン共通）</span>
@@ -947,16 +850,16 @@
       <div class="card fr" data-card-id="bp-fr-005"><div class="cl">外部イベント登壇</div><div class="ct">外部イベントへの出演・露出設計</div></div>
       <div class="ch mt">② Inbound</div>
       <div class="card fr" data-card-id="bp-fr-006"><div class="cl">ナベラ フライホイール整備</div><div class="ct">停止中の自動化フローを再整備・自動稼働に戻す（優先対応）</div></div>
-      <div class="card gp" data-card-id="bp-gp-001"><div class="cl">穴</div><div class="ct">ナベラの自動化フローが停止中。復旧・設計し直しが必要</div></div>
+      <div class="card gp" data-card-id="bp-ga-001"><div class="cl">穴</div><div class="ct">ナベラの自動化フローが停止中。復旧・設計し直しが必要</div></div>
       <div class="ch mt">③ コンテンツ</div>
       <div class="card fr" data-card-id="bp-fr-007"><div class="cl">法人SNS運用方針</div><div class="ct">Base44公式パートナー・アンバサダーの立場を前面に。Base44 Japanと役割分担しコンテンツ協力</div></div>
       <div class="card fr" data-card-id="bp-fr-008"><div class="cl">個人SNS（X・LinkedIn）</div><div class="ct">海外Base44コミュニティのユースケースを日本語解説。アンバサダーインタビュー等（言語ハードル要検討）</div></div>
       <div class="card fr" data-card-id="bp-fr-009"><div class="cl">Base44マーケ支援</div><div class="ct">Base44 Japanから依頼のマーケティング施策の立案を並行対応</div></div>
       <div class="ch mt">④ 紹介</div>
       <div class="card fr" data-card-id="bp-fr-010"><div class="cl">純粋な紹介設計</div><div class="ct">既存顧客フォロー・紹介依頼設計</div></div>
-      <div class="card gp" data-card-id="bp-gp-002"><div class="cl">穴 — 営業代行</div><div class="ct">代行パートナーの報酬設計・契約スキームが未整備</div></div>
-      <div class="card gp" data-card-id="bp-gp-003"><div class="cl">穴 — WX体験設計（No.3）</div><div class="ct">イベント・商談1発目・社内未参加スタッフそれぞれのWow体験演出が未設計</div></div>
-      <div class="card in"><div class="cl">将来検討</div><div class="ct">有料広告（意図的に除外中）</div></div>
+      <div class="card gp" data-card-id="bp-ga-002"><div class="cl">穴 — 営業代行</div><div class="ct">代行パートナーの報酬設計・契約スキームが未整備</div></div>
+      <div class="card gp" data-card-id="bp-ga-003"><div class="cl">穴 — WX体験設計（No.3）</div><div class="ct">イベント・商談1発目・社内未参加スタッフそれぞれのWow体験演出が未設計</div></div>
+      <div class="card in" data-card-id="bp-cu-031"><div class="cl">将来検討</div><div class="ct">有料広告（意図的に除外中）</div></div>
     </div>
     <!-- 営業フロー -->
     <div class="sales-flow-col">
@@ -970,11 +873,11 @@
         </div>
       </div>
       <div class="routes-area" style="gap:8px;">
-        <div class="card fr" style="margin:0" data-card-id="bp-fr-011"><div class="cl">プランナー — カジュアル面談・プチ商談</div><div class="ct">意識転換トーク / テストクロージング / 温度感確認・振り分け判断</div></div>
-        <div class="card gp" style="margin:0" data-card-id="bp-gp-004"><div class="cl">穴</div><div class="ct">振り分け基準・スクリプトが未定義</div></div>
-        <div class="card fr" style="margin:0" data-card-id="bp-fr-012"><div class="cl">プランナー — 商談・クロージング</div><div class="ct">課題整理・A/Bプラン提案</div></div>
-        <div class="card fr" style="margin:0;background:#f0fdf4;border-color:#a7f3d0;" data-card-id="bp-fr-013"><div class="cl">壁打ちAI 活用</div><div class="ct">ヒアリング内容を入力 → 最適カリキュラム・計画表をAIが自動提案 → 商談資料として即活用</div></div>
-        <div class="card gp" style="margin:0" data-card-id="bp-gp-005"><div class="cl">穴</div><div class="ct">商談ステージ定義・失注理由トラッキングが未整備</div></div>
+        <div class="card fr" data-card-id="bp-fr-011" style="margin:0"><div class="cl">プランナー — カジュアル面談・プチ商談</div><div class="ct">意識転換トーク / テストクロージング / 温度感確認・振り分け判断</div></div>
+        <div class="card gp" data-card-id="bp-ga-004" style="margin:0"><div class="cl">穴</div><div class="ct">振り分け基準・スクリプトが未定義</div></div>
+        <div class="card fr" data-card-id="bp-fr-012" style="margin:0"><div class="cl">プランナー — 商談・クロージング</div><div class="ct">課題整理・A/Bプラン提案</div></div>
+        <div class="card fr" data-card-id="bp-fr-013" style="margin:0;background:#f0fdf4;border-color:#a7f3d0;"><div class="cl">壁打ちAI 活用</div><div class="ct">ヒアリング内容を入力 → 最適カリキュラム・計画表をAIが自動提案 → 商談資料として即活用</div></div>
+        <div class="card gp" data-card-id="bp-ga-005" style="margin:0"><div class="cl">穴</div><div class="ct">商談ステージ定義・失注理由トラッキングが未整備</div></div>
       </div>
     </div>
     <!-- 契約締結 -->
@@ -993,7 +896,7 @@
       <div class="card fr" data-card-id="bp-fr-019"><div class="cl">トレーナー — レベル診断</div><div class="ct">現状AIリテラシー・業務フロー・社内ツールをヒアリングで把握</div></div>
       <div class="card fr" data-card-id="bp-fr-020"><div class="cl">トレーナー — カリキュラム設計（AI生成）</div><div class="ct">ヒアリング内容をDBへ登録 → 伴走AIが共通7割＋独自3割のカリキュラムプランを自動生成</div></div>
       <div class="card fr" data-card-id="bp-fr-021"><div class="cl">トレーナー — マスタープラン合意</div><div class="ct">生成されたプランを顧客と確認・調整し確定</div></div>
-      <div class="card gp" data-card-id="bp-gp-006"><div class="cl">穴</div><div class="ct">伴走型AI・ヒアリングDBが未構築。カリキュラムマスター（共通70%テンプレ）も未整備</div></div>
+      <div class="card gp" data-card-id="bp-ga-006"><div class="cl">穴</div><div class="ct">伴走型AI・ヒアリングDBが未構築。カリキュラムマスター（共通70%テンプレ）も未整備</div></div>
     </div>
     <!-- M1 -->
     <div class="layer-col">
@@ -1006,7 +909,7 @@
       <div class="card fr" data-card-id="bp-fr-025"><div class="cl">トレーナー — Session 2</div><div class="ct">コネクタ連携・自動化1件設計</div></div>
       <div class="card fr" data-card-id="bp-fr-026"><div class="cl">Report</div><div class="ct">月次レポート提供</div></div>
       <div class="card fr" data-card-id="bp-fr-027"><div class="cl">顧客満足度調査</div><div class="ct">M1終了時アンケート実施・FAQ・質問ログをLMSに蓄積</div></div>
-      <div class="card gp" data-card-id="bp-gp-007"><div class="cl">穴</div><div class="ct">離脱キャッチアップの仕組みが未設計</div></div>
+      <div class="card gp" data-card-id="bp-ga-007"><div class="cl">穴</div><div class="ct">離脱キャッチアップの仕組みが未設計</div></div>
       <div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--border);">
         <div class="ch" style="margin-bottom:4px;">コミュニティ準備</div>
         <div class="card fr" data-card-id="bp-fr-028"><div class="cl">Discord 設計</div><div class="ct">チャンネル構成・参加ルール・初期メンバー招待の準備</div></div>
@@ -1017,7 +920,7 @@
       <div class="card fr" data-card-id="bp-fr-029"><div class="cl">トレーナー — Session 3</div><div class="ct">E2E自動化・Claude Code導入</div></div>
       <div class="card fr" data-card-id="bp-fr-030"><div class="cl">Goal Check</div><div class="ct">ゴールCHECK・成果物検収</div></div>
       <div class="card fr" data-card-id="bp-fr-031"><div class="cl">最終満足度調査・FAQ総括</div><div class="ct">M2〜M3のアンケート・質問ログ収集。フライホイールへ引き渡し</div></div>
-      <div class="card gp" data-card-id="bp-gp-008"><div class="cl">穴</div><div class="ct">通過判定基準が未定義</div></div>
+      <div class="card gp" data-card-id="bp-ga-008"><div class="cl">穴</div><div class="ct">通過判定基準が未定義</div></div>
       <div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--border);">
         <div class="ch" style="margin-bottom:4px;">コミュニティ準備</div>
         <div class="card fr" data-card-id="bp-fr-032"><div class="cl">コミュニティ案内</div><div class="ct">継続・発展プラン（A/B）の案内・Discord正式招待・移行設計</div></div>
@@ -1028,7 +931,7 @@
       <div class="ch" style="margin-bottom:6px;">助成金利用者のみ</div>
       <div class="card fr" data-card-id="bp-fr-033"><div class="cl">報告書作成・提出</div><div class="ct">LMS出力の学習レポート・出席記録・修了証明を束ねて事務局へ提出</div></div>
       <div class="card fr" data-card-id="bp-fr-034"><div class="cl">支給申請サポート</div><div class="ct">顧客の申請書類最終確認・不備対応・提出期限管理（修了後2ヶ月以内）</div></div>
-      <div class="card gp" data-card-id="bp-gp-009"><div class="cl">穴</div><div class="ct">支給申請の標準対応フロー・チェックリストが未整備</div></div>
+      <div class="card gp" data-card-id="bp-ga-009"><div class="cl">穴</div><div class="ct">支給申請の標準対応フロー・チェックリストが未整備</div></div>
     </div>
     <!-- After -->
     <div class="layer-col" style="padding:0;gap:0;">
@@ -1040,22 +943,22 @@
         <div class="card fr" data-card-id="bp-fr-036"><div class="cl">定期コンテンツ</div><div class="ct">事例共有・Q&A・勉強会の定期開催</div></div>
         <div class="card fr" data-card-id="bp-fr-037"><div class="cl">プランB 個別セッション</div><div class="ct">月1回の個別レビュー・フィードバック対応</div></div>
         <div class="card fr" data-card-id="bp-fr-038"><div class="cl">将来設計</div><div class="ct">業種・業態別コミュニティへの分化・運営移管</div></div>
-        <div class="card gp" data-card-id="bp-gp-010"><div class="cl">穴</div><div class="ct">コミュニティ運営ルール・モデレーター体制が未整備</div></div>
+        <div class="card gp" data-card-id="bp-ga-010"><div class="cl">穴</div><div class="ct">コミュニティ運営ルール・モデレーター体制が未整備</div></div>
       </div>
       <div style="padding:6px 10px 4px;background:#f5f3ff;border-bottom:1px solid var(--nurture-bdr);margin-top:2px;">
         <span style="font-size:9px;font-family:'Space Mono',monospace;color:var(--nurture);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;">② CAIO 個別派遣</span>
       </div>
       <div style="padding:8px 10px;display:flex;flex-direction:column;gap:6px;">
-        <div class="card nr"><div class="cl">受注・契約管理</div><div class="ct">年間契約のみ受付・SLA・稼働条件の設定</div></div>
-        <div class="card nr"><div class="cl">CAIO アサイン</div><div class="ct">担当CAIOの選定・スコープ定義・KPI設計</div></div>
-        <div class="card gp" data-card-id="bp-gp-011"><div class="cl">穴</div><div class="ct">CAIO候補の人材プール・アサイン基準が未定義</div></div>
+        <div class="card nr" data-card-id="bp-cu-032"><div class="cl">受注・契約管理</div><div class="ct">年間契約のみ受付・SLA・稼働条件の設定</div></div>
+        <div class="card nr" data-card-id="bp-cu-033"><div class="cl">CAIO アサイン</div><div class="ct">担当CAIOの選定・スコープ定義・KPI設計</div></div>
+        <div class="card gp" data-card-id="bp-ga-011"><div class="cl">穴</div><div class="ct">CAIO候補の人材プール・アサイン基準が未定義</div></div>
       </div>
       <div style="padding:6px 10px 4px;background:#f0fdf4;border-bottom:1px solid var(--fr-bdr);border-top:2px dashed var(--border);margin-top:2px;">
         <span style="font-size:9px;font-family:'Space Mono',monospace;color:var(--fr);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;">③ 常設ツール 設計・保守</span>
       </div>
       <div style="padding:8px 10px;display:flex;flex-direction:column;gap:6px;">
         <div class="card fr" data-card-id="bp-fr-039"><div class="cl">AI選定ナビ 設計</div><div class="ct">Cowork / Claude Code / エージェントの使い分けロジックを設計・実装・継続更新</div></div>
-        <div class="card gp" data-card-id="bp-gp-012"><div class="cl">穴</div><div class="ct">選定ロジック・判断フローの設計が未着手</div></div>
+        <div class="card gp" data-card-id="bp-ga-012"><div class="cl">穴</div><div class="ct">選定ロジック・判断フローの設計が未着手</div></div>
       </div>
     </div><!-- /After layer-col -->
   </div><!-- /layer front stage -->
@@ -1074,13 +977,13 @@
       <div class="lbl-sub">Back<br>Stage</div>
     </div>
     <div class="layer-col">
-      <div class="card bk" data-card-id="bp-bk-001"><div class="cl">イベント企画・運営</div><div class="ct">カテゴリ設計・集客・運営フロー</div></div>
-      <div class="card bk" data-card-id="bp-bk-002"><div class="cl">面談スクリプト設計</div><div class="ct">意識転換・テストクロージングスクリプト</div></div>
-      <div class="card bk" data-card-id="bp-bk-003"><div class="cl">コンテンツ制作</div><div class="ct">Note・X・SEO・ナベラ記事スケジュール管理</div></div>
-      <div class="card bk" data-card-id="bp-bk-004"><div class="cl">PR・HP（No.7）</div><div class="ct">PRTIMESリリース計画 / HP段階的移行 / 各サービスのブランド化</div></div>
-      <div class="card gp" data-card-id="bp-gp-013"><div class="cl">穴 — WX体験設計（No.3）</div><div class="ct">イベント・商談1発目・社内未参加スタッフへのWow体験の演出設計が未定義</div></div>
-      <div class="card bk" data-card-id="bp-bk-005"><div class="cl">紹介トラッキング</div><div class="ct">紹介元・経路・転換率のSFA記録</div></div>
-      <div class="card gp" data-card-id="bp-gp-014"><div class="cl">穴 — 代行スキーム</div><div class="ct">営業代行の報酬率・契約書・精算フローが未整備</div></div>
+      <div class="card bk" data-card-id="bp-ba-001"><div class="cl">イベント企画・運営</div><div class="ct">カテゴリ設計・集客・運営フロー</div></div>
+      <div class="card bk" data-card-id="bp-ba-002"><div class="cl">面談スクリプト設計</div><div class="ct">意識転換・テストクロージングスクリプト</div></div>
+      <div class="card bk" data-card-id="bp-ba-003"><div class="cl">コンテンツ制作</div><div class="ct">Note・X・SEO・ナベラ記事スケジュール管理</div></div>
+      <div class="card bk" data-card-id="bp-ba-004"><div class="cl">PR・HP（No.7）</div><div class="ct">PRTIMESリリース計画 / HP段階的移行 / 各サービスのブランド化</div></div>
+      <div class="card gp" data-card-id="bp-ga-013"><div class="cl">穴 — WX体験設計（No.3）</div><div class="ct">イベント・商談1発目・社内未参加スタッフへのWow体験の演出設計が未定義</div></div>
+      <div class="card bk" data-card-id="bp-ba-005"><div class="cl">紹介トラッキング</div><div class="ct">紹介元・経路・転換率のSFA記録</div></div>
+      <div class="card gp" data-card-id="bp-ga-014"><div class="cl">穴 — 代行スキーム</div><div class="ct">営業代行の報酬率・契約書・精算フローが未整備</div></div>
     </div>
     <div class="sales-flow-col">
       <div class="nurture-band" style="background:#fffbeb;border-color:var(--bk-bdr);">
@@ -1094,77 +997,77 @@
         </div>
       </div>
       <div class="routes-area">
-        <div class="card bk" data-card-id="bp-bk-006"><div class="cl">振り分け記録</div><div class="ct">商談 or ナーチャリングへのルーティングをSFAに記録</div></div>
-        <div class="card bk" data-card-id="bp-bk-007"><div class="cl">提案書作成</div><div class="ct">Salesパッケージ（Notion/Drive）活用</div></div>
-        <div class="card bk" data-card-id="bp-bk-008"><div class="cl">Salesデック整備（No.11）</div><div class="ct">メイン資料は経営者・決裁者向けに統一。マネジメント/現場向けはアペンディックスとして分離（Drive管理）</div></div>
-        <div class="card bk" data-card-id="bp-bk-009"><div class="cl">ROI・事例資料整備（No.5）</div><div class="ct">導入効果の数字・ROI試算・成功事例を経営者が意思決定できる形で言語化（Drive管理）</div></div>
-        <div class="card bk" data-card-id="bp-bk-010"><div class="cl">カリキュラム設計</div><div class="ct">顧客別ゴール・レベル設定</div></div>
-        <div class="card bk" data-card-id="bp-bk-011"><div class="cl">失注管理</div><div class="ct">失注理由記録 → ナーチャリングキューへ</div></div>
+        <div class="card bk" data-card-id="bp-ba-006"><div class="cl">振り分け記録</div><div class="ct">商談 or ナーチャリングへのルーティングをSFAに記録</div></div>
+        <div class="card bk" data-card-id="bp-ba-007"><div class="cl">提案書作成</div><div class="ct">Salesパッケージ（Notion/Drive）活用</div></div>
+        <div class="card bk" data-card-id="bp-ba-008"><div class="cl">Salesデック整備（No.11）</div><div class="ct">メイン資料は経営者・決裁者向けに統一。マネジメント/現場向けはアペンディックスとして分離（Drive管理）</div></div>
+        <div class="card bk" data-card-id="bp-ba-009"><div class="cl">ROI・事例資料整備（No.5）</div><div class="ct">導入効果の数字・ROI試算・成功事例を経営者が意思決定できる形で言語化（Drive管理）</div></div>
+        <div class="card bk" data-card-id="bp-ba-010"><div class="cl">カリキュラム設計</div><div class="ct">顧客別ゴール・レベル設定</div></div>
+        <div class="card bk" data-card-id="bp-ba-011"><div class="cl">失注管理</div><div class="ct">失注理由記録 → ナーチャリングキューへ</div></div>
       </div>
     </div>
     <!-- 契約締結 -->
     <div class="layer-col">
-      <div class="card bk" data-card-id="bp-bk-012"><div class="cl">契約書管理</div><div class="ct">契約書の作成・締結・保管</div></div>
+      <div class="card bk" data-card-id="bp-ba-012"><div class="cl">契約書管理</div><div class="ct">契約書の作成・締結・保管</div></div>
       <div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--border);">
         <div class="ch" style="margin-bottom:6px;">補助金希望者のみ</div>
-        <div class="card bk" data-card-id="bp-bk-013"><div class="cl">補助金管理台帳</div><div class="ct">対象顧客・補助金種別・提出書類・期限をNotionで一元管理</div></div>
-        <div class="card bk" data-card-id="bp-bk-014"><div class="cl">書類テンプレ整備</div><div class="ct">申請書類の雛形・記載例・チェックリストを整備</div></div>
-        <div class="card gp" data-card-id="bp-gp-015"><div class="cl">穴</div><div class="ct">補助金対応の標準フロー・書類テンプレが未整備</div></div>
+        <div class="card bk" data-card-id="bp-ba-013"><div class="cl">補助金管理台帳</div><div class="ct">対象顧客・補助金種別・提出書類・期限をNotionで一元管理</div></div>
+        <div class="card bk" data-card-id="bp-ba-014"><div class="cl">書類テンプレ整備</div><div class="ct">申請書類の雛形・記載例・チェックリストを整備</div></div>
+        <div class="card gp" data-card-id="bp-ga-015"><div class="cl">穴</div><div class="ct">補助金対応の標準フロー・書類テンプレが未整備</div></div>
       </div>
     </div>
     <!-- 支援内容の設計 -->
     <div class="layer-col">
-      <div class="card bk" data-card-id="bp-bk-015"><div class="cl">顧客カルテ作成</div><div class="ct">業種・規模・課題・ゴール・担当者情報をNotionに登録</div></div>
-      <div class="card bk" data-card-id="bp-bk-016"><div class="cl">スケジュール確定</div><div class="ct">3ヶ月セッション日程・担当講師のアサイン</div></div>
-      <div class="card bk" data-card-id="bp-bk-017"><div class="cl">初回資料準備</div><div class="ct">キックオフ資料・カリキュラム資料の作成</div></div>
+      <div class="card bk" data-card-id="bp-ba-015"><div class="cl">顧客カルテ作成</div><div class="ct">業種・規模・課題・ゴール・担当者情報をNotionに登録</div></div>
+      <div class="card bk" data-card-id="bp-ba-016"><div class="cl">スケジュール確定</div><div class="ct">3ヶ月セッション日程・担当講師のアサイン</div></div>
+      <div class="card bk" data-card-id="bp-ba-017"><div class="cl">初回資料準備</div><div class="ct">キックオフ資料・カリキュラム資料の作成</div></div>
       <div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--border);">
         <div class="ch" style="margin-bottom:4px;">マスト回収項目（初回商談）</div>
-        <div class="card bk" data-card-id="bp-bk-018"><div class="cl">必須ヒアリング項目</div><div class="ct">業種・従業員数・AI習熟度・解決したい業務課題・導入決裁者・予算感・スケジュール感</div></div>
-        <div class="card bk" data-card-id="bp-bk-019"><div class="cl">備考情報（任意）</div><div class="ct">組織構造・既存ツール・競合検討状況など、追加で取得できた情報を蓄積</div></div>
-        <div class="card gp" data-card-id="bp-gp-016"><div class="cl">穴</div><div class="ct">マスト回収項目の最終定義・SFAへの項目設定が未着手</div></div>
+        <div class="card bk" data-card-id="bp-ba-018"><div class="cl">必須ヒアリング項目</div><div class="ct">業種・従業員数・AI習熟度・解決したい業務課題・導入決裁者・予算感・スケジュール感</div></div>
+        <div class="card bk" data-card-id="bp-ba-019"><div class="cl">備考情報（任意）</div><div class="ct">組織構造・既存ツール・競合検討状況など、追加で取得できた情報を蓄積</div></div>
+        <div class="card gp" data-card-id="bp-ga-016"><div class="cl">穴</div><div class="ct">マスト回収項目の最終定義・SFAへの項目設定が未着手</div></div>
       </div>
     </div>
     <div class="layer-col">
-      <div class="card bk" data-card-id="bp-bk-020"><div class="cl">議事録</div><div class="ct">セッション記録 → Notion自動格納</div></div>
-      <div class="card bk" data-card-id="bp-bk-021"><div class="cl">テンプレ整備</div><div class="ct">agent.md / soul.md 標準化</div></div>
+      <div class="card bk" data-card-id="bp-ba-020"><div class="cl">議事録</div><div class="ct">セッション記録 → Notion自動格納</div></div>
+      <div class="card bk" data-card-id="bp-ba-021"><div class="cl">テンプレ整備</div><div class="ct">agent.md / soul.md 標準化</div></div>
     </div>
     <div class="layer-col">
-      <div class="card bk" data-card-id="bp-bk-022"><div class="cl">進捗管理</div><div class="ct">KPI追跡・フォローアップ設計</div></div>
-      <div class="card bk" data-card-id="bp-bk-023"><div class="cl">ナレッジ更新</div><div class="ct">社内共有会（2週間ごと）実施</div></div>
-      <div class="card bk" data-card-id="bp-bk-024"><div class="cl">アンケート集計</div><div class="ct">M1終了アンケートを集計・FAQ・質問ログをLMSに記録・次回改善に反映</div></div>
+      <div class="card bk" data-card-id="bp-ba-022"><div class="cl">進捗管理</div><div class="ct">KPI追跡・フォローアップ設計</div></div>
+      <div class="card bk" data-card-id="bp-ba-023"><div class="cl">ナレッジ更新</div><div class="ct">社内共有会（2週間ごと）実施</div></div>
+      <div class="card bk" data-card-id="bp-ba-024"><div class="cl">アンケート集計</div><div class="ct">M1終了アンケートを集計・FAQ・質問ログをLMSに記録・次回改善に反映</div></div>
     </div>
     <div class="layer-col">
-      <div class="card bk" data-card-id="bp-bk-025"><div class="cl">成果物管理</div><div class="ct">設計書・スキルファイル保管</div></div>
-      <div class="card bk" data-card-id="bp-bk-026"><div class="cl">振り返り</div><div class="ct">カリキュラム改善・テンプレ更新</div></div>
-      <div class="card bk" data-card-id="bp-bk-027"><div class="cl">最終アンケート集計・総括</div><div class="ct">3ヶ月分のFAQ・満足度データをフライホイールへ引き渡し。次期カリキュラム改訂の起点に</div></div>
+      <div class="card bk" data-card-id="bp-ba-025"><div class="cl">成果物管理</div><div class="ct">設計書・スキルファイル保管</div></div>
+      <div class="card bk" data-card-id="bp-ba-026"><div class="cl">振り返り</div><div class="ct">カリキュラム改善・テンプレ更新</div></div>
+      <div class="card bk" data-card-id="bp-ba-027"><div class="cl">最終アンケート集計・総括</div><div class="ct">3ヶ月分のFAQ・満足度データをフライホイールへ引き渡し。次期カリキュラム改訂の起点に</div></div>
     </div>
     <!-- 支給申請（バック） -->
     <div class="layer-col">
       <div class="ch" style="margin-bottom:6px;">助成金利用者のみ</div>
-      <div class="card bk" data-card-id="bp-bk-028"><div class="cl">報告書・書類作成</div><div class="ct">LMSから学習レポート・出席記録を出力し申請書類一式を整備</div></div>
-      <div class="card bk" data-card-id="bp-bk-029"><div class="cl">提出・進捗管理</div><div class="ct">事務局への提出期限管理（修了後2ヶ月以内）・補助金管理台帳（Notion）更新</div></div>
-      <div class="card bk" data-card-id="bp-bk-030"><div class="cl">入金確認</div><div class="ct">支給決定通知の受領・顧客への連絡・台帳へ反映</div></div>
+      <div class="card bk" data-card-id="bp-ba-028"><div class="cl">報告書・書類作成</div><div class="ct">LMSから学習レポート・出席記録を出力し申請書類一式を整備</div></div>
+      <div class="card bk" data-card-id="bp-ba-029"><div class="cl">提出・進捗管理</div><div class="ct">事務局への提出期限管理（修了後2ヶ月以内）・補助金管理台帳（Notion）更新</div></div>
+      <div class="card bk" data-card-id="bp-ba-030"><div class="cl">入金確認</div><div class="ct">支給決定通知の受領・顧客への連絡・台帳へ反映</div></div>
     </div>
     <div class="layer-col" style="padding:0;gap:0;">
       <div style="padding:6px 10px 4px;background:#fffbeb;border-bottom:1px solid var(--bk-bdr);">
         <span style="font-size:9px;font-family:'Space Mono',monospace;color:var(--bk);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;">① コミュニティ</span>
       </div>
       <div style="padding:8px 10px;display:flex;flex-direction:column;gap:6px;border-bottom:2px dashed var(--border);">
-        <div class="card bk" data-card-id="bp-bk-031"><div class="cl">請求管理</div><div class="ct">プランA（3万）/ プランB（10万）の月次請求・入金管理</div></div>
-        <div class="card bk" data-card-id="bp-bk-032"><div class="cl">事例収集</div><div class="ct">コミュニティ内の活用事例を収集・整理・横展開</div></div>
+        <div class="card bk" data-card-id="bp-ba-031"><div class="cl">請求管理</div><div class="ct">プランA（3万）/ プランB（10万）の月次請求・入金管理</div></div>
+        <div class="card bk" data-card-id="bp-ba-032"><div class="cl">事例収集</div><div class="ct">コミュニティ内の活用事例を収集・整理・横展開</div></div>
       </div>
       <div style="padding:6px 10px 4px;background:#f5f3ff;border-bottom:1px solid var(--nurture-bdr);margin-top:2px;">
         <span style="font-size:9px;font-family:'Space Mono',monospace;color:var(--nurture);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;">② CAIO 個別派遣</span>
       </div>
       <div style="padding:8px 10px;display:flex;flex-direction:column;gap:6px;">
-        <div class="card bk" data-card-id="bp-bk-033"><div class="cl">稼働管理</div><div class="ct">CAIO稼働レポート・KPI進捗・月次報告書作成</div></div>
-        <div class="card bk" data-card-id="bp-bk-034"><div class="cl">請求管理</div><div class="ct">月120〜150万 × 年間契約の請求・更新管理</div></div>
+        <div class="card bk" data-card-id="bp-ba-033"><div class="cl">稼働管理</div><div class="ct">CAIO稼働レポート・KPI進捗・月次報告書作成</div></div>
+        <div class="card bk" data-card-id="bp-ba-034"><div class="cl">請求管理</div><div class="ct">月120〜150万 × 年間契約の請求・更新管理</div></div>
       </div>
       <div style="padding:6px 10px 4px;background:#f0fdf4;border-bottom:1px solid var(--fr-bdr);border-top:2px dashed var(--border);margin-top:2px;">
         <span style="font-size:9px;font-family:'Space Mono',monospace;color:var(--fr);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;">③ 常設ツール 運用</span>
       </div>
       <div style="padding:8px 10px;display:flex;flex-direction:column;gap:6px;">
-        <div class="card bk" data-card-id="bp-bk-035"><div class="cl">ツール更新管理</div><div class="ct">AI選定ナビの判断ロジック・事例データを定期更新</div></div>
+        <div class="card bk" data-card-id="bp-ba-035"><div class="cl">ツール更新管理</div><div class="ct">AI選定ナビの判断ロジック・事例データを定期更新</div></div>
       </div>
     </div>
   </div>
@@ -1204,8 +1107,8 @@
       <div class="card sy" data-card-id="bp-sy-003">電話 / Zoom / Meet</div>
       <div class="card sy" data-card-id="bp-sy-004">メルマガ配信ツール</div>
       <div class="card sy" data-card-id="bp-sy-005"><div class="cl">商談円滑化フォーム</div><div class="ct">事前ヒアリング・マスト回収項目の入力フォーム（Base44製）</div></div>
-      <div class="card sy" style="background:#ecfdf5;border-color:#a7f3d0;color:#065f46;" data-card-id="bp-sy-006"><div class="cl">壁打ちAI（社内専用）</div><div class="ct">ヒアリングDB → カリキュラム・計画表を自動生成</div></div>
-      <div class="card gp" data-card-id="bp-gp-017"><div class="cl">穴</div><div class="ct">SFA〜CRM連携・壁打ちAI構築が未整備</div></div>
+      <div class="card sy" data-card-id="bp-sy-006" style="background:#ecfdf5;border-color:#a7f3d0;color:#065f46;"><div class="cl">壁打ちAI（社内専用）</div><div class="ct">ヒアリングDB → カリキュラム・計画表を自動生成</div></div>
+      <div class="card gp" data-card-id="bp-ga-017"><div class="cl">穴</div><div class="ct">SFA〜CRM連携・壁打ちAI構築が未整備</div></div>
     </div>
 
     <!-- ── 契約締結 ── -->
@@ -1218,8 +1121,8 @@
         <span style="font-size:9px;font-family:'Space Mono',monospace;color:var(--bk);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;">補助金希望者のみ</span>
       </div>
       <div style="padding:8px 10px;display:flex;flex-direction:column;gap:6px;">
-        <div class="card bk" style="font-size:10px;" data-card-id="bp-bk-036"><div class="cl">Notion</div><div class="ct">補助金管理台帳（社内）</div></div>
-        <div class="card cu" style="font-size:10px;" data-card-id="bp-cu-028"><div class="cl">Drive</div><div class="ct">申請書類テンプレ → 顧客へ自動送付</div></div>
+        <div class="card bk" data-card-id="bp-ba-036" style="font-size:10px;"><div class="cl">Notion</div><div class="ct">補助金管理台帳（社内）</div></div>
+        <div class="card cu" data-card-id="bp-cu-034" style="font-size:10px;"><div class="cl">Drive</div><div class="ct">申請書類テンプレ → 顧客へ自動送付</div></div>
       </div>
     </div>
 
@@ -1229,17 +1132,17 @@
         <span style="font-size:9px;font-family:'Space Mono',monospace;color:var(--cu);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;">顧客提供側</span>
       </div>
       <div style="padding:8px 10px;display:flex;flex-direction:column;gap:6px;border-bottom:2px dashed var(--border);">
-        <div class="card cu" style="font-size:10px;" data-card-id="bp-cu-029"><div class="cl">Notion / Drive</div><div class="ct">カリキュラム資料・マスタープラン（顧客閲覧可）</div></div>
+        <div class="card cu" data-card-id="bp-cu-035" style="font-size:10px;"><div class="cl">Notion / Drive</div><div class="ct">カリキュラム資料・マスタープラン（顧客閲覧可）</div></div>
       </div>
       <div style="padding:6px 10px 4px;background:#f0fdf4;border-bottom:1px solid var(--fr-bdr);">
         <span style="font-size:9px;font-family:'Space Mono',monospace;color:var(--fr);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;">社内側</span>
       </div>
       <div style="padding:8px 10px;display:flex;flex-direction:column;gap:6px;">
-        <div class="card fr" style="font-size:10px;" data-card-id="bp-fr-040"><div class="cl">Notion</div><div class="ct">ヒアリングDB・顧客カルテ・Google Calendar</div></div>
-        <div class="card fr" style="font-size:10px;" data-card-id="bp-fr-041"><div class="cl">Drive</div><div class="ct">プランナーハンドブック・プランナーセット</div></div>
-        <div class="card fr" style="font-size:10px;" data-card-id="bp-fr-042"><div class="cl">Drive</div><div class="ct">トレーナーハンドブック</div></div>
-        <div class="card fr" style="font-size:10px;" data-card-id="bp-fr-043"><div class="cl">社内AI</div><div class="ct">伴走AI（DBフェッチ → カリキュラム自動生成）</div></div>
-        <div class="card gp" style="font-size:10px;" data-card-id="bp-gp-018"><div class="cl">穴</div><div class="ct">顧客向け / 社内向けシステム設計・構築が未着手</div></div>
+        <div class="card fr" data-card-id="bp-fr-040" style="font-size:10px;"><div class="cl">Notion</div><div class="ct">ヒアリングDB・顧客カルテ・Google Calendar</div></div>
+        <div class="card fr" data-card-id="bp-fr-041" style="font-size:10px;"><div class="cl">Drive</div><div class="ct">プランナーハンドブック・プランナーセット</div></div>
+        <div class="card fr" data-card-id="bp-fr-042" style="font-size:10px;"><div class="cl">Drive</div><div class="ct">トレーナーハンドブック</div></div>
+        <div class="card fr" data-card-id="bp-fr-043" style="font-size:10px;"><div class="cl">社内AI</div><div class="ct">伴走AI（DBフェッチ → カリキュラム自動生成）</div></div>
+        <div class="card gp" data-card-id="bp-ga-018" style="font-size:10px;"><div class="cl">穴</div><div class="ct">顧客向け / 社内向けシステム設計・構築が未着手</div></div>
       </div>
     </div>
 
@@ -1250,7 +1153,7 @@
       <div class="card sy" data-card-id="bp-sy-009">Cowork</div>
       <div style="border-top:2px dashed var(--border);margin:6px 0;"></div>
       <div style="font-size:9px;font-family:'Space Mono',monospace;color:#065f46;font-weight:700;padding:3px 7px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:4px;margin-bottom:4px;">LMS（Base44製 / M1〜M3）</div>
-      <div class="card sy" style="font-size:10px;" data-card-id="bp-sy-010">出席・進捗・学習レポート管理。補助金提出書類にも活用</div>
+      <div class="card sy" data-card-id="bp-sy-010" style="font-size:10px;">出席・進捗・学習レポート管理。補助金提出書類にも活用</div>
     </div>
 
     <!-- ── M2 ── -->
@@ -1259,7 +1162,7 @@
       <div class="card sy" data-card-id="bp-sy-011">Base44 + コネクタ</div>
       <div class="card sy" data-card-id="bp-sy-012">Notion / Drive</div>
       <div style="border-top:2px dashed var(--border);margin:6px 0;"></div>
-      <div class="card sy" style="font-size:10px;background:#ecfdf5;border-color:#a7f3d0;color:#065f46;" data-card-id="bp-sy-013">LMS継続（満足度アンケート・進捗）</div>
+      <div class="card sy" data-card-id="bp-sy-013" style="font-size:10px;background:#ecfdf5;border-color:#a7f3d0;color:#065f46;">LMS継続（満足度アンケート・進捗）</div>
     </div>
 
     <!-- ── M3 ── -->
@@ -1267,7 +1170,7 @@
       <div style="font-size:9px;font-family:'Space Mono',monospace;color:#7c3aed;font-weight:700;padding:3px 7px;background:#f5f3ff;border:1px solid #ddd6fe;border-radius:4px;margin-bottom:4px;">学習基盤（M1〜M3共通）</div>
       <div class="card sy" data-card-id="bp-sy-014">Claude Code / 外部API</div>
       <div style="border-top:2px dashed var(--border);margin:6px 0;"></div>
-      <div class="card sy" style="font-size:10px;background:#ecfdf5;border-color:#a7f3d0;color:#065f46;" data-card-id="bp-sy-015">LMS継続（最終レポート・補助金提出書類）</div>
+      <div class="card sy" data-card-id="bp-sy-015" style="font-size:10px;background:#ecfdf5;border-color:#a7f3d0;color:#065f46;">LMS継続（最終レポート・補助金提出書類）</div>
     </div>
 
     <!-- ── 支給申請 ── -->
@@ -1285,7 +1188,7 @@
       </div>
       <div style="padding:8px 10px;display:flex;flex-direction:column;gap:6px;border-bottom:2px dashed var(--border);">
         <div class="card sy" data-card-id="bp-sy-019">Discord（全体・業種別チャンネル）</div>
-        <div class="card gp" data-card-id="bp-gp-019"><div class="cl">穴</div><div class="ct">Discord〜業種別チャンネル設計が未整備</div></div>
+        <div class="card gp" data-card-id="bp-ga-019"><div class="cl">穴</div><div class="ct">Discord〜業種別チャンネル設計が未整備</div></div>
       </div>
       <div style="padding:6px 10px 4px;background:#f5f3ff;border-bottom:1px solid var(--nurture-bdr);margin-top:2px;">
         <span style="font-size:9px;font-family:'Space Mono',monospace;color:var(--nurture);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;">② CAIO 個別派遣</span>
@@ -1298,11 +1201,11 @@
         <span style="font-size:9px;font-family:'Space Mono',monospace;color:var(--fr);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;">③ 常設ツール</span>
       </div>
       <div style="padding:8px 10px;display:flex;flex-direction:column;gap:6px;">
-        <div class="card sy" style="border-color:var(--fr-bdr);background:var(--fr-bg);color:#065f46;" data-card-id="bp-sy-022">
+        <div class="card sy" data-card-id="bp-sy-022" style="border-color:var(--fr-bdr);background:var(--fr-bg);color:#065f46;">
           <div class="cl">AI選定ナビ（Base44製）</div>
           <div class="ct">Cowork / Claude Code / エージェントの使い分けを常時診断できるツール</div>
         </div>
-        <div class="card gp" data-card-id="bp-gp-020"><div class="cl">穴</div><div class="ct">選定ロジック・判断フロー・実装が未着手</div></div>
+        <div class="card gp" data-card-id="bp-ga-020"><div class="cl">穴</div><div class="ct">選定ロジック・判断フロー・実装が未着手</div></div>
       </div>
     </div><!-- /After layer-col -->
   </div><!-- /layer system -->
@@ -1327,7 +1230,7 @@
   <div class="agenda-grid">
 
     <!-- 1 -->
-    <div class="ag-card" data-card-id="ag-001">
+    <div class="ag-card" data-card-id="bp-ag-001">
       <div class="ag-card-head">
         <div class="ag-num" style="color:#dc2626">01</div>
         <div class="ag-head-right">
@@ -1367,7 +1270,7 @@
     </div>
 
     <!-- 2 -->
-    <div class="ag-card" data-card-id="ag-002">
+    <div class="ag-card" data-card-id="bp-ag-002">
       <div class="ag-card-head">
         <div class="ag-num" style="color:#dc2626">02</div>
         <div class="ag-head-right">
@@ -1406,7 +1309,7 @@
     </div>
 
     <!-- 3 -->
-    <div class="ag-card" data-card-id="ag-003">
+    <div class="ag-card" data-card-id="bp-ag-003">
       <div class="ag-card-head">
         <div class="ag-num" style="color:#dc2626">03</div>
         <div class="ag-head-right">
@@ -1440,7 +1343,7 @@
     </div>
 
     <!-- 4 -->
-    <div class="ag-card" data-card-id="ag-004">
+    <div class="ag-card" data-card-id="bp-ag-004">
       <div class="ag-card-head">
         <div class="ag-num" style="color:#d97706">04</div>
         <div class="ag-head-right">
@@ -1474,7 +1377,7 @@
     </div>
 
     <!-- 5 -->
-    <div class="ag-card" data-card-id="ag-005">
+    <div class="ag-card" data-card-id="bp-ag-005">
       <div class="ag-card-head">
         <div class="ag-num" style="color:#d97706">05</div>
         <div class="ag-head-right">
@@ -1507,7 +1410,7 @@
     </div>
 
     <!-- 6 -->
-    <div class="ag-card" data-card-id="ag-006">
+    <div class="ag-card" data-card-id="bp-ag-006">
       <div class="ag-card-head">
         <div class="ag-num" style="color:#d97706">06</div>
         <div class="ag-head-right">
@@ -1541,7 +1444,7 @@
     </div>
 
     <!-- 7 -->
-    <div class="ag-card" data-card-id="ag-007">
+    <div class="ag-card" data-card-id="bp-ag-007">
       <div class="ag-card-head">
         <div class="ag-num" style="color:#d97706">07</div>
         <div class="ag-head-right">
@@ -1577,7 +1480,7 @@
     </div>
 
     <!-- 8 -->
-    <div class="ag-card" data-card-id="ag-008">
+    <div class="ag-card" data-card-id="bp-ag-008">
       <div class="ag-card-head">
         <div class="ag-num" style="color:#d97706">08</div>
         <div class="ag-head-right">
@@ -1615,7 +1518,7 @@
     </div>
 
     <!-- 9 -->
-    <div class="ag-card" data-card-id="ag-009">
+    <div class="ag-card" data-card-id="bp-ag-009">
       <div class="ag-card-head">
         <div class="ag-num" style="color:#6b7280">09</div>
         <div class="ag-head-right">
@@ -1654,7 +1557,7 @@
     </div>
 
     <!-- 10 -->
-    <div class="ag-card" data-card-id="ag-010">
+    <div class="ag-card" data-card-id="bp-ag-010">
       <div class="ag-card-head">
         <div class="ag-num" style="color:#6b7280">10</div>
         <div class="ag-head-right">
@@ -1692,7 +1595,7 @@
     </div>
 
     <!-- 11 -->
-    <div class="ag-card" data-card-id="ag-011">
+    <div class="ag-card" data-card-id="bp-ag-011">
       <div class="ag-card-head">
         <div class="ag-num" style="color:#d97706">11</div>
         <div class="ag-head-right">
@@ -1726,7 +1629,7 @@
     </div>
 
     <!-- 12 -->
-    <div class="ag-card" data-card-id="ag-012">
+    <div class="ag-card" data-card-id="bp-ag-012">
       <div class="ag-card-head">
         <div class="ag-num" style="color:#d97706">12</div>
         <div class="ag-head-right">
@@ -1760,7 +1663,7 @@
     </div>
 
     <!-- 13 -->
-    <div class="ag-card" data-card-id="ag-013">
+    <div class="ag-card" data-card-id="bp-ag-013">
       <div class="ag-card-head">
         <div class="ag-num" style="color:#7c3aed">13</div>
         <div class="ag-head-right">
@@ -1797,7 +1700,7 @@
     </div>
 
     <!-- 14 -->
-    <div class="ag-card" data-card-id="ag-014">
+    <div class="ag-card" data-card-id="bp-ag-014">
       <div class="ag-card-head">
         <div class="ag-num" style="color:#7c3aed">14</div>
         <div class="ag-head-right">
@@ -1834,7 +1737,7 @@
     </div>
 
     <!-- 15 -->
-    <div class="ag-card" data-card-id="ag-015">
+    <div class="ag-card" data-card-id="bp-ag-015">
       <div class="ag-card-head">
         <div class="ag-num" style="color:#7c3aed">15</div>
         <div class="ag-head-right">
@@ -1873,7 +1776,7 @@
     </div>
 
     <!-- 16 -->
-    <div class="ag-card" data-card-id="ag-016">
+    <div class="ag-card" data-card-id="bp-ag-016">
       <div class="ag-card-head">
         <div class="ag-num" style="color:#7c3aed">16</div>
         <div class="ag-head-right">
@@ -1911,7 +1814,7 @@
     </div>
 
     <!-- 17 -->
-    <div class="ag-card" data-card-id="ag-017">
+    <div class="ag-card" data-card-id="bp-ag-017">
       <div class="ag-card-head">
         <div class="ag-num" style="color:#6b7280">17</div>
         <div class="ag-head-right">
@@ -1951,7 +1854,7 @@
     </div>
 
     <!-- 18 -->
-    <div class="ag-card" data-card-id="ag-018">
+    <div class="ag-card" data-card-id="bp-ag-018">
       <div class="ag-card-head">
         <div class="ag-num" style="color:#dc2626">18</div>
         <div class="ag-head-right">
@@ -2046,7 +1949,7 @@
   <!-- プランナー向け -->
   <div id="cur-planner" class="cur-panel" style="display:block;">
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;">
-      <div class="ag-card" data-card-id="ag-019">
+      <div class="ag-card" data-card-id="bp-cr-001">
         <div class="ag-card-head">
           <div class="ag-head-right">
             <div class="ag-title">AIネイティブ組織の定義</div>
@@ -2065,7 +1968,7 @@
           <span class="ag-gap-ref">対象：プランナー全員（外部含む）</span>
         </div>
       </div>
-      <div class="ag-card" data-card-id="ag-020">
+      <div class="ag-card" data-card-id="bp-cr-002">
         <div class="ag-card-head">
           <div class="ag-head-right">
             <div class="ag-title">ジャングルジム版 AI基礎教養</div>
@@ -2084,7 +1987,7 @@
           <span class="ag-gap-ref">対象：プランナー全員</span>
         </div>
       </div>
-      <div class="ag-card" data-card-id="ag-021">
+      <div class="ag-card" data-card-id="bp-cr-003">
         <div class="ag-card-head">
           <div class="ag-head-right">
             <div class="ag-title">商談・プランニングスキル</div>
@@ -2113,7 +2016,7 @@
   <!-- トレーナー向け -->
   <div id="cur-trainer" class="cur-panel" style="display:none;">
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;">
-      <div class="ag-card" data-card-id="ag-022">
+      <div class="ag-card" data-card-id="bp-cr-004">
         <div class="ag-card-head">
           <div class="ag-head-right">
             <div class="ag-title">提供カリキュラムの完全習得</div>
@@ -2136,7 +2039,7 @@
           </div>
         </div>
       </div>
-      <div class="ag-card" data-card-id="ag-023">
+      <div class="ag-card" data-card-id="bp-cr-005">
         <div class="ag-card-head">
           <div class="ag-head-right">
             <div class="ag-title">習得度測定・認定基準</div>
@@ -2159,7 +2062,7 @@
           </div>
         </div>
       </div>
-      <div class="ag-card" data-card-id="ag-024">
+      <div class="ag-card" data-card-id="bp-cr-006">
         <div class="ag-card-head">
           <div class="ag-head-right">
             <div class="ag-title">品質平準化の仕組み</div>
@@ -2196,7 +2099,7 @@
       </div>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;">
-      <div class="ag-card" data-card-id="ag-025">
+      <div class="ag-card" data-card-id="bp-cr-007">
         <div class="ag-card-head">
           <div class="ag-head-right">
             <div class="ag-title">Month 1 — 土台構築</div>
@@ -2224,7 +2127,7 @@
           </div>
         </div>
       </div>
-      <div class="ag-card" data-card-id="ag-026">
+      <div class="ag-card" data-card-id="bp-cr-008">
         <div class="ag-card-head">
           <div class="ag-head-right">
             <div class="ag-title">Month 2 — 習慣化・定着</div>
@@ -2252,7 +2155,7 @@
           </div>
         </div>
       </div>
-      <div class="ag-card" data-card-id="ag-027">
+      <div class="ag-card" data-card-id="bp-cr-009">
         <div class="ag-card-head">
           <div class="ag-head-right">
             <div class="ag-title">Month 3 — 自走・拡張</div>
@@ -2286,7 +2189,7 @@
   <!-- フライホイール設計 -->
   <div id="cur-flywheel" class="cur-panel" style="display:none;">
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-      <div class="ag-card" data-card-id="ag-028">
+      <div class="ag-card" data-card-id="bp-cr-010">
         <div class="ag-card-head">
           <div class="ag-head-right">
             <div class="ag-title">インプット：収集する情報</div>
@@ -2302,7 +2205,7 @@
           </div>
         </div>
       </div>
-      <div class="ag-card" data-card-id="ag-029">
+      <div class="ag-card" data-card-id="bp-cr-011">
         <div class="ag-card-head">
           <div class="ag-head-right">
             <div class="ag-title">アウトプット：カリキュラムへの反映</div>
@@ -2342,7 +2245,7 @@
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;">
 
     <!-- CRM/SFA設計 -->
-    <div class="ag-card" data-card-id="ag-030">
+    <div class="ag-card" data-card-id="bp-sd-001">
       <div class="ag-card-head">
         <div class="ag-head-right">
           <div class="ag-title">CRM / SFA 設計</div>
@@ -2375,7 +2278,7 @@
     </div>
 
     <!-- 壁打ちAI構築 -->
-    <div class="ag-card" data-card-id="ag-031">
+    <div class="ag-card" data-card-id="bp-sd-002">
       <div class="ag-card-head">
         <div class="ag-head-right">
           <div class="ag-title">壁打ちAI 構築仕様</div>
@@ -2408,7 +2311,7 @@
     </div>
 
     <!-- LMS実装 -->
-    <div class="ag-card" data-card-id="ag-032">
+    <div class="ag-card" data-card-id="bp-sd-003">
       <div class="ag-card-head">
         <div class="ag-head-right">
           <div class="ag-title">LMS 実装仕様（Base44製）</div>
@@ -2441,7 +2344,7 @@
     </div>
 
     <!-- Notion/Drive資料管理 -->
-    <div class="ag-card" data-card-id="ag-033">
+    <div class="ag-card" data-card-id="bp-sd-004">
       <div class="ag-card-head">
         <div class="ag-head-right">
           <div class="ag-title">Notion / Drive 資料管理設計</div>
@@ -2478,7 +2381,7 @@
     </div>
 
     <!-- AI選定ナビ -->
-    <div class="ag-card" data-card-id="ag-034">
+    <div class="ag-card" data-card-id="bp-sd-005">
       <div class="ag-card-head">
         <div class="ag-head-right">
           <div class="ag-title">AI選定ナビ 構築仕様</div>
@@ -2511,7 +2414,7 @@
     </div>
 
     <!-- 伴走AI（カリキュラム生成） -->
-    <div class="ag-card" data-card-id="ag-035">
+    <div class="ag-card" data-card-id="bp-sd-006">
       <div class="ag-card-head">
         <div class="ag-head-right">
           <div class="ag-title">伴走AI 構築仕様（カリキュラム自動生成）</div>
@@ -2897,142 +2800,122 @@ function filterGaps(filter, btn) {
 }
 
 
-// ─── Card modal ───
-const CARDS_DATA = (() => {
+// ───── カードモーダル ─────
+(function () {
+  const dataEl = document.getElementById('cards-data');
+  if (!dataEl) {
+    console.error('[card-modal] cards-data script not found');
+    return;
+  }
+  let CARDS = [];
   try {
-    const el = document.getElementById('cards-data');
-    return el ? JSON.parse(el.textContent) : [];
-  } catch(e) { console.error('cards-data parse error', e); return []; }
-})();
-const CARDS_BY_ID = Object.fromEntries(CARDS_DATA.map(c => [c.id, c]));
+    CARDS = JSON.parse(dataEl.textContent);
+  } catch (e) {
+    console.error('[card-modal] JSON parse error', e);
+    return;
+  }
+  const CARD_MAP = {};
+  CARDS.forEach(c => { CARD_MAP[c.id] = c; });
+  console.log(`[card-modal] loaded ${CARDS.length} cards`);
 
-const TYPE_LABEL = {
-  customer: '顧客行動',
-  front:    'フロントステージ',
-  back:     'バックステージ',
-  system:   'システム',
-  gap:      '穴 / 未整備',
-  agenda:   '議題',
-};
+  window.openCardModal = function (id) {
+    const c = CARD_MAP[id];
+    if (!c) {
+      console.warn('[card-modal] card not found:', id);
+      return;
+    }
+    const m = document.getElementById('card-modal-root');
+    if (!m) return;
+    // バッジ構築
+    const badges = [];
+    badges.push(`<span class="card-modal-badge cmb-${c.type}">${c.category || c.type}</span>`);
+    if (c.priority) badges.push(`<span class="card-modal-badge cmb-priority">${c.priority}</span>`);
+    if (Array.isArray(c.tags)) c.tags.forEach(t => badges.push(`<span class="card-modal-badge cmb-meta">${t}</span>`));
+    if (c.number) badges.push(`<span class="card-modal-badge cmb-meta">#${c.number}</span>`);
 
-function openCardModal(cardId) {
-  const data = CARDS_BY_ID[cardId];
-  if (!data) { console.warn('card not found:', cardId); return; }
+    const detail = (c.detail || c.text || '').trim();
+    const bodyHTML = detail
+      ? `<div class="card-modal-text">${escapeHtml(detail)}</div>`
+      : `<div class="card-modal-text" style="color:#9ca3af">詳細情報は未登録です。</div>`;
 
-  // Type badge
-  const badge = document.getElementById('cm-type-badge');
-  badge.className = 'cm-type-badge t-' + data.type;
-  badge.textContent = TYPE_LABEL[data.type] || data.type;
+    const notionBtn = c.notion_url
+      ? `<a class="card-modal-btn primary" href="${escapeAttr(c.notion_url)}" target="_blank" rel="noopener">🔗 Notionで開く</a>`
+      : `<span class="card-modal-btn primary disabled" title="Notion URL未登録">🔗 Notionリンク未設定</span>`;
 
-  // Label
-  document.getElementById('cm-label').textContent = data.label || '(無題)';
+    const metaInline = [
+      c.tab ? `TAB: ${c.tab}` : '',
+      c.layer && c.layer !== c.type ? `LAYER: ${c.layer}` : '',
+      `ID: ${c.id}`,
+    ].filter(Boolean).join('  /  ');
 
-  // Meta tags
-  const meta = document.getElementById('cm-meta');
-  meta.innerHTML = '';
-  const addMeta = (label, cls='') => {
-    if (!label) return;
-    const el = document.createElement('span');
-    el.className = 'cm-meta-item ' + cls;
-    el.textContent = label;
-    meta.appendChild(el);
+    m.querySelector('.card-modal').innerHTML = `
+      <div class="card-modal-head">
+        <div class="card-modal-badges">${badges.join('')}</div>
+        <h3 class="card-modal-title">${escapeHtml(c.label || '(無題)')}</h3>
+      </div>
+      <div class="card-modal-body">
+        <div class="card-modal-section">詳細</div>
+        ${bodyHTML}
+      </div>
+      <div class="card-modal-foot">
+        <div class="card-modal-meta-inline">${escapeHtml(metaInline)}</div>
+        <div class="card-modal-actions">
+          <button class="card-modal-btn secondary" onclick="closeCardModal()">閉じる</button>
+          ${notionBtn}
+        </div>
+      </div>
+    `;
+    m.classList.add('open');
+    document.body.style.overflow = 'hidden';
   };
-  if (data.tab)      addMeta('📂 ' + data.tab);
-  if (data.layer && data.layer !== 'N/A')   addMeta('🗂 ' + data.layer);
-  if (data.phase && data.phase !== 'N/A')   addMeta('📍 ' + data.phase);
-  if (data.category) addMeta('🏷 ' + data.category);
-  if (data.priority) {
-    const pLabel = {p1:'最優先', p2:'優先', p3:'中優先'}[data.priority] || data.priority;
-    addMeta(pLabel, 'priority-' + data.priority);
+
+  window.closeCardModal = function () {
+    const m = document.getElementById('card-modal-root');
+    if (!m) return;
+    m.classList.remove('open');
+    document.body.style.overflow = '';
+  };
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[c]));
   }
+  function escapeAttr(s) { return escapeHtml(s); }
 
-  // Text (card content)
-  const textSection = document.getElementById('cm-text-section');
-  const textEl = document.getElementById('cm-text');
-  if (data.text) {
-    textEl.textContent = data.text;
-    textSection.style.display = 'block';
-  } else {
-    textSection.style.display = 'none';
-  }
+  // クリックハンドラ: data-card-id を持つ要素
+  document.addEventListener('click', function (e) {
+    // 議題のステータスボタンは既存動作維持
+    if (e.target.closest('.ag-status-btn')) return;
+    if (e.target.closest('.card-modal')) return;
+    // Notion リンク等
+    if (e.target.closest('a')) return;
 
-  // Detail
-  document.getElementById('cm-detail').textContent = data.detail || '(詳細未記入)';
-
-  // Notion link
-  const notion = document.getElementById('cm-notion');
-  if (data.notion_url) {
-    notion.innerHTML = `<a href="${data.notion_url}" target="_blank" rel="noopener" class="cm-notion-link">📘 Notionで開く</a>`;
-  } else {
-    notion.innerHTML = '<span class="cm-notion-empty">未設定（今後Notionページをリンクします）</span>';
-  }
-
-  // Card ID footer
-  document.getElementById('cm-card-id').textContent = data.id;
-
-  // Show
-  document.getElementById('card-modal').classList.add('active');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeCardModal(e) {
-  // Overlay clicked: close. Body clicked: do nothing (handled by stopPropagation on inner)
-  if (e && e.target && !e.target.classList.contains('card-modal-overlay')) return;
-  document.getElementById('card-modal').classList.remove('active');
-  document.body.style.overflow = '';
-}
-
-// Attach click handlers
-document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('[data-card-id]').forEach(el => {
-    el.addEventListener('click', (e) => {
-      // Do not trigger for status buttons inside ag-card
-      if (e.target.closest('.ag-status-btn')) return;
-      if (e.target.closest('button')) return;
-      openCardModal(el.dataset.cardId);
-    });
+    const cardEl = e.target.closest('[data-card-id]');
+    if (cardEl) {
+      e.preventDefault();
+      openCardModal(cardEl.getAttribute('data-card-id'));
+    }
   });
-  // ESC to close
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeCardModal({ target: document.getElementById('card-modal') });
+
+  // ESC / 背景クリックで閉じる
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeCardModal();
   });
-});
+  document.addEventListener('click', function (e) {
+    const root = document.getElementById('card-modal-root');
+    if (root && root.classList.contains('open') && e.target === root) {
+      closeCardModal();
+    }
+  });
+})();
 
 </script>
 
 
-<script id="cards-data" type="application/json">[{"id": "bp-cu-001", "type": "customer", "label": "イベントA — ウェビナー", "text": "集団営業型。4/28を叩き台にマスター化・随時展開", "tab": "blueprint", "layer": "Layer 1 — 顧客行動", "phase": "N/A", "category": null, "priority": null, "line_no": 516, "detail": "このカードは顧客の行動・タッチポイントを表します。詳細な設計内容・想定シナリオ・KPI等をここに記載してください。", "notion_url": ""}, {"id": "bp-cu-002", "type": "customer", "label": "イベントB — Base44デモデイ", "text": "小規模：外部AI勉強会との共催（第1回：5月下旬）/ 中規模：複数社共催・ハイブリッド型（〜100名）", "tab": "blueprint", "layer": "Layer 1 — 顧客行動", "phase": "N/A", "category": null, "priority": null, "line_no": 517, "detail": "このカードは顧客の行動・タッチポイントを表します。詳細な設計内容・想定シナリオ・KPI等をここに記載してください。", "notion_url": ""}, {"id": "bp-cu-003", "type": "customer", "label": "モデルケース", "text": "新潟よろず相談所でのBase44講習会（打診予定）→ エリア展開のひな型に", "tab": "blueprint", "layer": "Layer 1 — 顧客行動", "phase": "N/A", "category": null, "priority": null, "line_no": 518, "detail": "このカードは顧客の行動・タッチポイントを表します。詳細な設計内容・想定シナリオ・KPI等をここに記載してください。", "notion_url": ""}, {"id": "bp-cu-004", "type": "customer", "label": "外部イベント", "text": "他社・外部イベントで登壇者と接触", "tab": "blueprint", "layer": "Layer 1 — 顧客行動", "phase": "N/A", "category": null, "priority": null, "line_no": 519, "detail": "このカードは顧客の行動・タッチポイントを表します。詳細な設計内容・想定シナリオ・KPI等をここに記載してください。", "notion_url": ""}, {"id": "bp-cu-005", "type": "customer", "label": "ナベラ流入", "text": "フライホイール整備・自動稼働に戻す（現在停止中）", "tab": "blueprint", "layer": "Layer 1 — 顧客行動", "phase": "N/A", "category": null, "priority": null, "line_no": 521, "detail": "このカードは顧客の行動・タッチポイントを表します。詳細な設計内容・想定シナリオ・KPI等をここに記載してください。", "notion_url": ""}, {"id": "bp-cu-006", "type": "customer", "label": "法人SNS", "text": "Base44公式パートナー・アンバサダー視点で発信（Base44 Japanとの役割分担）", "tab": "blueprint", "layer": "Layer 1 — 顧客行動", "phase": "N/A", "category": null, "priority": null, "line_no": 523, "detail": "このカードは顧客の行動・タッチポイントを表します。詳細な設計内容・想定シナリオ・KPI等をここに記載してください。", "notion_url": ""}, {"id": "bp-cu-007", "type": "customer", "label": "個人SNS（X・LinkedIn）", "text": "海外コミュニティのユースケース日本語解説・アンバサダーインタビュー等", "tab": "blueprint", "layer": "Layer 1 — 顧客行動", "phase": "N/A", "category": null, "priority": null, "line_no": 524, "detail": "このカードは顧客の行動・タッチポイントを表します。詳細な設計内容・想定シナリオ・KPI等をここに記載してください。", "notion_url": ""}, {"id": "bp-cu-008", "type": "customer", "label": "純粋な紹介", "text": "既存顧客・知人から紹介を受ける", "tab": "blueprint", "layer": "Layer 1 — 顧客行動", "phase": "N/A", "category": null, "priority": null, "line_no": 526, "detail": "このカードは顧客の行動・タッチポイントを表します。詳細な設計内容・想定シナリオ・KPI等をここに記載してください。", "notion_url": ""}, {"id": "bp-cu-009", "type": "customer", "label": "営業代行紹介", "text": "代行パートナー経由で接触", "tab": "blueprint", "layer": "Layer 1 — 顧客行動", "phase": "N/A", "category": null, "priority": null, "line_no": 527, "detail": "このカードは顧客の行動・タッチポイントを表します。詳細な設計内容・想定シナリオ・KPI等をここに記載してください。", "notion_url": ""}, {"id": "bp-cu-010", "type": "customer", "label": "契約", "text": "契約書への署名・締結", "tab": "blueprint", "layer": "Layer 1 — 顧客行動", "phase": "N/A", "category": null, "priority": null, "line_no": 665, "detail": "このカードは顧客の行動・タッチポイントを表します。詳細な設計内容・想定シナリオ・KPI等をここに記載してください。", "notion_url": ""}, {"id": "bp-cu-011", "type": "customer", "label": "補助金確認", "text": "希望・対象要件の確認（IT導入補助金等）", "tab": "blueprint", "layer": "Layer 1 — 顧客行動", "phase": "N/A", "category": null, "priority": null, "line_no": 668, "detail": "このカードは顧客の行動・タッチポイントを表します。詳細な設計内容・想定シナリオ・KPI等をここに記載してください。", "notion_url": ""}, {"id": "bp-cu-012", "type": "customer", "label": "書類準備", "text": "必要書類の収集・期限の把握・提出フロー確認", "tab": "blueprint", "layer": "Layer 1 — 顧客行動", "phase": "N/A", "category": null, "priority": null, "line_no": 669, "detail": "このカードは顧客の行動・タッチポイントを表します。詳細な設計内容・想定シナリオ・KPI等をここに記載してください。", "notion_url": ""}, {"id": "bp-cu-013", "type": "customer", "label": "情報提供", "text": "現状業務・課題・目標をヒアリングシートに記入", "tab": "blueprint", "layer": "Layer 1 — 顧客行動", "phase": "N/A", "category": null, "priority": null, "line_no": 674, "detail": "このカードは顧客の行動・タッチポイントを表します。詳細な設計内容・想定シナリオ・KPI等をここに記載してください。", "notion_url": ""}, {"id": "bp-cu-014", "type": "customer", "label": "合意", "text": "カリキュラム・スケジュール・ゴールの確認・承認", "tab": "blueprint", "layer": "Layer 1 — 顧客行動", "phase": "N/A", "category": null, "priority": null, "line_no": 675, "detail": "このカードは顧客の行動・タッチポイントを表します。詳細な設計内容・想定シナリオ・KPI等をここに記載してください。", "notion_url": ""}, {"id": "bp-cu-015", "type": "customer", "label": "環境準備①", "text": "Claudeの契約・アカウント発行（Claude Codeインストールは土台構築フェーズ）", "tab": "blueprint", "layer": "Layer 1 — 顧客行動", "phase": "N/A", "category": null, "priority": null, "line_no": 676, "detail": "このカードは顧客の行動・タッチポイントを表します。詳細な設計内容・想定シナリオ・KPI等をここに記載してください。", "notion_url": ""}, {"id": "bp-cu-016", "type": "customer", "label": "環境準備②", "text": "社内利用ツールのリストアップ（Slack・Notion・Drive等、連携候補の棚卸し）", "tab": "blueprint", "layer": "Layer 1 — 顧客行動", "phase": "N/A", "category": null, "priority": null, "line_no": 677, "detail": "このカードは顧客の行動・タッチポイントを表します。詳細な設計内容・想定シナリオ・KPI等をここに記載してください。", "notion_url": ""}, {"id": "bp-cu-017", "type": "customer", "label": "Kickoff", "text": "キックオフセッション参加", "tab": "blueprint", "layer": "Layer 1 — 顧客行動", "phase": "N/A", "category": null, "priority": null, "line_no": 681, "detail": "このカードは顧客の行動・タッチポイントを表します。詳細な設計内容・想定シナリオ・KPI等をここに記載してください。", "notion_url": ""}, {"id": "bp-cu-018", "type": "customer", "label": "Practice", "text": "Base44でスキル作成・初実践", "tab": "blueprint", "layer": "Layer 1 — 顧客行動", "phase": "N/A", "category": null, "priority": null, "line_no": 682, "detail": "このカードは顧客の行動・タッチポイントを表します。詳細な設計内容・想定シナリオ・KPI等をここに記載してください。", "notion_url": ""}, {"id": "bp-cu-019", "type": "customer", "label": "Session", "text": "月次セッション参加", "tab": "blueprint", "layer": "Layer 1 — 顧客行動", "phase": "N/A", "category": null, "priority": null, "line_no": 686, "detail": "このカードは顧客の行動・タッチポイントを表します。詳細な設計内容・想定シナリオ・KPI等をここに記載してください。", "notion_url": ""}, {"id": "bp-cu-020", "type": "customer", "label": "Connect", "text": "Notionコネクタ連携を実装", "tab": "blueprint", "layer": "Layer 1 — 顧客行動", "phase": "N/A", "category": null, "priority": null, "line_no": 687, "detail": "このカードは顧客の行動・タッチポイントを表します。詳細な設計内容・想定シナリオ・KPI等をここに記載してください。", "notion_url": ""}, {"id": "bp-cu-021", "type": "customer", "label": "Deploy", "text": "E2E自動化フローを本番稼働", "tab": "blueprint", "layer": "Layer 1 — 顧客行動", "phase": "N/A", "category": null, "priority": null, "line_no": 691, "detail": "このカードは顧客の行動・タッチポイントを表します。詳細な設計内容・想定シナリオ・KPI等をここに記載してください。", "notion_url": ""}, {"id": "bp-cu-022", "type": "customer", "label": "Goal Check", "text": "ゴールチェック・成果棚卸し", "tab": "blueprint", "layer": "Layer 1 — 顧客行動", "phase": "N/A", "category": null, "priority": null, "line_no": 692, "detail": "このカードは顧客の行動・タッチポイントを表します。詳細な設計内容・想定シナリオ・KPI等をここに記載してください。", "notion_url": ""}, {"id": "bp-cu-023", "type": "customer", "label": "支給申請", "text": "受講修了後2ヶ月以内に助成金支給申請を実施（事務局へ提出）", "tab": "blueprint", "layer": "Layer 1 — 顧客行動", "phase": "N/A", "category": null, "priority": null, "line_no": 697, "detail": "このカードは顧客の行動・タッチポイントを表します。詳細な設計内容・想定シナリオ・KPI等をここに記載してください。", "notion_url": ""}, {"id": "bp-cu-024", "type": "customer", "label": "書類確認", "text": "申請書類・受講実績証明の最終確認・署名", "tab": "blueprint", "layer": "Layer 1 — 顧客行動", "phase": "N/A", "category": null, "priority": null, "line_no": 698, "detail": "このカードは顧客の行動・タッチポイントを表します。詳細な設計内容・想定シナリオ・KPI等をここに記載してください。", "notion_url": ""}, {"id": "bp-cu-025", "type": "customer", "label": "プランA — ¥30,000/月・社", "text": "Discordコミュニティ参加・共有・Q&A", "tab": "blueprint", "layer": "Layer 1 — 顧客行動", "phase": "N/A", "category": null, "priority": null, "line_no": 706, "detail": "このカードは顧客の行動・タッチポイントを表します。詳細な設計内容・想定シナリオ・KPI等をここに記載してください。", "notion_url": ""}, {"id": "bp-cu-026", "type": "customer", "label": "プランB — ¥100,000/月・社", "text": "コミュニティ＋月1回の個別レビューセッション", "tab": "blueprint", "layer": "Layer 1 — 顧客行動", "phase": "N/A", "category": null, "priority": null, "line_no": 707, "detail": "このカードは顧客の行動・タッチポイントを表します。詳細な設計内容・想定シナリオ・KPI等をここに記載してください。", "notion_url": ""}, {"id": "bp-cu-027", "type": "customer", "label": "将来像", "text": "業種・業態・カテゴリー別コミュニティへ分化（規模拡大後）", "tab": "blueprint", "layer": "Layer 1 — 顧客行動", "phase": "N/A", "category": null, "priority": null, "line_no": 708, "detail": "このカードは顧客の行動・タッチポイントを表します。詳細な設計内容・想定シナリオ・KPI等をここに記載してください。", "notion_url": ""}, {"id": "bp-fr-001", "type": "front", "label": "AI選定ナビ", "text": "「これはCowork？Claude Code？エージェント？」をいつでも自己診断できるツール", "tab": "blueprint", "layer": "Layer 1 — 顧客行動", "phase": "N/A", "category": null, "priority": null, "line_no": 721, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-fr-002", "type": "front", "label": "イベントA — ウェビナー設計", "text": "4/28を叩き台にマスター化。認知＞営業 / 認知＜営業の2軸シナリオで設計", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 751, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-fr-003", "type": "front", "label": "イベントB — Base44デモデイ", "text": "小規模：外部AI勉強会共催（5月下旬）/ 中規模：複数社共催ハイブリッド型 / エリア展開", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 752, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-fr-004", "type": "front", "label": "よろず相談所モデル", "text": "新潟よろず相談所への打診・Base44講習会をエリア展開のひな型として先行実施", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 753, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-fr-005", "type": "front", "label": "外部イベント登壇", "text": "外部イベントへの出演・露出設計", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 754, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-fr-006", "type": "front", "label": "ナベラ フライホイール整備", "text": "停止中の自動化フローを再整備・自動稼働に戻す（優先対応）", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 756, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-gp-001", "type": "gap", "label": "穴", "text": "ナベラの自動化フローが停止中。復旧・設計し直しが必要", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 757, "detail": "このカードは未整備・未設計の穴を表します。解決すべき課題の詳細・原因・対応期限・担当者を記載してください。", "notion_url": ""}, {"id": "bp-fr-007", "type": "front", "label": "法人SNS運用方針", "text": "Base44公式パートナー・アンバサダーの立場を前面に。Base44 Japanと役割分担しコンテンツ協力", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 759, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-fr-008", "type": "front", "label": "個人SNS（X・LinkedIn）", "text": "海外Base44コミュニティのユースケースを日本語解説。アンバサダーインタビュー等（言語ハードル要検討）", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 760, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-fr-009", "type": "front", "label": "Base44マーケ支援", "text": "Base44 Japanから依頼のマーケティング施策の立案を並行対応", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 761, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-fr-010", "type": "front", "label": "純粋な紹介設計", "text": "既存顧客フォロー・紹介依頼設計", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 763, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-gp-002", "type": "gap", "label": "穴 — 営業代行", "text": "代行パートナーの報酬設計・契約スキームが未整備", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 764, "detail": "このカードは未整備・未設計の穴を表します。解決すべき課題の詳細・原因・対応期限・担当者を記載してください。", "notion_url": ""}, {"id": "bp-gp-003", "type": "gap", "label": "穴 — WX体験設計（No.3）", "text": "イベント・商談1発目・社内未参加スタッフそれぞれのWow体験演出が未設計", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 765, "detail": "このカードは未整備・未設計の穴を表します。解決すべき課題の詳細・原因・対応期限・担当者を記載してください。", "notion_url": ""}, {"id": "bp-fr-011", "type": "front", "label": "プランナー — カジュアル面談・プチ商談", "text": "意識転換トーク / テストクロージング / 温度感確認・振り分け判断", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 780, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-gp-004", "type": "gap", "label": "穴", "text": "振り分け基準・スクリプトが未定義", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 781, "detail": "このカードは未整備・未設計の穴を表します。解決すべき課題の詳細・原因・対応期限・担当者を記載してください。", "notion_url": ""}, {"id": "bp-fr-012", "type": "front", "label": "プランナー — 商談・クロージング", "text": "課題整理・A/Bプラン提案", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 782, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-fr-013", "type": "front", "label": "壁打ちAI 活用", "text": "ヒアリング内容を入力 → 最適カリキュラム・計画表をAIが自動提案 → 商談資料として即活用", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 783, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-gp-005", "type": "gap", "label": "穴", "text": "商談ステージ定義・失注理由トラッキングが未整備", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 784, "detail": "このカードは未整備・未設計の穴を表します。解決すべき課題の詳細・原因・対応期限・担当者を記載してください。", "notion_url": ""}, {"id": "bp-fr-014", "type": "front", "label": "プランナー — 契約締結", "text": "契約書締結・オンボーディング準備の案内", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 789, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-fr-015", "type": "front", "label": "補助金対象確認", "text": "適用可能な補助金の種類・要件・上限額を案内", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 792, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-fr-016", "type": "front", "label": "書類・期限サポート", "text": "提出必要書類リスト・提出期限・申請フローを提供", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 793, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-fr-017", "type": "front", "label": "申請進捗確認", "text": "書類提出状況の確認・差戻し対応のフォロー", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 794, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-fr-018", "type": "front", "label": "トレーナー — ゴール設定", "text": "顧客の目標・成功基準をすり合わせ・文書化", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 799, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-fr-019", "type": "front", "label": "トレーナー — レベル診断", "text": "現状AIリテラシー・業務フロー・社内ツールをヒアリングで把握", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 800, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-fr-020", "type": "front", "label": "トレーナー — カリキュラム設計（AI生成）", "text": "ヒアリング内容をDBへ登録 → 伴走AIが共通7割＋独自3割のカリキュラムプランを自動生成", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 801, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-fr-021", "type": "front", "label": "トレーナー — マスタープラン合意", "text": "生成されたプランを顧客と確認・調整し確定", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 802, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-gp-006", "type": "gap", "label": "穴", "text": "伴走型AI・ヒアリングDBが未構築。カリキュラムマスター（共通70%テンプレ）も未整備", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 803, "detail": "このカードは未整備・未設計の穴を表します。解決すべき課題の詳細・原因・対応期限・担当者を記載してください。", "notion_url": ""}, {"id": "bp-fr-022", "type": "front", "label": "トレーナー — Kickoff", "text": "ゴール設定・現状レベル把握", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 807, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-fr-023", "type": "front", "label": "トレーナー — Session 1", "text": "Base44スキル作成・Wow体験設計", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 808, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-fr-024", "type": "front", "label": "トレーナー — 環境構築サポート", "text": "Claude Codeのインストール・初期設定を顧客とともに実施", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 809, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-fr-025", "type": "front", "label": "トレーナー — Session 2", "text": "コネクタ連携・自動化1件設計", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 813, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-fr-026", "type": "front", "label": "Report", "text": "月次レポート提供", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 814, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-fr-027", "type": "front", "label": "顧客満足度調査", "text": "M1終了時アンケート実施・FAQ・質問ログをLMSに蓄積", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 815, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-gp-007", "type": "gap", "label": "穴", "text": "離脱キャッチアップの仕組みが未設計", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 816, "detail": "このカードは未整備・未設計の穴を表します。解決すべき課題の詳細・原因・対応期限・担当者を記載してください。", "notion_url": ""}, {"id": "bp-fr-028", "type": "front", "label": "Discord 設計", "text": "チャンネル構成・参加ルール・初期メンバー招待の準備", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 819, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-fr-029", "type": "front", "label": "トレーナー — Session 3", "text": "E2E自動化・Claude Code導入", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 824, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-fr-030", "type": "front", "label": "Goal Check", "text": "ゴールCHECK・成果物検収", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 825, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-fr-031", "type": "front", "label": "最終満足度調査・FAQ総括", "text": "M2〜M3のアンケート・質問ログ収集。フライホイールへ引き渡し", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 826, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-gp-008", "type": "gap", "label": "穴", "text": "通過判定基準が未定義", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 827, "detail": "このカードは未整備・未設計の穴を表します。解決すべき課題の詳細・原因・対応期限・担当者を記載してください。", "notion_url": ""}, {"id": "bp-fr-032", "type": "front", "label": "コミュニティ案内", "text": "継続・発展プラン（A/B）の案内・Discord正式招待・移行設計", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 830, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-fr-033", "type": "front", "label": "報告書作成・提出", "text": "LMS出力の学習レポート・出席記録・修了証明を束ねて事務局へ提出", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 836, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-fr-034", "type": "front", "label": "支給申請サポート", "text": "顧客の申請書類最終確認・不備対応・提出期限管理（修了後2ヶ月以内）", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 837, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-gp-009", "type": "gap", "label": "穴", "text": "支給申請の標準対応フロー・チェックリストが未整備", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 838, "detail": "このカードは未整備・未設計の穴を表します。解決すべき課題の詳細・原因・対応期限・担当者を記載してください。", "notion_url": ""}, {"id": "bp-fr-035", "type": "front", "label": "コミュニケーター — Discord 運営", "text": "コミュニティ設計・チャンネル管理・モデレート", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 846, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-fr-036", "type": "front", "label": "定期コンテンツ", "text": "事例共有・Q&A・勉強会の定期開催", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 847, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-fr-037", "type": "front", "label": "プランB 個別セッション", "text": "月1回の個別レビュー・フィードバック対応", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 848, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-fr-038", "type": "front", "label": "将来設計", "text": "業種・業態別コミュニティへの分化・運営移管", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 849, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-gp-010", "type": "gap", "label": "穴", "text": "コミュニティ運営ルール・モデレーター体制が未整備", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 850, "detail": "このカードは未整備・未設計の穴を表します。解決すべき課題の詳細・原因・対応期限・担当者を記載してください。", "notion_url": ""}, {"id": "bp-gp-011", "type": "gap", "label": "穴", "text": "CAIO候補の人材プール・アサイン基準が未定義", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 858, "detail": "このカードは未整備・未設計の穴を表します。解決すべき課題の詳細・原因・対応期限・担当者を記載してください。", "notion_url": ""}, {"id": "bp-fr-039", "type": "front", "label": "AI選定ナビ 設計", "text": "Cowork / Claude Code / エージェントの使い分けロジックを設計・実装・継続更新", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 864, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-gp-012", "type": "gap", "label": "穴", "text": "選定ロジック・判断フローの設計が未着手", "tab": "blueprint", "layer": "Layer 2 — フロントステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 865, "detail": "このカードは未整備・未設計の穴を表します。解決すべき課題の詳細・原因・対応期限・担当者を記載してください。", "notion_url": ""}, {"id": "bp-bk-001", "type": "back", "label": "イベント企画・運営", "text": "カテゴリ設計・集客・運営フロー", "tab": "blueprint", "layer": "Layer 3 — バックステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 884, "detail": "このカードはバックステージ（顧客に見えない社内業務）を表します。業務手順・担当者・関連資料リンク等を記載してください。", "notion_url": ""}, {"id": "bp-bk-002", "type": "back", "label": "面談スクリプト設計", "text": "意識転換・テストクロージングスクリプト", "tab": "blueprint", "layer": "Layer 3 — バックステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 885, "detail": "このカードはバックステージ（顧客に見えない社内業務）を表します。業務手順・担当者・関連資料リンク等を記載してください。", "notion_url": ""}, {"id": "bp-bk-003", "type": "back", "label": "コンテンツ制作", "text": "Note・X・SEO・ナベラ記事スケジュール管理", "tab": "blueprint", "layer": "Layer 3 — バックステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 886, "detail": "このカードはバックステージ（顧客に見えない社内業務）を表します。業務手順・担当者・関連資料リンク等を記載してください。", "notion_url": ""}, {"id": "bp-bk-004", "type": "back", "label": "PR・HP（No.7）", "text": "PRTIMESリリース計画 / HP段階的移行 / 各サービスのブランド化", "tab": "blueprint", "layer": "Layer 3 — バックステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 887, "detail": "このカードはバックステージ（顧客に見えない社内業務）を表します。業務手順・担当者・関連資料リンク等を記載してください。", "notion_url": ""}, {"id": "bp-gp-013", "type": "gap", "label": "穴 — WX体験設計（No.3）", "text": "イベント・商談1発目・社内未参加スタッフへのWow体験の演出設計が未定義", "tab": "blueprint", "layer": "Layer 3 — バックステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 888, "detail": "このカードは未整備・未設計の穴を表します。解決すべき課題の詳細・原因・対応期限・担当者を記載してください。", "notion_url": ""}, {"id": "bp-bk-005", "type": "back", "label": "紹介トラッキング", "text": "紹介元・経路・転換率のSFA記録", "tab": "blueprint", "layer": "Layer 3 — バックステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 889, "detail": "このカードはバックステージ（顧客に見えない社内業務）を表します。業務手順・担当者・関連資料リンク等を記載してください。", "notion_url": ""}, {"id": "bp-gp-014", "type": "gap", "label": "穴 — 代行スキーム", "text": "営業代行の報酬率・契約書・精算フローが未整備", "tab": "blueprint", "layer": "Layer 3 — バックステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 890, "detail": "このカードは未整備・未設計の穴を表します。解決すべき課題の詳細・原因・対応期限・担当者を記載してください。", "notion_url": ""}, {"id": "bp-bk-006", "type": "back", "label": "振り分け記録", "text": "商談 or ナーチャリングへのルーティングをSFAに記録", "tab": "blueprint", "layer": "Layer 3 — バックステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 904, "detail": "このカードはバックステージ（顧客に見えない社内業務）を表します。業務手順・担当者・関連資料リンク等を記載してください。", "notion_url": ""}, {"id": "bp-bk-007", "type": "back", "label": "提案書作成", "text": "Salesパッケージ（Notion/Drive）活用", "tab": "blueprint", "layer": "Layer 3 — バックステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 905, "detail": "このカードはバックステージ（顧客に見えない社内業務）を表します。業務手順・担当者・関連資料リンク等を記載してください。", "notion_url": ""}, {"id": "bp-bk-008", "type": "back", "label": "Salesデック整備（No.11）", "text": "メイン資料は経営者・決裁者向けに統一。マネジメント/現場向けはアペンディックスとして分離（Drive管理）", "tab": "blueprint", "layer": "Layer 3 — バックステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 906, "detail": "このカードはバックステージ（顧客に見えない社内業務）を表します。業務手順・担当者・関連資料リンク等を記載してください。", "notion_url": ""}, {"id": "bp-bk-009", "type": "back", "label": "ROI・事例資料整備（No.5）", "text": "導入効果の数字・ROI試算・成功事例を経営者が意思決定できる形で言語化（Drive管理）", "tab": "blueprint", "layer": "Layer 3 — バックステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 907, "detail": "このカードはバックステージ（顧客に見えない社内業務）を表します。業務手順・担当者・関連資料リンク等を記載してください。", "notion_url": ""}, {"id": "bp-bk-010", "type": "back", "label": "カリキュラム設計", "text": "顧客別ゴール・レベル設定", "tab": "blueprint", "layer": "Layer 3 — バックステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 908, "detail": "このカードはバックステージ（顧客に見えない社内業務）を表します。業務手順・担当者・関連資料リンク等を記載してください。", "notion_url": ""}, {"id": "bp-bk-011", "type": "back", "label": "失注管理", "text": "失注理由記録 → ナーチャリングキューへ", "tab": "blueprint", "layer": "Layer 3 — バックステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 909, "detail": "このカードはバックステージ（顧客に見えない社内業務）を表します。業務手順・担当者・関連資料リンク等を記載してください。", "notion_url": ""}, {"id": "bp-bk-012", "type": "back", "label": "契約書管理", "text": "契約書の作成・締結・保管", "tab": "blueprint", "layer": "Layer 3 — バックステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 914, "detail": "このカードはバックステージ（顧客に見えない社内業務）を表します。業務手順・担当者・関連資料リンク等を記載してください。", "notion_url": ""}, {"id": "bp-bk-013", "type": "back", "label": "補助金管理台帳", "text": "対象顧客・補助金種別・提出書類・期限をNotionで一元管理", "tab": "blueprint", "layer": "Layer 3 — バックステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 917, "detail": "このカードはバックステージ（顧客に見えない社内業務）を表します。業務手順・担当者・関連資料リンク等を記載してください。", "notion_url": ""}, {"id": "bp-bk-014", "type": "back", "label": "書類テンプレ整備", "text": "申請書類の雛形・記載例・チェックリストを整備", "tab": "blueprint", "layer": "Layer 3 — バックステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 918, "detail": "このカードはバックステージ（顧客に見えない社内業務）を表します。業務手順・担当者・関連資料リンク等を記載してください。", "notion_url": ""}, {"id": "bp-gp-015", "type": "gap", "label": "穴", "text": "補助金対応の標準フロー・書類テンプレが未整備", "tab": "blueprint", "layer": "Layer 3 — バックステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 919, "detail": "このカードは未整備・未設計の穴を表します。解決すべき課題の詳細・原因・対応期限・担当者を記載してください。", "notion_url": ""}, {"id": "bp-bk-015", "type": "back", "label": "顧客カルテ作成", "text": "業種・規模・課題・ゴール・担当者情報をNotionに登録", "tab": "blueprint", "layer": "Layer 3 — バックステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 924, "detail": "このカードはバックステージ（顧客に見えない社内業務）を表します。業務手順・担当者・関連資料リンク等を記載してください。", "notion_url": ""}, {"id": "bp-bk-016", "type": "back", "label": "スケジュール確定", "text": "3ヶ月セッション日程・担当講師のアサイン", "tab": "blueprint", "layer": "Layer 3 — バックステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 925, "detail": "このカードはバックステージ（顧客に見えない社内業務）を表します。業務手順・担当者・関連資料リンク等を記載してください。", "notion_url": ""}, {"id": "bp-bk-017", "type": "back", "label": "初回資料準備", "text": "キックオフ資料・カリキュラム資料の作成", "tab": "blueprint", "layer": "Layer 3 — バックステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 926, "detail": "このカードはバックステージ（顧客に見えない社内業務）を表します。業務手順・担当者・関連資料リンク等を記載してください。", "notion_url": ""}, {"id": "bp-bk-018", "type": "back", "label": "必須ヒアリング項目", "text": "業種・従業員数・AI習熟度・解決したい業務課題・導入決裁者・予算感・スケジュール感", "tab": "blueprint", "layer": "Layer 3 — バックステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 929, "detail": "このカードはバックステージ（顧客に見えない社内業務）を表します。業務手順・担当者・関連資料リンク等を記載してください。", "notion_url": ""}, {"id": "bp-bk-019", "type": "back", "label": "備考情報（任意）", "text": "組織構造・既存ツール・競合検討状況など、追加で取得できた情報を蓄積", "tab": "blueprint", "layer": "Layer 3 — バックステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 930, "detail": "このカードはバックステージ（顧客に見えない社内業務）を表します。業務手順・担当者・関連資料リンク等を記載してください。", "notion_url": ""}, {"id": "bp-gp-016", "type": "gap", "label": "穴", "text": "マスト回収項目の最終定義・SFAへの項目設定が未着手", "tab": "blueprint", "layer": "Layer 3 — バックステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 931, "detail": "このカードは未整備・未設計の穴を表します。解決すべき課題の詳細・原因・対応期限・担当者を記載してください。", "notion_url": ""}, {"id": "bp-bk-020", "type": "back", "label": "議事録", "text": "セッション記録 → Notion自動格納", "tab": "blueprint", "layer": "Layer 3 — バックステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 935, "detail": "このカードはバックステージ（顧客に見えない社内業務）を表します。業務手順・担当者・関連資料リンク等を記載してください。", "notion_url": ""}, {"id": "bp-bk-021", "type": "back", "label": "テンプレ整備", "text": "agent.md / soul.md 標準化", "tab": "blueprint", "layer": "Layer 3 — バックステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 936, "detail": "このカードはバックステージ（顧客に見えない社内業務）を表します。業務手順・担当者・関連資料リンク等を記載してください。", "notion_url": ""}, {"id": "bp-bk-022", "type": "back", "label": "進捗管理", "text": "KPI追跡・フォローアップ設計", "tab": "blueprint", "layer": "Layer 3 — バックステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 939, "detail": "このカードはバックステージ（顧客に見えない社内業務）を表します。業務手順・担当者・関連資料リンク等を記載してください。", "notion_url": ""}, {"id": "bp-bk-023", "type": "back", "label": "ナレッジ更新", "text": "社内共有会（2週間ごと）実施", "tab": "blueprint", "layer": "Layer 3 — バックステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 940, "detail": "このカードはバックステージ（顧客に見えない社内業務）を表します。業務手順・担当者・関連資料リンク等を記載してください。", "notion_url": ""}, {"id": "bp-bk-024", "type": "back", "label": "アンケート集計", "text": "M1終了アンケートを集計・FAQ・質問ログをLMSに記録・次回改善に反映", "tab": "blueprint", "layer": "Layer 3 — バックステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 941, "detail": "このカードはバックステージ（顧客に見えない社内業務）を表します。業務手順・担当者・関連資料リンク等を記載してください。", "notion_url": ""}, {"id": "bp-bk-025", "type": "back", "label": "成果物管理", "text": "設計書・スキルファイル保管", "tab": "blueprint", "layer": "Layer 3 — バックステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 944, "detail": "このカードはバックステージ（顧客に見えない社内業務）を表します。業務手順・担当者・関連資料リンク等を記載してください。", "notion_url": ""}, {"id": "bp-bk-026", "type": "back", "label": "振り返り", "text": "カリキュラム改善・テンプレ更新", "tab": "blueprint", "layer": "Layer 3 — バックステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 945, "detail": "このカードはバックステージ（顧客に見えない社内業務）を表します。業務手順・担当者・関連資料リンク等を記載してください。", "notion_url": ""}, {"id": "bp-bk-027", "type": "back", "label": "最終アンケート集計・総括", "text": "3ヶ月分のFAQ・満足度データをフライホイールへ引き渡し。次期カリキュラム改訂の起点に", "tab": "blueprint", "layer": "Layer 3 — バックステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 946, "detail": "このカードはバックステージ（顧客に見えない社内業務）を表します。業務手順・担当者・関連資料リンク等を記載してください。", "notion_url": ""}, {"id": "bp-bk-028", "type": "back", "label": "報告書・書類作成", "text": "LMSから学習レポート・出席記録を出力し申請書類一式を整備", "tab": "blueprint", "layer": "Layer 3 — バックステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 951, "detail": "このカードはバックステージ（顧客に見えない社内業務）を表します。業務手順・担当者・関連資料リンク等を記載してください。", "notion_url": ""}, {"id": "bp-bk-029", "type": "back", "label": "提出・進捗管理", "text": "事務局への提出期限管理（修了後2ヶ月以内）・補助金管理台帳（Notion）更新", "tab": "blueprint", "layer": "Layer 3 — バックステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 952, "detail": "このカードはバックステージ（顧客に見えない社内業務）を表します。業務手順・担当者・関連資料リンク等を記載してください。", "notion_url": ""}, {"id": "bp-bk-030", "type": "back", "label": "入金確認", "text": "支給決定通知の受領・顧客への連絡・台帳へ反映", "tab": "blueprint", "layer": "Layer 3 — バックステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 953, "detail": "このカードはバックステージ（顧客に見えない社内業務）を表します。業務手順・担当者・関連資料リンク等を記載してください。", "notion_url": ""}, {"id": "bp-bk-031", "type": "back", "label": "請求管理", "text": "プランA（3万）/ プランB（10万）の月次請求・入金管理", "tab": "blueprint", "layer": "Layer 3 — バックステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 960, "detail": "このカードはバックステージ（顧客に見えない社内業務）を表します。業務手順・担当者・関連資料リンク等を記載してください。", "notion_url": ""}, {"id": "bp-bk-032", "type": "back", "label": "事例収集", "text": "コミュニティ内の活用事例を収集・整理・横展開", "tab": "blueprint", "layer": "Layer 3 — バックステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 961, "detail": "このカードはバックステージ（顧客に見えない社内業務）を表します。業務手順・担当者・関連資料リンク等を記載してください。", "notion_url": ""}, {"id": "bp-bk-033", "type": "back", "label": "稼働管理", "text": "CAIO稼働レポート・KPI進捗・月次報告書作成", "tab": "blueprint", "layer": "Layer 3 — バックステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 967, "detail": "このカードはバックステージ（顧客に見えない社内業務）を表します。業務手順・担当者・関連資料リンク等を記載してください。", "notion_url": ""}, {"id": "bp-bk-034", "type": "back", "label": "請求管理", "text": "月120〜150万 × 年間契約の請求・更新管理", "tab": "blueprint", "layer": "Layer 3 — バックステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 968, "detail": "このカードはバックステージ（顧客に見えない社内業務）を表します。業務手順・担当者・関連資料リンク等を記載してください。", "notion_url": ""}, {"id": "bp-bk-035", "type": "back", "label": "ツール更新管理", "text": "AI選定ナビの判断ロジック・事例データを定期更新", "tab": "blueprint", "layer": "Layer 3 — バックステージ", "phase": "N/A", "category": null, "priority": null, "line_no": 974, "detail": "このカードはバックステージ（顧客に見えない社内業務）を表します。業務手順・担当者・関連資料リンク等を記載してください。", "notion_url": ""}, {"id": "bp-sy-001", "type": "system", "label": "Eventツール / LINE / SNS", "text": "", "tab": "blueprint", "layer": "Layer 4 — システム", "phase": "N/A", "category": null, "priority": null, "line_no": 995, "detail": "このカードはシステム・ツールを表します。導入状況・設定内容・接続先・運用責任者等を記載してください。", "notion_url": ""}, {"id": "bp-sy-002", "type": "system", "label": "ナベラ / SEOメディア", "text": "", "tab": "blueprint", "layer": "Layer 4 — システム", "phase": "N/A", "category": null, "priority": null, "line_no": 996, "detail": "このカードはシステム・ツールを表します。導入状況・設定内容・接続先・運用責任者等を記載してください。", "notion_url": ""}, {"id": "bp-sy-003", "type": "system", "label": "電話 / Zoom / Meet", "text": "", "tab": "blueprint", "layer": "Layer 4 — システム", "phase": "N/A", "category": null, "priority": null, "line_no": 1011, "detail": "このカードはシステム・ツールを表します。導入状況・設定内容・接続先・運用責任者等を記載してください。", "notion_url": ""}, {"id": "bp-sy-004", "type": "system", "label": "メルマガ配信ツール", "text": "", "tab": "blueprint", "layer": "Layer 4 — システム", "phase": "N/A", "category": null, "priority": null, "line_no": 1012, "detail": "このカードはシステム・ツールを表します。導入状況・設定内容・接続先・運用責任者等を記載してください。", "notion_url": ""}, {"id": "bp-sy-005", "type": "system", "label": "商談円滑化フォーム", "text": "事前ヒアリング・マスト回収項目の入力フォーム（Base44製）", "tab": "blueprint", "layer": "Layer 4 — システム", "phase": "N/A", "category": null, "priority": null, "line_no": 1013, "detail": "このカードはシステム・ツールを表します。導入状況・設定内容・接続先・運用責任者等を記載してください。", "notion_url": ""}, {"id": "bp-sy-006", "type": "system", "label": "壁打ちAI（社内専用）", "text": "ヒアリングDB → カリキュラム・計画表を自動生成", "tab": "blueprint", "layer": "Layer 4 — システム", "phase": "N/A", "category": null, "priority": null, "line_no": 1014, "detail": "このカードはシステム・ツールを表します。導入状況・設定内容・接続先・運用責任者等を記載してください。", "notion_url": ""}, {"id": "bp-gp-017", "type": "gap", "label": "穴", "text": "SFA〜CRM連携・壁打ちAI構築が未整備", "tab": "blueprint", "layer": "Layer 4 — システム", "phase": "N/A", "category": null, "priority": null, "line_no": 1015, "detail": "このカードは未整備・未設計の穴を表します。解決すべき課題の詳細・原因・対応期限・担当者を記載してください。", "notion_url": ""}, {"id": "bp-sy-007", "type": "system", "label": "電子契約ツール", "text": "", "tab": "blueprint", "layer": "Layer 4 — システム", "phase": "N/A", "category": null, "priority": null, "line_no": 1021, "detail": "このカードはシステム・ツールを表します。導入状況・設定内容・接続先・運用責任者等を記載してください。", "notion_url": ""}, {"id": "bp-bk-036", "type": "back", "label": "Notion", "text": "補助金管理台帳（社内）", "tab": "blueprint", "layer": "Layer 4 — システム", "phase": "N/A", "category": null, "priority": null, "line_no": 1028, "detail": "このカードはバックステージ（顧客に見えない社内業務）を表します。業務手順・担当者・関連資料リンク等を記載してください。", "notion_url": ""}, {"id": "bp-cu-028", "type": "customer", "label": "Drive", "text": "申請書類テンプレ → 顧客へ自動送付", "tab": "blueprint", "layer": "Layer 4 — システム", "phase": "N/A", "category": null, "priority": null, "line_no": 1029, "detail": "このカードは顧客の行動・タッチポイントを表します。詳細な設計内容・想定シナリオ・KPI等をここに記載してください。", "notion_url": ""}, {"id": "bp-cu-029", "type": "customer", "label": "Notion / Drive", "text": "カリキュラム資料・マスタープラン（顧客閲覧可）", "tab": "blueprint", "layer": "Layer 4 — システム", "phase": "N/A", "category": null, "priority": null, "line_no": 1039, "detail": "このカードは顧客の行動・タッチポイントを表します。詳細な設計内容・想定シナリオ・KPI等をここに記載してください。", "notion_url": ""}, {"id": "bp-fr-040", "type": "front", "label": "Notion", "text": "ヒアリングDB・顧客カルテ・Google Calendar", "tab": "blueprint", "layer": "Layer 4 — システム", "phase": "N/A", "category": null, "priority": null, "line_no": 1045, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-fr-041", "type": "front", "label": "Drive", "text": "プランナーハンドブック・プランナーセット", "tab": "blueprint", "layer": "Layer 4 — システム", "phase": "N/A", "category": null, "priority": null, "line_no": 1046, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-fr-042", "type": "front", "label": "Drive", "text": "トレーナーハンドブック", "tab": "blueprint", "layer": "Layer 4 — システム", "phase": "N/A", "category": null, "priority": null, "line_no": 1047, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-fr-043", "type": "front", "label": "社内AI", "text": "伴走AI（DBフェッチ → カリキュラム自動生成）", "tab": "blueprint", "layer": "Layer 4 — システム", "phase": "N/A", "category": null, "priority": null, "line_no": 1048, "detail": "このカードはフロントステージ（顧客と直接接する活動）を表します。担当者・使用ツール・運用フロー・注意点等を記載してください。", "notion_url": ""}, {"id": "bp-gp-018", "type": "gap", "label": "穴", "text": "顧客向け / 社内向けシステム設計・構築が未着手", "tab": "blueprint", "layer": "Layer 4 — システム", "phase": "N/A", "category": null, "priority": null, "line_no": 1049, "detail": "このカードは未整備・未設計の穴を表します。解決すべき課題の詳細・原因・対応期限・担当者を記載してください。", "notion_url": ""}, {"id": "bp-sy-008", "type": "system", "label": "Base44 / Claude / Claude Code", "text": "", "tab": "blueprint", "layer": "Layer 4 — システム", "phase": "N/A", "category": null, "priority": null, "line_no": 1056, "detail": "このカードはシステム・ツールを表します。導入状況・設定内容・接続先・運用責任者等を記載してください。", "notion_url": ""}, {"id": "bp-sy-009", "type": "system", "label": "Cowork", "text": "", "tab": "blueprint", "layer": "Layer 4 — システム", "phase": "N/A", "category": null, "priority": null, "line_no": 1057, "detail": "このカードはシステム・ツールを表します。導入状況・設定内容・接続先・運用責任者等を記載してください。", "notion_url": ""}, {"id": "bp-sy-010", "type": "system", "label": "出席・進捗・学習レポート管理。補助金提出書類にも活用", "text": "", "tab": "blueprint", "layer": "Layer 4 — システム", "phase": "N/A", "category": null, "priority": null, "line_no": 1060, "detail": "このカードはシステム・ツールを表します。導入状況・設定内容・接続先・運用責任者等を記載してください。", "notion_url": ""}, {"id": "bp-sy-011", "type": "system", "label": "Base44 + コネクタ", "text": "", "tab": "blueprint", "layer": "Layer 4 — システム", "phase": "N/A", "category": null, "priority": null, "line_no": 1066, "detail": "このカードはシステム・ツールを表します。導入状況・設定内容・接続先・運用責任者等を記載してください。", "notion_url": ""}, {"id": "bp-sy-012", "type": "system", "label": "Notion / Drive", "text": "", "tab": "blueprint", "layer": "Layer 4 — システム", "phase": "N/A", "category": null, "priority": null, "line_no": 1067, "detail": "このカードはシステム・ツールを表します。導入状況・設定内容・接続先・運用責任者等を記載してください。", "notion_url": ""}, {"id": "bp-sy-013", "type": "system", "label": "LMS継続（満足度アンケート・進捗）", "text": "", "tab": "blueprint", "layer": "Layer 4 — システム", "phase": "N/A", "category": null, "priority": null, "line_no": 1069, "detail": "このカードはシステム・ツールを表します。導入状況・設定内容・接続先・運用責任者等を記載してください。", "notion_url": ""}, {"id": "bp-sy-014", "type": "system", "label": "Claude Code / 外部API", "text": "", "tab": "blueprint", "layer": "Layer 4 — システム", "phase": "N/A", "category": null, "priority": null, "line_no": 1075, "detail": "このカードはシステム・ツールを表します。導入状況・設定内容・接続先・運用責任者等を記載してください。", "notion_url": ""}, {"id": "bp-sy-015", "type": "system", "label": "LMS継続（最終レポート・補助金提出書類）", "text": "", "tab": "blueprint", "layer": "Layer 4 — システム", "phase": "N/A", "category": null, "priority": null, "line_no": 1077, "detail": "このカードはシステム・ツールを表します。導入状況・設定内容・接続先・運用責任者等を記載してください。", "notion_url": ""}, {"id": "bp-sy-016", "type": "system", "label": "Notion", "text": "補助金管理台帳（提出期限・進捗・支給確定の記録）", "tab": "blueprint", "layer": "Layer 4 — システム", "phase": "N/A", "category": null, "priority": null, "line_no": 1083, "detail": "このカードはシステム・ツールを表します。導入状況・設定内容・接続先・運用責任者等を記載してください。", "notion_url": ""}, {"id": "bp-sy-017", "type": "system", "label": "LMS 出力", "text": "学習レポート・出席記録・修了証明を申請書類用に出力", "tab": "blueprint", "layer": "Layer 4 — システム", "phase": "N/A", "category": null, "priority": null, "line_no": 1084, "detail": "このカードはシステム・ツールを表します。導入状況・設定内容・接続先・運用責任者等を記載してください。", "notion_url": ""}, {"id": "bp-sy-018", "type": "system", "label": "Drive", "text": "申請書類一式の格納・顧客との共有URL", "tab": "blueprint", "layer": "Layer 4 — システム", "phase": "N/A", "category": null, "priority": null, "line_no": 1085, "detail": "このカードはシステム・ツールを表します。導入状況・設定内容・接続先・運用責任者等を記載してください。", "notion_url": ""}, {"id": "bp-sy-019", "type": "system", "label": "Discord（全体・業種別チャンネル）", "text": "", "tab": "blueprint", "layer": "Layer 4 — システム", "phase": "N/A", "category": null, "priority": null, "line_no": 1094, "detail": "このカードはシステム・ツールを表します。導入状況・設定内容・接続先・運用責任者等を記載してください。", "notion_url": ""}, {"id": "bp-gp-019", "type": "gap", "label": "穴", "text": "Discord〜業種別チャンネル設計が未整備", "tab": "blueprint", "layer": "Layer 4 — システム", "phase": "N/A", "category": null, "priority": null, "line_no": 1095, "detail": "このカードは未整備・未設計の穴を表します。解決すべき課題の詳細・原因・対応期限・担当者を記載してください。", "notion_url": ""}, {"id": "bp-sy-020", "type": "system", "label": "Notion（CAIO稼働レポート・KPI管理）", "text": "", "tab": "blueprint", "layer": "Layer 4 — システム", "phase": "N/A", "category": null, "priority": null, "line_no": 1101, "detail": "このカードはシステム・ツールを表します。導入状況・設定内容・接続先・運用責任者等を記載してください。", "notion_url": ""}, {"id": "bp-sy-021", "type": "system", "label": "請求・契約管理ツール", "text": "", "tab": "blueprint", "layer": "Layer 4 — システム", "phase": "N/A", "category": null, "priority": null, "line_no": 1102, "detail": "このカードはシステム・ツールを表します。導入状況・設定内容・接続先・運用責任者等を記載してください。", "notion_url": ""}, {"id": "bp-sy-022", "type": "system", "label": "AI選定ナビ（Base44製）", "text": "", "tab": "blueprint", "layer": "Layer 4 — システム", "phase": "N/A", "category": null, "priority": null, "line_no": 1108, "detail": "このカードはシステム・ツールを表します。導入状況・設定内容・接続先・運用責任者等を記載してください。", "notion_url": ""}, {"id": "bp-gp-020", "type": "gap", "label": "穴", "text": "選定ロジック・判断フロー・実装が未着手", "tab": "blueprint", "layer": "Layer 4 — システム", "phase": "N/A", "category": null, "priority": null, "line_no": 1112, "detail": "このカードは未整備・未設計の穴を表します。解決すべき課題の詳細・原因・対応期限・担当者を記載してください。", "notion_url": ""}, {"id": "ag-001", "type": "agenda", "label": "01 プライシング設計", "text": "【論点】\n・現在の価格で採算が取れるか？価格根拠・計算式が未整理\n・伴走支援は労働集約的。「忙しいけど儲からない」地獄になっていないか\n・AI人材育成・アサイン・Agent開発の市場価格調査は済んでいるか\n・100名規模企業へのAIエンジニアアサインは150〜180万/月。安すぎないか\n・八尾東洋「新しいもの作りましょう」80万/月。対象ターゲットゾーンの整合は\n・価格上昇は後からハードルが高い。今のうちに議論を尽くすべき\n【関連する穴】\n・営業代行パートナーの報酬設計・契約スキームが未整備（採算に影響）", "tab": "agenda", "layer": "N/A", "phase": "N/A", "category": "strategy/product", "priority": "p1", "line_no": 1137, "detail": "この議題の論点・背景・決定事項・次アクションを記載してください。", "notion_url": ""}, {"id": "ag-002", "type": "agenda", "label": "02 カリキュラムの具体定義", "text": "【論点】\n・単元ごとの成果物定義が未設計。何が「できた」かの基準がない\n・70%の顧客にハマるゴールと標準カリキュラムは今すぐ作れるはず\n・「ヒアリングしながらゴールを決める」は甘え。事前定義が必要\n・Base44 ↔ Claude Codeの線引きとカリキュラムへの単元組み込みが未詳細\n・「定着」の指標とは？（例：作成アプリの社内使用率など）\n【関連する穴】\n・伴走型AI・ヒアリングDBが未構築\n・カリキュラムマスター（共通70%テンプレ）が未整備", "tab": "agenda", "layer": "N/A", "phase": "N/A", "category": "product", "priority": "p1", "line_no": 1177, "detail": "この議題の論点・背景・決定事項・次アクションを記載してください。", "notion_url": ""}, {"id": "ag-003", "type": "agenda", "label": "03 WX（ワオ体験）の設計", "text": "【論点】\n・イベントでのWXは何か？顧客がシェアしたくなる文脈が未設計\n・商談1発目のWXは何か？\n・社内未参加スタッフへのWXは何か？\n・体裁Jobへの応答が「デモがある」で止まっている。具体的な演出設計が必要", "tab": "agenda", "layer": "N/A", "phase": "N/A", "category": "marketing/sales", "priority": "p1", "line_no": 1216, "detail": "この議題の論点・背景・決定事項・次アクションを記載してください。", "notion_url": ""}, {"id": "ag-004", "type": "agenda", "label": "04 ターゲット別コミュニケーション設計", "text": "【論点】\n・決裁者 / マネジメント / 現場で伝える文脈・資料・フックが異なるが未分離\n・DECKは決裁権者向けに絞り、効果・目的に重点を置く必要あり\n・感情Job①（取り残される不安）が3層で混同されている\n・各層向けの資料・スクリプトが未整備", "tab": "agenda", "layer": "N/A", "phase": "N/A", "category": "sales/marketing", "priority": "p1", "line_no": 1250, "detail": "この議題の論点・背景・決定事項・次アクションを記載してください。", "notion_url": ""}, {"id": "ag-005", "type": "agenda", "label": "05 ROI・効果の言語化", "text": "【論点】\n・コスト削減数字（24.2万→12万）はあるが効果のROI試算ツール・導入事例が未整備\n・経営層が意思決定できる数字の根拠が薄い\n・社会Job（経営としての意思決定根拠）への応答が現状弱い", "tab": "agenda", "layer": "N/A", "phase": "N/A", "category": "product/sales", "priority": "p2", "line_no": 1284, "detail": "この議題の論点・背景・決定事項・次アクションを記載してください。", "notion_url": ""}, {"id": "ag-006", "type": "agenda", "label": "06 イベント設計の2軸シナリオ", "text": "【論点】\n・認知＞営業：DEMO WX → 10分FAQ → 悩む人はナーチャリング\n・認知＜営業（集団営業）：生存戦略プレゼン → DEMO → 個別商談ポケット\n・「10分カジュアル相談のポケット」が必須。設計がまだない\n・イベント終了後の個別商談への導線設計が未詳細", "tab": "agenda", "layer": "N/A", "phase": "N/A", "category": "marketing/sales", "priority": "p2", "line_no": 1317, "detail": "この議題の論点・背景・決定事項・次アクションを記載してください。", "notion_url": ""}, {"id": "ag-007", "type": "agenda", "label": "07 PR・HP・ブランド戦略", "text": "【論点】\n・サービスローンチに伴うPRTIMESリリースのタイミングと内容\n・HPの段階的移行計画（現状→次フェーズへの移行スケジュール）\n・各商品・サービスのブランド化（AI Onboarding / CAIO / コミュニティ）\n【関連する穴】\n・ナベラの自動化フロー（フライホイール）が停止中。復旧・再設計が必要", "tab": "agenda", "layer": "N/A", "phase": "N/A", "category": "marketing", "priority": "p2", "line_no": 1351, "detail": "この議題の論点・背景・決定事項・次アクションを記載してください。", "notion_url": ""}, {"id": "ag-008", "type": "agenda", "label": "08 チャネル別スクリプト・提案フロー", "text": "【論点】\n・チャネル流入ごとの提案フローが未設計（大まかなスクリプトは？）\n・短時間で何を覚えてもらい持ち帰ってもらうか？フックは何か？\n・専用CRMをさっさと組む。パイプライン・商談進捗管理もそこで\n【関連する穴】\n・カジュアル面談の振り分け基準・スクリプトが未定義\n・商談ステージ定義・失注理由トラッキングが未整備\n・ナーチャリング再浮上トリガー・期間定義が未設計", "tab": "agenda", "layer": "N/A", "phase": "N/A", "category": "sales", "priority": "p2", "line_no": 1387, "detail": "この議題の論点・背景・決定事項・次アクションを記載してください。", "notion_url": ""}, {"id": "ag-009", "type": "agenda", "label": "09 役務提供体制の設計", "text": "【論点】\n・誰が・何人で・どう動くか。スケール時の体制設計\n・CAIO候補の人材プール・アサイン基準が未定義\n・講師・伴走担当の育成・標準化が未着手\n・スケール時の限界点（ボトルネック）の把握が必要\n【関連する穴】\n・CAIO候補の人材プール・アサイン基準が未定義\n・コミュニティ運営ルール・モデレーター体制が未整備", "tab": "agenda", "layer": "N/A", "phase": "N/A", "category": "strategy/product", "priority": "p3", "line_no": 1425, "detail": "この議題の論点・背景・決定事項・次アクションを記載してください。", "notion_url": ""}, {"id": "ag-010", "type": "agenda", "label": "10 情報集積所・ナレッジ基盤の整備", "text": "【論点】\n・情報がCanvas・Slack・会話等にバラバラ。全員が参照できる集約場所が未決定\n・Notionの4チャンネル構成（strategy/product/marketing/sales）への移行計画\n・このブループリントとNotionの紐づけ設計（穴→議題のリンク）\n・CRM構築の着手計画が未決定\n【関連する穴】\n・SFA〜CRM連携が未整備\n・AI選定ナビの選定ロジック・判断フロー・ツール実装が未着手", "tab": "agenda", "layer": "N/A", "phase": "N/A", "category": "all", "priority": "p3", "line_no": 1464, "detail": "この議題の論点・背景・決定事項・次アクションを記載してください。", "notion_url": ""}, {"id": "ag-011", "type": "agenda", "label": "11 資料の統一方針（経営者向けへの一本化）", "text": "【論点】\n・現状：経営者・マネジメント・現場向けが1資料に混在している\n・方針：メイン資料は経営者・決裁者向けに一本化（効果・目的に重点）\n・アペンディックスとしてマネジメント向け・現場向けの詳細を補足で付ける\n・DECKの構成・ページ順・強調ポイントを決裁者視点で再設計する必要あり", "tab": "agenda", "layer": "N/A", "phase": "N/A", "category": "sales/marketing", "priority": "p2", "line_no": 1502, "detail": "この議題の論点・背景・決定事項・次アクションを記載してください。", "notion_url": ""}, {"id": "ag-012", "type": "agenda", "label": "12 他社AI研修プログラムのベンチマーク調査", "text": "【論点】\n・AI人材育成・AI人材アサイン・AIAgent開発企業の市場価格を調査・整理\n・他社の仕組み設計・サービス内容を調べ、カリキュラム設計の参考にする\n・フルオーダー・ワンオフを避け、セミオーダー型（共通70%＋独自30%）設計の根拠を固める\n・調査結果をプライシング議題（No.01）とカリキュラム議題（No.02）に接続する", "tab": "agenda", "layer": "N/A", "phase": "N/A", "category": "product/strategy", "priority": "p2", "line_no": 1536, "detail": "この議題の論点・背景・決定事項・次アクションを記載してください。", "notion_url": ""}, {"id": "ag-013", "type": "agenda", "label": "13 プランナー向けカリキュラム設計", "text": "【論点】\n・AIネイティブ組織の定義を文書化し、プランナーが語れる状態にする\n・Base44 / Claude / Claude Code / Coworkの使い分けをプランナー全員が説明できるか\n・外部プランナーへの展開方法・習得確認の基準を設ける\n【関連する穴】\n・プランナー向けカリキュラムが未設計\n・AIネイティブ組織の定義が未文書化", "tab": "agenda", "layer": "N/A", "phase": "N/A", "category": "product", "priority": "p1", "line_no": 1570, "detail": "この議題の論点・背景・決定事項・次アクションを記載してください。", "notion_url": ""}, {"id": "ag-014", "type": "agenda", "label": "14 トレーナー向けカリキュラム・認定基準設計", "text": "【論点】\n・M1〜M3全単元を自分で実装・説明できることを認定基準とするか\n・模擬セッション・受講生満足度スコアを認定評価に組み込むか\n・トレーナー間の品質平準化の仕組み（フィードバック共有・マニュアル）\n【関連する穴】\n・習得度測定指標・トレーナー認定基準が未定義\n・指導マニュアル・想定Q&A集が未整備", "tab": "agenda", "layer": "N/A", "phase": "N/A", "category": "product", "priority": "p1", "line_no": 1607, "detail": "この議題の論点・背景・決定事項・次アクションを記載してください。", "notion_url": ""}, {"id": "ag-015", "type": "agenda", "label": "15 受講生向けシラバス詳細設計（M1〜M3）", "text": "【論点】\n・各月の単元・成果物・レポートの詳細定義（社内ヒアリング後に確定）\n・共通70%テンプレートの具体的な内容・単元数・時間配分\n・補助金提出用レポートの書式と必要項目の標準化\n・LMS（Base44製）への単元・進捗管理の実装仕様\n【関連する穴】\n・シラバスの単元・成果物定義が未設計\n・補助金対応の標準フロー・書類テンプレが未整備\n・LMS（Base44製）の実装が未着手", "tab": "agenda", "layer": "N/A", "phase": "N/A", "category": "product", "priority": "p1", "line_no": 1644, "detail": "この議題の論点・背景・決定事項・次アクションを記載してください。", "notion_url": ""}, {"id": "ag-016", "type": "agenda", "label": "16 フライホイール設計・運用体制", "text": "【論点】\n・FAQ・質問ログ・アンケートをカリキュラムに反映するサイクルの設計\n・コミュニティ（Discord）での事例収集 → 共通70%テンプレート改訂の仕組み\n・改訂の頻度・責任者・承認フローの定義\n【関連する穴】\n・Discord〜LMS連携・業種別チャンネル設計が未整備\n・フライホイールの運用設計が未着手", "tab": "agenda", "layer": "N/A", "phase": "N/A", "category": "product/all", "priority": "p2", "line_no": 1683, "detail": "この議題の論点・背景・決定事項・次アクションを記載してください。", "notion_url": ""}, {"id": "ag-017", "type": "agenda", "label": "17 外部プランナー・トレーナーの採用・登録フロー", "text": "【論点】\n・外部プランナー・トレーナーをどこで募集・選定するか（採用チャネル）\n・登録・審査・認定のフローとそれを管理する仕組み\n・報酬体系・契約形態（業務委託等）の設計\n・ジャングルジム版AI基礎教養の習得を採用要件とするか、入社後に研修するか\n・品質担保のためのトライアル期間・評価基準の設計\n【関連する穴】\n・外部プランナー・トレーナーの採用・登録フローが未設計\n・報酬体系・契約形態が未定義", "tab": "agenda", "layer": "N/A", "phase": "N/A", "category": "strategy/product", "priority": "p2", "line_no": 1721, "detail": "この議題の論点・背景・決定事項・次アクションを記載してください。", "notion_url": ""}, {"id": "ag-018", "type": "agenda", "label": "18 入金ルール・決済タイミングの設計", "text": "【論点】\n・教育事業の原則は「前納」。「支援内容の設計」フェーズ開始を入金必須の線引きとする\n・助成金なし：契約締結後、支援内容の設計開始前（月末）までに全額入金を原則とする\n・申請書類に「受講内容を決めた書面」が必要 → 事務局提出（月末）までに支援内容の設計が実質完了している必要がある\n・入金は「提出完了後・受講開始前」になる可能性が高い → 入金期日の別途設計が必要\n・例：4/15申込 → 4/20契約締結・書類準備 → 4/30事務局提出 → 6/1受講開始、入金は5月末など\n・助成金なしより+5万/月（+15万/3ヶ月）の設定を検討\n・内訳：申請書類手続き費用・事務手数料として説明可能\n・顧客の実質負担増は12,500円/月程度（助成金の補助割合次第）。許容範囲と判断\n【関連する穴】\n・助成金利用時の入金期日・条件の明文化\n・助成金パックの価格（+5万/月）と内訳説明の確定\n・「支援内容の設計」を入金ゲートとした場合の契約書への反映", "tab": "agenda", "layer": "N/A", "phase": "N/A", "category": "strategy/product", "priority": "p1", "line_no": 1761, "detail": "この議題の論点・背景・決定事項・次アクションを記載してください。", "notion_url": ""}, {"id": "ag-019", "type": "agenda", "label": "AIネイティブ組織の定義", "text": "【論点】\n・AIネイティブ組織とはどんな状態か定義できる\n・組織の現在地（フェーズ1〜5）を診断できる\n・顧客にAI活用の必要性を語れる", "tab": "curriculum", "layer": "N/A", "phase": "N/A", "category": "strategy", "priority": null, "line_no": 1856, "detail": "この議題の論点・背景・決定事項・次アクションを記載してください。", "notion_url": ""}, {"id": "ag-020", "type": "agenda", "label": "ジャングルジム版 AI基礎教養", "text": "【論点】\n・Base44 / Claude / Claude Code / Coworkの使い分けを説明できる\n・Harness Engineeringの概念を顧客に伝えられる\n・AI活用の5段階フェーズを語れる", "tab": "curriculum", "layer": "N/A", "phase": "N/A", "category": "product", "priority": null, "line_no": 1875, "detail": "この議題の論点・背景・決定事項・次アクションを記載してください。", "notion_url": ""}, {"id": "ag-021", "type": "agenda", "label": "商談・プランニングスキル", "text": "【論点】\n・マスト回収項目を正確にヒアリングできる\n・壁打ちAIを使って最適プランを提案できる\n・A/Bプランの使い分けを説明・クロージングできる", "tab": "curriculum", "layer": "N/A", "phase": "N/A", "category": "sales", "priority": null, "line_no": 1894, "detail": "この議題の論点・背景・決定事項・次アクションを記載してください。", "notion_url": ""}, {"id": "ag-022", "type": "agenda", "label": "提供カリキュラムの完全習得", "text": "【論点】\n・M1〜M3の全単元を自分で実装・説明できる\n・Base44 / Claude / Coworkを実際に使いこなせる\n・受講生の質問に現場対応できる", "tab": "curriculum", "layer": "N/A", "phase": "N/A", "category": "product", "priority": null, "line_no": 1923, "detail": "この議題の論点・背景・決定事項・次アクションを記載してください。", "notion_url": ""}, {"id": "ag-023", "type": "agenda", "label": "習得度測定・認定基準", "text": "【論点】\n・トレーナー認定のための評価指標（チェックリスト形式）\n・模擬セッションによる実技評価\n・受講生満足度スコアとの連動", "tab": "curriculum", "layer": "N/A", "phase": "N/A", "category": "marketing", "priority": null, "line_no": 1946, "detail": "この議題の論点・背景・決定事項・次アクションを記載してください。", "notion_url": ""}, {"id": "ag-024", "type": "agenda", "label": "品質平準化の仕組み", "text": "【論点】\n・トレーナー間のフィードバック共有会（定期）\n・指導マニュアル・想定Q&A集の整備\n・セッション録画レビューによる品質チェック", "tab": "curriculum", "layer": "N/A", "phase": "N/A", "category": "all", "priority": null, "line_no": 1969, "detail": "この議題の論点・背景・決定事項・次アクションを記載してください。", "notion_url": ""}, {"id": "ag-025", "type": "agenda", "label": "Month 1 — 土台構築", "text": "【論点】\n・AIとの付き合い方・基本操作（Claude）\n・スキルファイル作成（Base44）\n・業務特化プロンプト設計\n・自社業務に特化したスキル1本\n・Month 1 学習レポート（LMS出力）", "tab": "curriculum", "layer": "N/A", "phase": "N/A", "category": "product", "priority": null, "line_no": 2006, "detail": "この議題の論点・背景・決定事項・次アクションを記載してください。", "notion_url": ""}, {"id": "ag-026", "type": "agenda", "label": "Month 2 — 習慣化・定着", "text": "【論点】\n・コネクタ連携（Notion / Drive等）\n・自動化ワークフローの設計と実装\n・エージェント基礎（Cowork）\n・自動化フロー1件の稼働\n・Month 2 学習レポート・満足度アンケート（LMS出力）", "tab": "curriculum", "layer": "N/A", "phase": "N/A", "category": "product", "priority": null, "line_no": 2034, "detail": "この議題の論点・背景・決定事項・次アクションを記載してください。", "notion_url": ""}, {"id": "ag-027", "type": "agenda", "label": "Month 3 — 自走・拡張", "text": "【論点】\n・E2E自動化設計\n・Claude Code導入・外部API連携\n・社内展開・他者へのティーチング\n・E2E自動化フロー1本・エージェント設計書\n・最終レポート（補助金提出書類兼用・LMS出力）", "tab": "curriculum", "layer": "N/A", "phase": "N/A", "category": "product", "priority": null, "line_no": 2062, "detail": "この議題の論点・背景・決定事項・次アクションを記載してください。", "notion_url": ""}, {"id": "ag-028", "type": "agenda", "label": "インプット：収集する情報", "text": "【論点】\n・受講生の質問・FAQ（LMSで蓄積）\n・セッション後のアンケート・満足度スコア\n・トレーナーの指導メモ・詰まりポイント\n・コミュニティでの活用事例・成功パターン", "tab": "curriculum", "layer": "N/A", "phase": "N/A", "category": "all", "priority": null, "line_no": 2096, "detail": "この議題の論点・背景・決定事項・次アクションを記載してください。", "notion_url": ""}, {"id": "ag-029", "type": "agenda", "label": "アウトプット：カリキュラムへの反映", "text": "【論点】\n・共通70%テンプレートの定期改訂（3ヶ月ごと）\n・FAQ集・指導マニュアルへの追記\n・優良事例のシラバスへの組み込み\n・トレーナー向け勉強会での共有", "tab": "curriculum", "layer": "N/A", "phase": "N/A", "category": "all", "priority": null, "line_no": 2112, "detail": "この議題の論点・背景・決定事項・次アクションを記載してください。", "notion_url": ""}, {"id": "ag-030", "type": "agenda", "label": "CRM / SFA 設計", "text": "【論点】\n・顧客データの一元管理（リードジェネ → 継続・発展まで）\n・使用ツール候補：Notion DB / HubSpot / 独自Base44製\n・顧客カルテ・契約情報・請求情報を統合管理\n・温度感スコア・ナーチャリングキュー・商談進捗の管理\n・失注理由の記録 → ナーチャリングキューへの自動移行\n・CRMとの連携設計（同一ツール or API連携）\n【関連する穴】\n・SFA〜CRM連携が未整備・ツール未選定", "tab": "curriculum", "layer": "N/A", "phase": "N/A", "category": "product", "priority": "p1", "line_no": 2152, "detail": "この議題の論点・背景・決定事項・次アクションを記載してください。", "notion_url": ""}, {"id": "ag-031", "type": "agenda", "label": "壁打ちAI 構築仕様", "text": "【論点】\n・商談時にヒアリング内容を入力 → 最適カリキュラム・計画表を自動生成（社内専用）\n・共通70%テンプレート＋独自30%カスタムのセミオーダー設計に基づく出力\n・構築ツール：Base44（社内専用アプリ）\n・入力：マスト回収項目（業種・規模・AI習熟度・課題・予算・スケジュール）\n・出力：カリキュラムプラン・3ヶ月スケジュール・成果物定義\n・ヒアリングDBとの連携設計（Notion or CRM）\n【関連する穴】\n・壁打ちAI未構築・ヒアリングDB未設計", "tab": "curriculum", "layer": "N/A", "phase": "N/A", "category": "product", "priority": "p1", "line_no": 2185, "detail": "この議題の論点・背景・決定事項・次アクションを記載してください。", "notion_url": ""}, {"id": "ag-032", "type": "agenda", "label": "LMS 実装仕様（Base44製）", "text": "【論点】\n・M1〜M3全フェーズで使用する学習管理システム（Base44で内製）\n・補助金申請に必要な学習計画・出席率・学習レポートの記録・出力が必須\n・出席記録 / 進捗管理 / 単元別完了チェック\n・学習レポート自動生成（補助金提出書類フォーマット対応）\n・満足度アンケート / FAQ・質問ログの蓄積\n・フライホイールへのデータ引き渡し機能\n【関連する穴】\n・LMS（Base44製）の実装が未着手", "tab": "curriculum", "layer": "N/A", "phase": "N/A", "category": "product", "priority": "p1", "line_no": 2218, "detail": "この議題の論点・背景・決定事項・次アクションを記載してください。", "notion_url": ""}, {"id": "ag-033", "type": "agenda", "label": "Notion / Drive 資料管理設計", "text": "【論点】\n・プランナーセット：商談用資料一式（DECK・ROI試算・FAQ）\n・プランナーハンドブック：商談スクリプト・マスト回収項目・壁打ちAI操作手順\n・トレーナーハンドブック：セッション進行・想定Q&A・品質チェックリスト\n・補助金申請書類：テンプレート一式 → 顧客へURL自動送付\n・顧客カルテ・ヒアリングDB\n・補助金管理台帳（対象顧客・種別・期限・進捗）\n・CAIO稼働レポート・KPI管理\n【関連する穴】\n・各ハンドブック・Salesデックが未作成\n・補助金書類の自動送付フローが未設計", "tab": "curriculum", "layer": "N/A", "phase": "N/A", "category": "product", "priority": "p2", "line_no": 2251, "detail": "この議題の論点・背景・決定事項・次アクションを記載してください。", "notion_url": ""}, {"id": "ag-034", "type": "agenda", "label": "AI選定ナビ 構築仕様", "text": "【論点】\n・「これはCowork？Claude Code？エージェント？」をいつでも自己診断できる常設AIツール\n・継続・発展フェーズの受講修了者が使用（全プラン共通）\n・構築ツール：Base44 or Claude製\n・入力：やりたいこと・現在の環境・スキルレベル\n・出力：最適ツール選定理由・実装ステップ・参考事例\n・定期更新：新ツール・事例データを追加するメンテナンス体制\n【関連する穴】\n・選定ロジック・判断フロー・ツール実装が未着手", "tab": "curriculum", "layer": "N/A", "phase": "N/A", "category": "product", "priority": "p2", "line_no": 2288, "detail": "この議題の論点・背景・決定事項・次アクションを記載してください。", "notion_url": ""}, {"id": "ag-035", "type": "agenda", "label": "伴走AI 構築仕様（カリキュラム自動生成）", "text": "【論点】\n・ヒアリングDBのデータをフェッチし、最適カリキュラムプランを自動生成\n・壁打ちAIとの役割分担：壁打ちAI=商談時、伴走AI=支援内容設計フェーズ\n・入力：顧客カルテ（業種・AI習熟度・課題・ゴール）\n・出力：共通70%＋独自30%のカリキュラムプラン・単元割り当て\n・構築ツール：Base44（社内専用）\n【関連する穴】\n・伴走AI・ヒアリングDBが未構築", "tab": "curriculum", "layer": "N/A", "phase": "N/A", "category": "product", "priority": "p2", "line_no": 2321, "detail": "この議題の論点・背景・決定事項・次アクションを記載してください。", "notion_url": ""}]</script>
-
-<!-- CARD DETAIL MODAL -->
-<div id="card-modal" class="card-modal-overlay" onclick="closeCardModal(event)">
-  <div class="card-modal" onclick="event.stopPropagation()">
-    <div class="cm-head">
-      <div class="cm-head-left">
-        <span id="cm-type-badge" class="cm-type-badge"></span>
-        <div id="cm-label" class="cm-label"></div>
-      </div>
-      <button class="cm-close" onclick="closeCardModal()" aria-label="閉じる">×</button>
-    </div>
-    <div class="cm-body">
-      <div id="cm-meta" class="cm-meta"></div>
-      <div id="cm-text-section" class="cm-section" style="margin-top:0;">
-        <div class="cm-section-label">カード内容</div>
-        <div id="cm-text" class="cm-text"></div>
-      </div>
-      <div class="cm-section">
-        <div class="cm-section-label">詳細・補足メモ</div>
-        <div id="cm-detail" class="cm-detail"></div>
-      </div>
-      <div class="cm-section">
-        <div class="cm-section-label">関連Notionページ</div>
-        <div id="cm-notion"></div>
-      </div>
-    </div>
-    <div class="cm-foot">
-      <span id="cm-card-id" style="font-size:10px;font-family:'Space Mono',monospace;color:var(--text-muted);align-self:center;margin-right:auto;"></span>
-      <button class="cm-foot-btn" onclick="closeCardModal()">閉じる</button>
-    </div>
-  </div>
+<!-- card-modal-root -->
+<div id="card-modal-root" class="card-modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="card-modal"></div>
 </div>
 
 </body>
