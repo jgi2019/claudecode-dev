@@ -1,0 +1,3 @@
+[submodule "mcp-servers/tldv-mcp-server"]
+	path = mcp-servers/tldv-mcp-server
+	url = https://github.com/tldv-public/tldv-mcp-server.git
