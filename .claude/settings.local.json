@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(gh auth *)",
-      "Bash(gh api *)"
+      "Bash(gh api *)",
+      "Bash(ls *.md)",
+      "Bash(mv *)"
     ]
   }
 }
