@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>点心 丹波篠山 | 丹波篠山で本格香港点心</title>
+  <meta name="description" content="兵庫県丹波篠山の点心専門店「点心 丹波篠山」。特製豚まんを冷凍クール便でご自宅へお届けします。">
+
+  <meta property="og:title" content="点心 丹波篠山">
+  <meta property="og:description" content="丹波篠山の点心専門店。特製豚まんを冷凍クール便でご自宅へ。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tenshints.official.ec/">
+  <meta property="og:image" content="./assets/OGP.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap">
+
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+
+  <!-- ================================================================
+       1. ヘッダー（のれん）— 全ページ共通
+       ================================================================ -->
+  <header class="noren">
+    <div class="noren__top">
+      <a href="{IndexPageURL}" class="noren__logo-nav" aria-label="点心 丹波篠山 トップへ">
+        <img src="./assets/logo_nav.svg" alt="点心 丹波篠山">
+      </a>
+      <div class="noren__icons">
+        <a href="https://www.instagram.com/tenshin_tanba_sasayama/" target="_blank" rel="noopener" class="noren__icon" aria-label="Instagram">
+          <img src="./assets/icon_ins.svg" alt="">
+        </a>
+        <a href="{CartPageURL}" class="noren__icon" aria-label="カート">
+          <img src="./assets/icon_shop.svg" alt="">
+        </a>
+      </div>
+    </div>
+    <div class="noren__center">
+      <img src="./assets/logo.svg" alt="点心 丹波篠山" class="noren__logo-main">
+    </div>
+  </header>
+
+  {block:IndexPage}
+  <main>
+
+    <!-- ================================================================
+         2. HERO（店舗夜景 + 特製豚まんバナー）
+         ================================================================ -->
+    <section class="hero">
+      <picture class="hero__picture">
+        <source media="(max-width: 768px)" srcset="./assets/hero-bg-sp.png">
+        <img src="./assets/hero-bg-pc.png" alt="点心 丹波篠山 店舗外観" class="hero__bg parallax-target">
+      </picture>
+      <img src="./assets/hero-banner-nikuman.png" alt="特製豚まん 日本のお米を食べて育った国産豚肉使用" class="hero__banner">
+    </section>
+
+    <!-- ================================================================
+         3. コピー + コラージュ（白→グレー→黒 グラデ背景）
+         ================================================================ -->
+    <section class="story">
+      <div class="story__inner">
+        <div class="story__copy">
+          <p class="story__text">
+            丹波篠山の夜、店には湯気と笑い声が満ちています。<br>
+            蒸籠のふたを開ける、あの瞬間。<br>
+            皆がいっせいに、顔を綻ばせる。<br>
+            その光景を、お店で、ご自宅で。<br>
+            クール便で届くのは、ただの冷凍食品ではなく、<br>
+            丹波篠山の小さな食卓の、賑わいそのものです。<br>
+            丹波篠山で本格点心をお楽しみください。
+          </p>
+        </div>
+        <div class="story__collage">
+          <figure class="story__img story__img--2">
+            <img src="./assets/collage-2.png" alt="蒸籠に盛られたシュウマイ" loading="lazy">
+          </figure>
+          <figure class="story__img story__img--1">
+            <img src="./assets/collage-1.png" alt="特製豚まんの断面" loading="lazy">
+          </figure>
+          <figure class="story__img story__img--3">
+            <img src="./assets/collage-3.png" alt="点心の盛り合わせ" loading="lazy">
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         4. 2カラムCTA（赤ピンク + 中華装飾フレーム）
+         ================================================================ -->
+    <section class="cta">
+      <div class="cta__inner">
+
+        <article class="cta-card cta-card--shop">
+          <span class="corner corner--tl" aria-hidden="true"></span>
+          <span class="corner corner--tr" aria-hidden="true"></span>
+          <span class="corner corner--bl" aria-hidden="true"></span>
+          <span class="corner corner--br" aria-hidden="true"></span>
+          <p class="cta-card__lead">本格香港点心を</p>
+          <h2 class="cta-card__heading">お店で愉しむ</h2>
+          <picture class="cta-card__image">
+            <source media="(max-width: 768px)" srcset="./assets/cta-shop-sp.png">
+            <img src="./assets/cta-shop.png" alt="点心 丹波篠山 店舗の様子" loading="lazy">
+          </picture>
+          <a href="#shop-info" class="cta-card__button">店舗情報へ</a>
+        </article>
+
+        <article class="cta-card cta-card--home">
+          <span class="corner corner--tl" aria-hidden="true"></span>
+          <span class="corner corner--tr" aria-hidden="true"></span>
+          <span class="corner corner--bl" aria-hidden="true"></span>
+          <span class="corner corner--br" aria-hidden="true"></span>
+          <p class="cta-card__lead">本格香港点心を</p>
+          <h2 class="cta-card__heading">自宅で愉しむ</h2>
+          <div class="cta-card__image">
+            <img src="./assets/cta-home.png" alt="ご自宅で味わう特製豚まん" loading="lazy">
+          </div>
+          <!-- TODO: 商品登録後、{ItemPageURL id=XXX} に差し替え予定 -->
+          <a href="{IndexPageURL}" class="cta-card__button">オンラインショップへ</a>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ================================================================
+         5. 店舗情報（赤ピンク）
+         ================================================================ -->
+    <section class="shop-info" id="shop-info">
+      <header class="shop-info__header">
+        <h2 class="shop-info__heading">店舗情報</h2>
+        <p class="shop-info__sub">SHOP INFORMATION</p>
+      </header>
+      <div class="shop-info__body">
+        <dl class="shop-info__table">
+          <div class="shop-info__row">
+            <dt>住所</dt>
+            <dd>兵庫県丹波篠山市立町106-2</dd>
+          </div>
+          <div class="shop-info__row">
+            <dt>営業日</dt>
+            <dd>
+              水・木　18:00-21:00<br>
+              金・土・祝　11:00-15:00 / 18:00-21:00<br>
+              日　11:00-15:00<br>
+              <small>※公式Instagramをご確認ください。</small>
+            </dd>
+          </div>
+          <div class="shop-info__row">
+            <dt>お電話</dt>
+            <dd><a href="tel:07065011204">070-6501-1204</a></dd>
+          </div>
+          <div class="shop-info__row">
+            <dt>ご予約</dt>
+            <dd><a href="https://www.instagram.com/tenshin_tanba_sasayama/" target="_blank" rel="noopener">Instagram</a>のDM経由でも受付しております。</dd>
+          </div>
+        </dl>
+        <div class="shop-info__map">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4977.570968592501!2d135.21913765223124!3d35.0749975917895!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60006ca76cece21b%3A0x346ff8a59f1764f!2z44CSNjY5LTIzMjMg5YW15bqr55yM5Li55rOi56-g5bGx5biC56uL55S677yR77yQ77yW!5e0!3m2!1sja!2sjp!4v1776909594871!5m2!1sja!2sjp"
+            width="600"
+            height="450"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="点心 丹波篠山 店舗地図"></iframe>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  {/block:IndexPage}
+
+  {block:ItemPage}
+    <!-- TODO: フェーズ2で商品詳細ページを実装 -->
+  {/block:ItemPage}
+
+  {block:AboutPage}
+    <!-- TODO: フェーズ2でAboutページを実装 -->
+  {/block:AboutPage}
+
+  <!-- ================================================================
+       6. フッター（グレー）— 全ページ共通
+       BASE必須タグ：{ContactPageURL} / {PrivacyPageURL} / {LawPageURL}
+       ================================================================ -->
+  <footer class="site-footer">
+    <div class="site-footer__brand">
+      <img src="./assets/logo_clr.svg" alt="点心 丹波篠山" class="site-footer__logo">
+    </div>
+    <a href="https://www.instagram.com/tenshin_tanba_sasayama/" target="_blank" rel="noopener" class="site-footer__ins">
+      <img src="./assets/icon_ins_clr.svg" alt="" class="site-footer__ins-icon">
+      <span>最新情報はInstagramへ！</span>
+    </a>
+    <nav class="site-footer__legal" aria-label="法定ページ">
+      <ul>
+        <li><a href="{ContactPageURL}">お問い合わせ</a></li>
+        <li><a href="{PrivacyPageURL}">プライバシーポリシー</a></li>
+        <li><a href="{LawPageURL}">特定商取引法に基づく表記</a></li>
+      </ul>
+    </nav>
+    <p class="site-footer__copy">&copy; Tenshin-tanbasasayama</p>
+  </footer>
+
+  <script src="./script.js" defer></script>
+</body>
+</html>
