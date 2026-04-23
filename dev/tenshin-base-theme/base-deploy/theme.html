@@ -1,0 +1,865 @@
+<!--
+==============================================================================
+BASE ファイルアップローダー 画像マッピング表
+==============================================================================
+アップロード元：src/resize/ ディレクトリ
+アップロード後、発行されたURLでプレースホルダーを置換してください。
+
+{{IMG_OGP}}           ← OGP.png
+{{IMG_LOGO}}          ← logo.png
+{{IMG_LOGO_NAV}}      ← logo_nav.png
+{{IMG_LOGO_CLR}}      ← logo_clr.png
+{{IMG_ICON_INS}}      ← icon_ins.png
+{{IMG_ICON_INS_CLR}}  ← icon_ins_clr.png
+{{IMG_ICON_SHOP}}     ← icon_shop.png
+{{IMG_HERO_BG_PC}}    ← hero-bg-pc.jpg
+{{IMG_HERO_BG_SP}}    ← hero-bg-sp.jpg
+{{IMG_HERO_BANNER}}   ← hero-banner-nikuman.png
+{{IMG_COLLAGE_1}}     ← collage-1.png
+{{IMG_COLLAGE_2}}     ← collage-2.png
+{{IMG_COLLAGE_3}}     ← collage-3.png
+{{IMG_CTA_SHOP}}      ← cta-shop.png
+{{IMG_CTA_SHOP_SP}}   ← cta-shop-sp.png
+{{IMG_CTA_HOME}}      ← cta-home.png
+{{IMG_NOREN}}         ← noren.png
+{{IMG_NOREN_SP}}      ← noren-sp.png
+{{IMG_SHOP_FRAME}}    ← shop-frame.png
+{{IMG_HOME_FRAME}}    ← home-frame.png
+
+※src/resize/ の実ファイル拡張子を確認済み（2026-04-23）
+==============================================================================
+-->
+{block:NotLoadItemsPage}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="copyright" content="BASE">
+  <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>{PageTitle}</title>
+  {FaviconTag}
+  {CanonicalTag}
+  <meta name="description" content="兵庫県丹波篠山の点心専門店「点心 丹波篠山」。特製豚まんを冷凍クール便でご自宅へお届けします。">
+
+  <meta property="og:title" content="点心 丹波篠山">
+  <meta property="og:description" content="丹波篠山の点心専門店。特製豚まんを冷凍クール便でご自宅へ。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tenshints.official.ec/">
+  <meta property="og:image" content="{{IMG_OGP}}">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap">
+
+  <style>
+/* ==========================================================================
+   点心 丹波篠山 BASE テーマ — XDカンプ準拠
+   モバイルファースト / PCは min-width: 1025px で拡張
+   ========================================================================== */
+
+:root {
+  /* Color */
+  --c-wine-pink: #B01951;        /* のれん・CTA・店舗情報背景。XDから確定HEX取得後差し替え */
+  --c-gold: #C9A86A;             /* サブタイトル・アクセント */
+  --c-text-dark: #2B1F1F;        /* 本文黒 */
+  --c-text-white: #FFFFFF;       /* 白文字 */
+  --c-footer-bg: #E5E5E5;        /* フッター背景グレー */
+  --c-story-block: #E6E6E6;      /* storyセクション：メッセージ下地ブロック */
+  --c-story-bottom: #2B2219;     /* storyセクション：一番下のレイヤー */
+
+  /* Layout */
+  --max-w: 1280px;
+  --bp-pc: 1025px;
+
+  /* Typography */
+  --font-sans: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+}
+
+/* -------- リセット -------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.9;
+  color: var(--c-text-dark);
+  background: var(--c-text-white);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* img 基底：alt表示を絶対値で統一。固有サイズ画像はクラス詳細度で上書き */
+img {
+  font-size: 20pt;
+  color: rgba(255, 255, 255, 0.6);
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+svg { display: block; max-width: 100%; height: auto; }
+
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; margin: 0; padding: 0; }
+button { font: inherit; background: none; border: 0; cursor: pointer; color: inherit; padding: 0; }
+h1, h2, h3, p, dl, dd, dt, figure { margin: 0; padding: 0; }
+small { font-size: 0.8em; }
+:focus-visible { outline: 2px solid var(--c-gold); outline-offset: 3px; }
+
+/* ==========================================================================
+   1. ヘッダー（のれん）
+   ========================================================================== */
+.noren {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  height: 300px;
+  background-image: url('{{IMG_NOREN_SP}}');
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: auto 300px;
+  overflow: hidden;
+  pointer-events: none;
+}
+.noren__top,
+.noren__center {
+  pointer-events: auto;
+}
+.noren__top {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 2;
+}
+.noren__logo-nav img {
+  width: auto;
+  height: 32px;
+}
+.noren__icons {
+  display: inline-flex;
+  gap: 16px;
+  align-items: center;
+}
+.noren__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+}
+.noren__icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.noren__center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+.noren__logo-main {
+  width: auto;
+  height: 120px;
+}
+@media (min-width: 1025px) {
+  .noren {
+    height: 590px;
+    background-image: url('{{IMG_NOREN}}');
+    background-size: auto 590px;
+  }
+  .noren__top {
+    top: 32px;
+    left: 48px;
+    right: 48px;
+  }
+  .noren__logo-nav img { height: 44px; }
+  .noren__icon { width: 32px; height: 32px; }
+  .noren__logo-main { height: 200px; }
+}
+
+/* ==========================================================================
+   2. HERO
+   ========================================================================== */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 60vh;
+  min-height: 360px;
+  max-height: 640px;
+  overflow: hidden;
+  background: var(--c-text-dark);
+}
+.hero__picture {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  /* パララックスで上方向に動かした際、HERO下端に下地が露出しないよう下方向に余裕を確保 */
+  height: 150%;
+}
+.hero__bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  will-change: transform;
+}
+.hero__banner {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  width: 200px;
+  height: auto;
+  z-index: 2;
+}
+@media (min-width: 1025px) {
+  .hero {
+    height: 100vh;
+    max-height: 1200px;
+  }
+  .hero__banner {
+    right: 20px;
+    bottom: 20px;
+    width: 320px;
+  }
+}
+
+/* ==========================================================================
+   3. コピー + コラージュ
+   ========================================================================== */
+.story {
+  background: var(--c-story-bottom);
+  padding: 40px 0 80px;
+}
+.story__inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+.story__copy {
+  background: var(--c-story-block);
+  padding: 40px 24px;
+  margin-bottom: 40px;
+  position: relative;
+  z-index: 1;
+}
+.story__text {
+  font-size: 15px;
+  line-height: 2.2;
+  letter-spacing: 0.04em;
+  color: var(--c-text-dark);
+}
+.story__collage {
+  position: relative;
+  height: 820px;
+}
+.story__img {
+  position: absolute;
+  margin: 0;
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.3));
+}
+.story__img img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+/* SP：縦1カラム、左右に振って重なり感を出す */
+.story__img--2 { top: 0;   left: 0;    width: 80%; z-index: 2; }
+.story__img--1 { top: 25%; right: 0;   width: 80%; z-index: 3; }
+.story__img--3 { top: 58%; left: 5%;   width: 60%; z-index: 4; }
+
+@media (min-width: 1025px) {
+  .story {
+    padding: 0;
+  }
+  .story__inner {
+    padding: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    grid-template-rows: auto;
+    gap: 0;
+    min-height: 900px;
+    position: relative;
+  }
+  .story__copy {
+    grid-column: 1;
+    grid-row: 1;
+    padding: 120px 80px;
+    margin: 0;
+    align-self: start;
+    z-index: 1;
+  }
+  .story__text {
+    font-size: 17px;
+    line-height: 2.4;
+    max-width: 600px;
+  }
+  .story__collage {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    height: 100%;
+    min-height: 900px;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .story__img { pointer-events: auto; }
+  .story__img--1 { top: 14%;  left: 46%;             width: 35%; z-index: 4; }
+  .story__img--2 { top: 48%;  left: 10%;  right: 0;  width: 32%; z-index: 3; }
+  .story__img--3 { top: 66%;  left: 46%;             width: 22%; z-index: 5; }
+}
+
+/* ==========================================================================
+   4. 2カラムCTA
+   ========================================================================== */
+.cta {
+  background: var(--c-wine-pink);
+  padding: 60px 20px;
+}
+.cta__inner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+}
+.cta-card {
+  position: relative;
+  text-align: center;
+  padding: 60px 40px;
+  background-color: rgba(0, 0, 0, 0.05);
+  border: 0;
+}
+
+/* 中華装飾：4角に角飾りSVGを配置。左上を基準に残り3つは transform で反転 */
+.corner {
+  position: absolute;
+  width: 56px;
+  height: 56px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  pointer-events: none;
+}
+.corner--tl { top: 0;    left: 0; }
+.corner--tr { top: 0;    right: 0;  transform: scaleX(-1); }
+.corner--bl { bottom: 0; left: 0;   transform: scaleY(-1); }
+.corner--br { bottom: 0; right: 0;  transform: scale(-1, -1); }
+
+.cta-card--shop .corner { background-image: url('{{IMG_SHOP_FRAME}}'); }
+.cta-card--home .corner { background-image: url('{{IMG_HOME_FRAME}}'); }
+
+@media (min-width: 1025px) {
+  .corner { width: 72px; height: 72px; }
+}
+.cta-card__lead {
+  font-size: 13px;
+  color: var(--c-text-white);
+  letter-spacing: 0.1em;
+  margin-bottom: 4px;
+}
+.cta-card__heading {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--c-text-white);
+  letter-spacing: 0.1em;
+  margin-bottom: 24px;
+  font-family: var(--font-sans);
+}
+.cta-card__image {
+  display: block;
+  margin: 0 auto 28px;
+  max-width: 100%;
+}
+.cta-card__image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.cta-card__button {
+  display: inline-block;
+  padding: 0.9em 2.6em;
+  background: var(--c-text-white);
+  color: var(--c-wine-pink);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  border-radius: 999px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.cta-card__button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+@media (min-width: 1025px) {
+  .cta { padding: 100px 48px; }
+  .cta__inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+  }
+  .cta-card { padding: 60px 48px; }
+  .cta-card__heading { font-size: 32px; margin-bottom: 32px; }
+  .cta-card__image { margin-bottom: 36px; }
+}
+
+/* ==========================================================================
+   5. 店舗情報
+   ========================================================================== */
+.shop-info {
+  background: var(--c-wine-pink);
+  color: var(--c-text-white);
+  padding: 60px 20px 80px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+.shop-info__header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+.shop-info__heading {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--c-text-white);
+}
+.shop-info__sub {
+  font-size: 12px;
+  letter-spacing: 0.25em;
+  color: var(--c-gold);
+  margin-top: 8px;
+}
+.shop-info__body {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+}
+.shop-info__table {
+  font-size: 14px;
+}
+.shop-info__row {
+  display: grid;
+  grid-template-columns: 88px 1fr;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  align-items: start;
+}
+.shop-info__row dt {
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+.shop-info__row dd a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.shop-info__row dd small {
+  display: inline-block;
+  margin-top: 4px;
+  opacity: 0.85;
+}
+.shop-info__map {
+  width: 100%;
+}
+.shop-info__map iframe {
+  display: block;
+  width: 100%;
+  height: 300px;
+  border: 0;
+  border-radius: 4px;
+}
+@media (min-width: 1025px) {
+  .shop-info__map iframe { height: 450px; }
+}
+@media (min-width: 1025px) {
+  .shop-info { padding: 100px 48px 120px; }
+  .shop-info__heading { font-size: 36px; }
+  .shop-info__body {
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: start;
+  }
+  .shop-info__row {
+    grid-template-columns: 120px 1fr;
+    padding: 20px 0;
+  }
+}
+
+/* ==========================================================================
+   6. フッター
+   ========================================================================== */
+.site-footer {
+  background: var(--c-footer-bg);
+  color: var(--c-text-dark);
+  padding: 60px 20px 32px;
+  text-align: center;
+}
+.site-footer__brand { margin-bottom: 24px; }
+.site-footer__logo {
+  width: auto;
+  height: 80px;
+  margin: 0 auto;
+}
+.site-footer__ins {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  margin-bottom: 24px;
+  color: var(--c-text-dark);
+}
+.site-footer__ins-icon {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+.site-footer__copy {
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--c-text-dark);
+  margin-bottom: 0;
+  opacity: 0.7;
+}
+.site-footer__legal {
+  margin-bottom: 24px;
+}
+.site-footer__legal ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+}
+.site-footer__legal a {
+  color: var(--c-text-dark);
+  opacity: 0.7;
+  border-bottom: 1px solid rgba(43, 31, 31, 0.3);
+  padding-bottom: 1px;
+  transition: opacity 0.2s;
+}
+.site-footer__legal a:hover { opacity: 1; }
+@media (min-width: 1025px) {
+  .site-footer { padding: 80px 48px 40px; }
+  .site-footer__logo { height: 100px; }
+}
+
+/* ==========================================================================
+   reduced-motion 配慮
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .parallax-target { transform: none !important; }
+}
+
+/* ==========================================================================
+   法定ページ（お問い合わせ・プライバシー・特商法）用 — BASE生成コンテンツの受け皿
+   ========================================================================== */
+.legal-page {
+  min-height: 70vh;
+  padding: 80px 20px;
+  background: var(--c-text-white);
+}
+.legal-page__inner {
+  max-width: 800px;
+  margin: 0 auto;
+  color: var(--c-text-dark);
+  line-height: 1.9;
+}
+.legal-page__inner h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--c-wine-pink);
+}
+@media (min-width: 1025px) {
+  .legal-page { padding: 120px 48px; }
+  .legal-page__inner h1 { font-size: 32px; }
+}
+
+/* 商品詳細ページ用（暫定・フェーズ2で本実装） */
+.item-page {
+  min-height: 70vh;
+  padding: 80px 20px;
+}
+  </style>
+  {BackgroundTag}
+  {GoogleAnalyticsTag}
+</head>
+<body>
+
+  <!-- BASE必須タグ（BASE標準メニュー / ロゴタグ） — 自作ヘッダーより先に出力 -->
+  {BASEMenuTag}
+  {LogoTag}
+
+  <!-- ================================================================
+       1. ヘッダー（のれん）— 全ページ共通
+       ================================================================ -->
+  <header class="noren">
+    <div class="noren__top">
+      <a href="{IndexPageURL}" class="noren__logo-nav" aria-label="点心 丹波篠山 トップへ">
+        <img src="{{IMG_LOGO_NAV}}" alt="点心 丹波篠山">
+      </a>
+      <div class="noren__icons">
+        <a href="https://www.instagram.com/tenshin_tanba_sasayama/" target="_blank" rel="noopener" class="noren__icon" aria-label="Instagram">
+          <img src="{{IMG_ICON_INS}}" alt="">
+        </a>
+        <a href="{CartPageURL}" class="noren__icon" aria-label="カート">
+          <img src="{{IMG_ICON_SHOP}}" alt="">
+        </a>
+      </div>
+    </div>
+    <div class="noren__center">
+      <img src="{{IMG_LOGO}}" alt="点心 丹波篠山" class="noren__logo-main">
+    </div>
+  </header>
+
+  {block:IndexPage}
+  <main>
+
+    <!-- ================================================================
+         2. HERO（店舗夜景 + 特製豚まんバナー）
+         ================================================================ -->
+    <section class="hero">
+      <picture class="hero__picture">
+        <source media="(max-width: 768px)" srcset="{{IMG_HERO_BG_SP}}">
+        <img src="{{IMG_HERO_BG_PC}}" alt="点心 丹波篠山 店舗外観" class="hero__bg parallax-target">
+      </picture>
+      <img src="{{IMG_HERO_BANNER}}" alt="特製豚まん 日本のお米を食べて育った国産豚肉使用" class="hero__banner">
+    </section>
+
+    <!-- ================================================================
+         3. コピー + コラージュ
+         ================================================================ -->
+    <section class="story">
+      <div class="story__inner">
+        <div class="story__copy">
+          <p class="story__text">
+            丹波篠山の夜、店には湯気と笑い声が満ちています。<br>
+            蒸籠のふたを開ける、あの瞬間。<br>
+            皆がいっせいに、顔を綻ばせる。<br>
+            その光景を、お店で、ご自宅で。<br>
+            クール便で届くのは、ただの冷凍食品ではなく、<br>
+            丹波篠山の小さな食卓の、賑わいそのものです。<br>
+            丹波篠山で本格点心をお楽しみください。
+          </p>
+        </div>
+        <div class="story__collage">
+          <figure class="story__img story__img--2">
+            <img src="{{IMG_COLLAGE_2}}" alt="蒸籠に盛られたシュウマイ" loading="lazy">
+          </figure>
+          <figure class="story__img story__img--1">
+            <img src="{{IMG_COLLAGE_1}}" alt="特製豚まんの断面" loading="lazy">
+          </figure>
+          <figure class="story__img story__img--3">
+            <img src="{{IMG_COLLAGE_3}}" alt="点心の盛り合わせ" loading="lazy">
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================
+         4. 2カラムCTA（赤ピンク + 中華装飾フレーム）
+         ================================================================ -->
+    <section class="cta">
+      <div class="cta__inner">
+
+        <article class="cta-card cta-card--shop">
+          <span class="corner corner--tl" aria-hidden="true"></span>
+          <span class="corner corner--tr" aria-hidden="true"></span>
+          <span class="corner corner--bl" aria-hidden="true"></span>
+          <span class="corner corner--br" aria-hidden="true"></span>
+          <p class="cta-card__lead">本格香港点心を</p>
+          <h2 class="cta-card__heading">お店で愉しむ</h2>
+          <picture class="cta-card__image">
+            <source media="(max-width: 768px)" srcset="{{IMG_CTA_SHOP_SP}}">
+            <img src="{{IMG_CTA_SHOP}}" alt="点心 丹波篠山 店舗の様子" loading="lazy">
+          </picture>
+          <a href="#shop-info" class="cta-card__button">店舗情報へ</a>
+        </article>
+
+        <article class="cta-card cta-card--home">
+          <span class="corner corner--tl" aria-hidden="true"></span>
+          <span class="corner corner--tr" aria-hidden="true"></span>
+          <span class="corner corner--bl" aria-hidden="true"></span>
+          <span class="corner corner--br" aria-hidden="true"></span>
+          <p class="cta-card__lead">本格香港点心を</p>
+          <h2 class="cta-card__heading">自宅で愉しむ</h2>
+          <div class="cta-card__image">
+            <img src="{{IMG_CTA_HOME}}" alt="ご自宅で味わう特製豚まん" loading="lazy">
+          </div>
+          <!-- TODO: 商品登録後、{ItemPageURL id=XXX} に差し替え予定 -->
+          <a href="{IndexPageURL}" class="cta-card__button">オンラインショップへ</a>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ================================================================
+         5. 店舗情報（赤ピンク）
+         ================================================================ -->
+    <section class="shop-info" id="shop-info">
+      <header class="shop-info__header">
+        <h2 class="shop-info__heading">店舗情報</h2>
+        <p class="shop-info__sub">SHOP INFORMATION</p>
+      </header>
+      <div class="shop-info__body">
+        <dl class="shop-info__table">
+          <div class="shop-info__row">
+            <dt>住所</dt>
+            <dd>兵庫県丹波篠山市立町106-2</dd>
+          </div>
+          <div class="shop-info__row">
+            <dt>営業日</dt>
+            <dd>
+              水・木　18:00-21:00<br>
+              金・土・祝　11:00-15:00 / 18:00-21:00<br>
+              日　11:00-15:00<br>
+              <small>※公式Instagramをご確認ください。</small>
+            </dd>
+          </div>
+          <div class="shop-info__row">
+            <dt>お電話</dt>
+            <dd><a href="tel:07065011204">070-6501-1204</a></dd>
+          </div>
+          <div class="shop-info__row">
+            <dt>ご予約</dt>
+            <dd><a href="https://www.instagram.com/tenshin_tanba_sasayama/" target="_blank" rel="noopener">Instagram</a>のDM経由でも受付しております。</dd>
+          </div>
+        </dl>
+        <div class="shop-info__map">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4977.570968592501!2d135.21913765223124!3d35.0749975917895!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60006ca76cece21b%3A0x346ff8a59f1764f!2z44CSNjY5LTIzMjMg5YW15bqr55yM5Li55rOi56-g5bGx5biC56uL55S677yR77yQ77yW!5e0!3m2!1sja!2sjp!4v1776909594871!5m2!1sja!2sjp"
+            width="600"
+            height="450"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="点心 丹波篠山 店舗地図"></iframe>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  {/block:IndexPage}
+
+  {block:ContactPage}
+  <main class="legal-page">
+    <div class="legal-page__inner">
+      <h1>お問い合わせ</h1>
+      {ContactContentsTag}
+    </div>
+  </main>
+  {/block:ContactPage}
+
+  {block:PrivacyPage}
+  <main class="legal-page">
+    <div class="legal-page__inner">
+      <h1>プライバシーポリシー</h1>
+      {PrivacyContentsTag}
+    </div>
+  </main>
+  {/block:PrivacyPage}
+
+  {block:LawPage}
+  <main class="legal-page">
+    <div class="legal-page__inner">
+      <h1>特定商取引法に基づく表記</h1>
+      {LawContentsTag}
+    </div>
+  </main>
+  {/block:LawPage}
+
+  {block:ItemPage}
+  <main class="item-page">
+    {ItemAttentionTag}
+    <!-- TODO: フェーズ2で商品詳細ページを実装 -->
+  </main>
+  {/block:ItemPage}
+
+  {block:AboutPage}
+    <!-- TODO: フェーズ2でAboutページを実装 -->
+  {/block:AboutPage}
+
+  <!-- ================================================================
+       6. フッター（グレー）— 全ページ共通
+       BASE必須タグ：{ContactPageURL} / {PrivacyPageURL} / {LawPageURL}
+       ================================================================ -->
+  <footer class="site-footer">
+    <div class="site-footer__brand">
+      <img src="{{IMG_LOGO_CLR}}" alt="点心 丹波篠山" class="site-footer__logo">
+    </div>
+    <a href="https://www.instagram.com/tenshin_tanba_sasayama/" target="_blank" rel="noopener" class="site-footer__ins">
+      <img src="{{IMG_ICON_INS_CLR}}" alt="" class="site-footer__ins-icon">
+      <span>最新情報はInstagramへ！</span>
+    </a>
+    <nav class="site-footer__legal" aria-label="法定ページ">
+      <ul>
+        <li><a href="{ContactPageURL}">お問い合わせ</a></li>
+        <li><a href="{PrivacyPageURL}">プライバシーポリシー</a></li>
+        <li><a href="{LawPageURL}">特定商取引法に基づく表記</a></li>
+        <li>{IllegalReportTag}</li>
+      </ul>
+    </nav>
+    <p class="site-footer__copy">&copy; Tenshin-tanbasasayama</p>
+  </footer>
+
+  <script>
+/**
+ * 点心 丹波篠山 — HEROパララックス
+ * 対象：.parallax-target（HERO背景写真）のみ
+ * 適用条件：PC（>768px）かつ prefers-reduced-motion: no-preference
+ */
+(function () {
+  'use strict';
+
+  // 実機で重く感じたら 0.3 に下げる
+  var PARALLAX_RATIO = 0.4;
+  var MOBILE_BREAKPOINT = 768;
+
+  if (window.innerWidth <= MOBILE_BREAKPOINT) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var target = document.querySelector('.parallax-target');
+  if (!target) return;
+
+  var scrollY = 0;
+  var ticking = false;
+
+  function update() {
+    target.style.transform = 'translate3d(0, ' + (-scrollY * PARALLAX_RATIO) + 'px, 0)';
+    ticking = false;
+  }
+
+  function onScroll() {
+    scrollY = window.scrollY;
+    if (!ticking) {
+      window.requestAnimationFrame(update);
+      ticking = true;
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+})();
+  </script>
+</body>
+</html>
+{/block:NotLoadItemsPage}

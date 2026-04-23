@@ -2,3 +2,14 @@ acc_transport_20260415/
 acc_transport_20260415/
 acc_transport_20260415/
 .DS_Store
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Claude Code local settings
+.claude/
+**/.claude/
+
+# Vercel
+.vercel/

@@ -1,0 +1,29 @@
+# BASE アップロード済み画像URL一覧
+# アップロード日：2026-04-23
+# 使用：base-deploy/theme.html のプレースホルダー置換時の参照
+
+## 取得済み（7ファイル・2026-04-23）
+
+{{IMG_HERO_BG_PC}}    → https://basefile.akamaized.net/tenshints-official-ec/69ea1e0bd0554/hero-bg-pc.jpg
+{{IMG_HERO_BG_SP}}    → https://basefile.akamaized.net/tenshints-official-ec/69ea1e3ab2388/hero-bg-sp.jpg
+{{IMG_COLLAGE_1}}     → https://basefile.akamaized.net/tenshints-official-ec/69ea1e4d56af0/collage-1.png
+{{IMG_COLLAGE_2}}     → https://basefile.akamaized.net/tenshints-official-ec/69ea1e6f69053/collage-2.png
+{{IMG_COLLAGE_3}}     → https://basefile.akamaized.net/tenshints-official-ec/69ea1e7eac83f/collage-3.png
+{{IMG_CTA_HOME}}      → https://basefile.akamaized.net/tenshints-official-ec/69ea1e908f028/cta-home.png
+{{IMG_CTA_SHOP_SP}}   → https://basefile.akamaized.net/tenshints-official-ec/69ea1ea6bb266/cta-shop-sp.png
+
+## 未取得（13ファイル・明日2026-04-24以降にアップロード）
+
+{{IMG_CTA_SHOP}}      → 
+{{IMG_HERO_BANNER}}   → 
+{{IMG_NOREN}}         → 
+{{IMG_NOREN_SP}}      → 
+{{IMG_OGP}}           → 
+{{IMG_LOGO}}          → 
+{{IMG_LOGO_NAV}}      → 
+{{IMG_LOGO_CLR}}      → 
+{{IMG_ICON_INS}}      → 
+{{IMG_ICON_INS_CLR}}  → 
+{{IMG_ICON_SHOP}}     → 
+{{IMG_SHOP_FRAME}}    → 
+{{IMG_HOME_FRAME}}    → 
