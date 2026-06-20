@@ -208,8 +208,7 @@ small { font-size: 0.8em; }
     right: 16px;
     bottom: 16px;
     z-index: 9999;
-    width: 40vw;
-    max-width: 160px;
+    width: 65vw;
   }
   .hero__banner {
     position: static;
