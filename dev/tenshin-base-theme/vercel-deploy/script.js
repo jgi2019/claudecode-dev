@@ -35,3 +35,19 @@
 
   window.addEventListener('scroll', onScroll, { passive: true });
 })();
+
+/**
+ * HEROフローティングバナーの閉じるボタン
+ * クリックでバナーラップ（.hero__banner-wrap）を非表示にする
+ */
+(function () {
+  'use strict';
+
+  const wrap = document.querySelector('.hero__banner-wrap');
+  const closeBtn = document.querySelector('.hero__banner-close');
+  if (!wrap || !closeBtn) return;
+
+  closeBtn.addEventListener('click', function () {
+    wrap.style.display = 'none';
+  });
+})();
