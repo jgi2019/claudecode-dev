@@ -1,0 +1,10 @@
+name: aiworkerpass-wizard
+version: 0.1.0
+description: >-
+  AI Worker's Pass 初回オンボーディングウィザード（仕様書 §9）。LINE初回接触で6問の
+  ウィザードを実行し、回答を Supabase tenants に保存、SOUL.md 3部（Who You Are /
+  Tone / Hard Limits）にマッピングして利用者ごとの system_prompt を生成する。
+  pre_gateway_dispatch フックで確定文言を直接送信（LLM非経由・逐語）。
+author: "JIRO (Claude Code / Layer 2)"
+hooks:
+  - pre_gateway_dispatch
