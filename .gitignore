@@ -8,8 +8,16 @@ acc_transport_20260415/
 **/.DS_Store
 
 # Claude Code local settings
-.claude/
-**/.claude/
+.claude/*
+!.claude/settings.json
+!.claude/commands/
+.claude/settings.local.json
+
+# Nested subproject Claude dirs stay local
+dev/**/.claude/
+
+# CLAUDE.md backup
+CLAUDE.md.bak
 
 # Vercel
 .vercel/
