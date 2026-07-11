@@ -130,10 +130,22 @@ def parse_choice_multi(text: str) -> List[int]:
     return out
 
 
+# 呼びかけ用の敬称。名前がこれらで終わる場合は「さん」を重ねない（二重さん回避）。
+_HONORIFICS = ("さん", "様", "さま", "君", "くん", "ちゃん", "先生",
+               "院長", "社長", "部長", "課長", "店長", "会長", "専務", "常務", "殿")
+
+
+def _call_name(name: str) -> str:
+    """呼びかけ名を作る。敬称付きならそのまま、無ければ『さん』を足す。"""
+    n = (name or "あなた").strip() or "あなた"
+    return n if n.endswith(_HONORIFICS) else n + "さん"
+
+
 # --- SOUL.md 3部マッピング → system_prompt 生成 ------------------------------
 def build_system_prompt(answers: Dict[str, Any]) -> str:
     """回答を Who You Are / Tone / Hard Limits にマッピングして system_prompt を生成。"""
     name = (answers.get("q1_name") or "あなた").strip() or "あなた"
+    call = _call_name(name)
     role_n = answers.get("q2_role_n")
     role_label = _ROLE_LABELS.get(role_n, "（未確認）")
     is_decision_maker = role_n in _DECISION_MAKER_ROLES
@@ -147,7 +159,7 @@ def build_system_prompt(answers: Dict[str, Any]) -> str:
     lines.append("あなたは「AI Worker's Pass」の担当AIです。以下の利用者の、専属の相談相手として応答します。")
     lines.append("")
     lines.append("# 利用者について（Who You Are）")
-    lines.append(f"- 呼び方: {name} さん")
+    lines.append(f"- 呼び方: {call}")
     dm = "（決裁権あり）" if is_decision_maker else ""
     lines.append(f"- 立場: {role_label}{dm}")
     if pain:
@@ -156,7 +168,7 @@ def build_system_prompt(answers: Dict[str, Any]) -> str:
         lines.append(f"- 目指していること: {goal}")
     lines.append("")
     lines.append("# 話し方（Tone）")
-    lines.append(f"- {name} さん、と呼ぶ。")
+    lines.append(f"- {call} と呼ぶ。")
     # ベーストーン（B案・全テナント共通）: 親しみやすいLINE調。絵文字は控えめに。
     lines.append("- 親しみやすい、やわらかなLINEの会話調。堅苦しくしない。")
     if practice_cap:
