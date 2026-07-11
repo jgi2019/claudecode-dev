@@ -64,7 +64,8 @@ def _on_pre_gateway_dispatch(event=None, gateway=None, session_store=None, **_kw
             return None  # 未設定なら通常応答にフォールバック（ウィザード無効）
 
         text = (getattr(event, "text", "") or "").strip()
-        display_name = (getattr(source, "user_name", "") or "").strip()
+        # 内部ID（Uab..）が user_name として来るケースを弾く。掃除済みの名前だけ使う。
+        display_name = wizard.sanitize_display_name(getattr(source, "user_name", ""))
 
         tenant = store.get_tenant(user_id)
 
@@ -83,8 +84,17 @@ def _on_pre_gateway_dispatch(event=None, gateway=None, session_store=None, **_kw
         if tenant is None:
             seed_name = display_name or "（確認中）"
             store.create_tenant(user_id, seed_name)
-            store.update_tenant(user_id, {"onboarding_step": 1})
-            first = wizard.DECLARATION + "\n\n" + wizard.q1_confirm_name(display_name)
+            if display_name:
+                # 表示名あり → 確認フロー（1/2で選ぶ）
+                store.update_tenant(user_id, {"onboarding_step": 1})
+                first = wizard.DECLARATION + "\n\n" + wizard.q1_confirm_name(display_name)
+            else:
+                # 表示名なし（ID等）→ 最初から名前を聞く。次の返信を名前として拾う。
+                store.update_tenant(user_id, {
+                    "onboarding_step": 1,
+                    "onboarding_answers": {"_awaiting_rename": True},
+                })
+                first = wizard.DECLARATION + "\n\n" + wizard.Q1_ASK_NAME
             _schedule_send(gateway, source, first)
             return {"action": "skip", "reason": "wizard-start"}
 
@@ -97,8 +107,13 @@ def _on_pre_gateway_dispatch(event=None, gateway=None, session_store=None, **_kw
 
         # step 0（宣言送信前にレコードだけある異常系）→ 宣言+Q1 を出し直す
         if step <= 0:
-            store.update_tenant(user_id, {"onboarding_step": 1})
-            _schedule_send(gateway, source, wizard.DECLARATION + "\n\n" + wizard.q1_confirm_name(display_name))
+            if display_name:
+                store.update_tenant(user_id, {"onboarding_step": 1})
+                q1 = wizard.q1_confirm_name(display_name)
+            else:
+                store.update_tenant(user_id, {"onboarding_step": 1, "onboarding_answers": {"_awaiting_rename": True}})
+                q1 = wizard.Q1_ASK_NAME
+            _schedule_send(gateway, source, wizard.DECLARATION + "\n\n" + q1)
             return {"action": "skip", "reason": "wizard-restart-q1"}
 
         # === Q1: 呼び方の確認 ===
@@ -112,7 +127,7 @@ def _on_pre_gateway_dispatch(event=None, gateway=None, session_store=None, **_kw
                 return {"action": "skip"}
             choice = wizard.parse_choice_single(text)
             if choice == 1:
-                keep = display_name or tenant.get("name") or "あなた"
+                keep = display_name or "あなた"
                 a = _patch_answers(answers, q1_name=keep)
                 store.update_tenant(user_id, {"onboarding_answers": a, "onboarding_step": 2, "name": keep})
                 _schedule_send(gateway, source, wizard.Q2)

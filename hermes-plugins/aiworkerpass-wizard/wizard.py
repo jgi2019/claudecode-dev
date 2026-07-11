@@ -4,7 +4,20 @@
 """
 from __future__ import annotations
 
+import re
 from typing import Any, Dict, List, Tuple
+
+# LINE の user_id（"U" + 32桁hex）。取得失敗時にこれが display_name として渡るため弾く。
+_LINE_ID_RE = re.compile(r"^U[0-9a-f]{32}$")
+
+
+def sanitize_display_name(name: str) -> str:
+    """LINE から来た表示名を掃除する。内部ID（Uab..）や空なら "" を返す。"""
+    n = (name or "").strip()
+    if not n or _LINE_ID_RE.match(n):
+        return ""
+    return n
+
 
 # --- §9.4 ウィザード前の宣言（不安への先回り。逐語で送る） ---------------------
 DECLARATION = (
@@ -12,7 +25,7 @@ DECLARATION = (
     "これから6個、簡単な質問をさせてください。あなたに合ったお手伝いをするためです。\n"
     "お答えいただいた内容は、あなた専用の設定として保存され、他の方に共有されることはありません。\n"
     "いつでも「削除」と送れば、全部消せます。\n"
-    "AIが答えられないときは、人間のスタッフが直接お答えします。その場合、あなたのご質問を私が拝見します。"
+    "AIが答えられないときは、担当者がお答えします。"
 )
 
 
@@ -28,6 +41,9 @@ def q1_confirm_name(display_name: str) -> str:
 
 
 Q1_RENAME_PROMPT = "では、どうお呼びすればよいですか？\n（例：たろう / 田中さん / 院長 など）"
+
+# 表示名が取れなかった時は、確認ではなく最初から名前を聞く（ID露出を避ける）。
+Q1_ASK_NAME = "はじめまして。\n何とお呼びすればよいですか？\n（例：たろう / 田中さん / 院長 など）"
 
 Q2 = (
     "お仕事やお立場について教えてください。近いものを1つ、番号で。\n"
