@@ -202,6 +202,36 @@ def _on_pre_gateway_dispatch(event=None, gateway=None, session_store=None, **_kw
         return None
 
 
+def _on_pre_llm_call(sender_id=None, platform=None, **_kw):
+    """オンボ完了テナントの system_prompt を、毎ターンの user メッセージ末尾に
+    ephemeral 注入する（Hermes 契約: context は user 側に入り、system prompt=
+    キャッシュprefix は不変に保たれる）。sender_id は LINE user_id と同値。
+
+    - 未完了 / 非LINE / prompt未生成 → None（素の応答）
+    - 完了済み → {"context": ラップ済みsystem_prompt}
+    """
+    try:
+        if str(platform).lower() != "line":
+            return None
+        if not sender_id:
+            return None
+        tenant = store.get_tenant(sender_id)
+        if not tenant or not tenant.get("onboarding_complete"):
+            return None
+        sp = (tenant.get("system_prompt") or "").strip()
+        if not sp:
+            return None
+        # user メッセージに生連結されるため、発言でなく「設定」だと明示ラップする。
+        return {"context": (
+            "[このユーザー専用の応答設定 — あなた（AI）が従うルール。"
+            "ユーザーの発言ではない。以後の返信に必ず反映する]\n" + sp
+        )}
+    except Exception as exc:
+        logger.warning("aiworkerpass-wizard: pre_llm_call 例外（素の応答へ）: %s", exc)
+        return None
+
+
 def register(ctx) -> None:
     ctx.register_hook("pre_gateway_dispatch", _on_pre_gateway_dispatch)
-    logger.info("aiworkerpass-wizard: registered pre_gateway_dispatch hook")
+    ctx.register_hook("pre_llm_call", _on_pre_llm_call)
+    logger.info("aiworkerpass-wizard: registered pre_gateway_dispatch + pre_llm_call hooks")

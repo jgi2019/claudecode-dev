@@ -8,3 +8,4 @@ description: >-
 author: "JIRO (Claude Code / Layer 2)"
 hooks:
   - pre_gateway_dispatch
+  - pre_llm_call
