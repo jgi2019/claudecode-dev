@@ -99,8 +99,56 @@ curl -sL -o /tmp/cf.deb https://github.com/cloudflare/cloudflared/releases/lates
 4. Mac gateway停止（Ctrl+C）
 ※復旧確認は必ず公開トンネル経由（ローカルhealth誤診の教訓）
 
+---
+
+# 本体パッチ B-2: テナント別メモリ分離（2026-07-12 実装）
+
+- 対象: `tools/memory_tool.py` + `agent/agent_init.py`（hermes-agent==0.18.2）
+- 適用: **`python3 ops/patches/patch_tenant_memory.py`**（冪等・アンカー検証・py_compile込み）
+- 効果: gateway経由（platform+user_id あり）のagentは `memories/{sanitized_user_id}/` に
+  メモリが閉じる。CLI/ownerセッションは従来どおり `memories/` 直下（互換）。
+- background_review は `agent._memory_store` 共有参照のためスコープ自動継承。
+- 既知の限界: `learning_mutations.py` / `learning_graph.py`（journey機能・CLI専用）は
+  グローバルのまま。LINE利用者からは到達不能なので v1 対象外。
+- **A-4 と同様、`uv tool upgrade` / 再インストールのたびに再適用必須**。
+- VPS移行時のメモリ移行: 既存 `memories/USER.md` はHEYのテスト利用分。
+  `mkdir -p ~/.hermes/memories/{HEYのline_user_id} && mv ~/.hermes/memories/USER.md ~/.hermes/memories/{HEYのline_user_id}/USER.md`
+  （HEYのline_user_idは Supabase tenants の該当行）
+
+# BANフラグ 第4層（2026-07-12 実装）
+
+- Supabase: `alter table tenants add column if not exists banned boolean not null default false;`
+- プラグイン `__init__.py`: `pre_gateway_dispatch` 冒頭で `tenant.banned` なら
+  `{"action":"skip"}` — **ウィザードもLLMも走らない完全遮断・無応答**（TARO指示は
+  pre_llm_call遮断だったが、dispatch層の方が上流でコストゼロのため改良）。
+  pre_llm_call にも保険チェックあり。
+- BAN操作: Supabase tenants の該当行 `banned=true`。解除は `false`。再起動不要。
+
+# エスカレーション通知フック（2026-07-12 実装）
+
+- 実体: リポジトリ `hermes-hooks/aiwp-escalation/`（HOOK.yaml + handler.py）
+- 設置: `ln -s ~/aiwp/hermes-hooks/aiwp-escalation ~/.hermes/hooks/aiwp-escalation`
+  （gateway/hooks.py の dir-hook 機構。本体パッチ不要）
+- 動作: `agent:end` でLINE応答に「運営に伝え」等の文言を検知 → HEYのLINEへpush。
+  ユーザー本人には何も送らない。同一ユーザー10分デデュープ。
+- 必要env（`~/.hermes/.env`）: `AIWP_ESCALATION_LINE_USER`（HEYのLINE user_id）。
+  未設定なら無音で無効。フレーズは `AIWP_ESCALATION_PHRASES`（カンマ区切り）で上書き可。
+- ★personaの system_prompt 側に「運営対応が必要な時は『運営に伝えます』と言う」旨の
+  確定文言を入れておくこと（検知フレーズと対で機能する）。
+
+# Slack Ops webhook（死活通知）
+
+- 通知先: Slack **#aiwp-ops**（C0BGS54LUUS・2026-07-12新設）
+- 手順: Slack App の Incoming Webhooks で #aiwp-ops 向けURLを発行 →
+  VPS `~/.hermes/.env` に `SLACK_OPS_WEBHOOK=<URL>` 追加 → gateway再起動。
+  既存の `aiwp-notify-down.service`（OnFailure）が拾う。設定までは無音。
+
 ## 未完タスク（次セッション以降・ハンドオフ参照）
-- テナント分離（`memories/{user_id}/USER.md`スコープ化・本体パッチ）… テスター2人目前に必須
-- BANフラグ（Supabase `tenants.banned` + pre_llm_call遮断）
-- エスカレーション通知（AIが「運営に伝えます」時のみHEYへpush）
+- ~~テナント分離~~ ✅ 2026-07-12 実装（B-2。上記）
+- ~~BANフラグ~~ ✅ 2026-07-12 実装（上記）
+- ~~エスカレーション通知~~ ✅ 2026-07-12 実装（上記）
+- Slack Ops webhook … #aiwp-ops作成済み。**webhook URL発行（HEY作業）+ VPS .env反映が残**
+- VPSへの反映一式（SSH鍵受領後）: git pull → B-2パッチ適用 → hooks symlink →
+  .env 2キー追加（SLACK_OPS_WEBHOOK / AIWP_ESCALATION_LINE_USER）→ メモリ移行 →
+  gateway再起動 → **公開トンネル経由health確認**
 - 外形監視（公開URLへの定期health）

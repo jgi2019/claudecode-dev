@@ -1,0 +1,8 @@
+name: aiwp-escalation
+description: >
+  AI Worker's Pass エスカレーション通知。LINE応答に「運営に伝えます」等の
+  エスカレーション文言が含まれた時だけ、HEY の LINE に push 通知する。
+  設置: このディレクトリを ~/.hermes/hooks/aiwp-escalation に symlink。
+  必要env: LINE_CHANNEL_ACCESS_TOKEN（既存）, AIWP_ESCALATION_LINE_USER（HEYのLINE user_id）
+events:
+  - "agent:end"

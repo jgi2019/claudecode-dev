@@ -113,16 +113,32 @@ def _purge_hermes_state(gateway, source, session_store) -> None:
         except Exception as exc:
             logger.warning("aiworkerpass-wizard: evict_cached_agent 失敗: %s", exc)
 
-    # 4) グローバル学習メモリ(USER.md)を空にする
+    # 4) テナント別学習メモリ memories/{user_id}/ を丸ごと削除する。
+    #    本体パッチ B-2（テナント分離）適用後は、LINE利用者のメモリは
+    #    memories/{sanitized_user_id}/ に閉じているので、そこだけ消す。
+    #    グローバル memories/ 直下（owner/CLI用）には触らない。
     try:
         import os
-        home = os.environ.get("HERMES_HOME") or "~/.hermes"
-        mem_path = os.path.expanduser(os.path.join(home, "memories", "USER.md"))
-        if os.path.exists(mem_path):
-            with open(mem_path, "w", encoding="utf-8"):
-                pass
+        import shutil
+        try:
+            from tools.memory_tool import sanitize_scope as _san
+        except Exception:  # 本体パッチ未適用環境へのフォールバック（同義実装）
+            import re
+            def _san(uid):
+                s = re.sub(r"[^A-Za-z0-9_-]", "_", str(uid or "").strip())[:64]
+                return s or None
+        scope = _san(getattr(source, "user_id", None))
+        if scope:
+            home = os.environ.get("HERMES_HOME") or "~/.hermes"
+            mem_dir = os.path.expanduser(os.path.join(home, "memories", scope))
+            # 実在確認＋ memories/ 配下であることを二重確認してから削除
+            base = os.path.expanduser(os.path.join(home, "memories"))
+            if os.path.isdir(mem_dir) and os.path.realpath(mem_dir).startswith(
+                os.path.realpath(base) + os.sep
+            ):
+                shutil.rmtree(mem_dir, ignore_errors=True)
     except Exception as exc:
-        logger.warning("aiworkerpass-wizard: memory(USER.md) clear 失敗: %s", exc)
+        logger.warning("aiworkerpass-wizard: tenant memory clear 失敗: %s", exc)
 
 
 def _patch_answers(current: Optional[Dict[str, Any]], **updates) -> Dict[str, Any]:
@@ -148,6 +164,14 @@ def _on_pre_gateway_dispatch(event=None, gateway=None, session_store=None, **_kw
         display_name = wizard.sanitize_display_name(getattr(source, "user_name", ""))
 
         tenant = store.get_tenant(user_id)
+
+        # BANフラグ（第4層）: banned テナントは全メッセージを無応答で遮断。
+        # pre_llm_call より手前のここで止めることで、ウィザードもLLM呼び出しも
+        # 一切走らない（コストゼロ・完全遮断）。返信もしない＝ブロックの
+        # フィードバックを攻撃者に与えない。解除は Supabase tenants.banned=false。
+        if tenant is not None and tenant.get("banned"):
+            logger.info("aiworkerpass-wizard: banned tenant %s をスキップ", user_id)
+            return {"action": "skip", "reason": "tenant-banned"}
 
         # 「削除」— どの段階でも全データをクリアして初期化。
         # tenant の有無に関わらず Hermes 側（会話履歴・エージェント・学習メモリ）も消す。
@@ -311,6 +335,10 @@ def _on_pre_llm_call(sender_id=None, platform=None, **_kw):
             return None
         tenant = store.get_tenant(sender_id)
         if not tenant or not tenant.get("onboarding_complete"):
+            return None
+        if tenant.get("banned"):
+            # 保険: dispatch層で遮断済みのはずだが、万一ここまで来ても
+            # persona注入はしない（素の応答のみ）。
             return None
         sp = (tenant.get("system_prompt") or "").strip()
         if not sp:
