@@ -111,13 +111,17 @@ curl -sL -o /tmp/cf.deb https://github.com/cloudflare/cloudflared/releases/lates
 - 既知の限界: `learning_mutations.py` / `learning_graph.py`（journey機能・CLI専用）は
   グローバルのまま。LINE利用者からは到達不能なので v1 対象外。
 - **A-4 と同様、`uv tool upgrade` / 再インストールのたびに再適用必須**。
-- VPS移行時のメモリ移行: 既存 `memories/USER.md` はHEYのテスト利用分。
-  `mkdir -p ~/.hermes/memories/{HEYのline_user_id} && mv ~/.hermes/memories/USER.md ~/.hermes/memories/{HEYのline_user_id}/USER.md`
-  （HEYのline_user_idは Supabase tenants の該当行）
+- VPS移行時のメモリ移行: 既存グローバル `memories/USER.md` には**複数利用者分が
+  混在している可能性がある**（tenants には HEY=さとう と みーちゃん の2人が既存）。
+  誰かのスコープへ移すのは誤りなので、**アーカイブ退避**とする:
+  `mv ~/.hermes/memories/USER.md ~/.hermes/memories/USER.md.pre-b2.bak`
+  （各利用者のメモリは以後の会話で各スコープに再蓄積される。旧内容が必要なら
+  .bak を目視で仕分け）
 
 # BANフラグ 第4層（2026-07-12 実装）
 
-- Supabase: `alter table tenants add column if not exists banned boolean not null default false;`
+- Supabase: `banned boolean not null default false` **適用済み（2026-07-12・migration:
+  add_banned_flag_to_tenants）**。再インストール時の再適用は不要（DB側に永続）。
 - プラグイン `__init__.py`: `pre_gateway_dispatch` 冒頭で `tenant.banned` なら
   `{"action":"skip"}` — **ウィザードもLLMも走らない完全遮断・無応答**（TARO指示は
   pre_llm_call遮断だったが、dispatch層の方が上流でコストゼロのため改良）。
@@ -131,7 +135,8 @@ curl -sL -o /tmp/cf.deb https://github.com/cloudflare/cloudflared/releases/lates
   （gateway/hooks.py の dir-hook 機構。本体パッチ不要）
 - 動作: `agent:end` でLINE応答に「運営に伝え」等の文言を検知 → HEYのLINEへpush。
   ユーザー本人には何も送らない。同一ユーザー10分デデュープ。
-- 必要env（`~/.hermes/.env`）: `AIWP_ESCALATION_LINE_USER`（HEYのLINE user_id）。
+- 必要env（`~/.hermes/.env`）: `AIWP_ESCALATION_LINE_USER`（HEYのLINE user_id＝
+  Supabase tenants で name='さとう' の行の line_user_id。HEY本人確認済み 2026-07-12）。
   未設定なら無音で無効。フレーズは `AIWP_ESCALATION_PHRASES`（カンマ区切り）で上書き可。
 - ★personaの system_prompt 側に「運営対応が必要な時は『運営に伝えます』と言う」旨の
   確定文言を入れておくこと（検知フレーズと対で機能する）。
