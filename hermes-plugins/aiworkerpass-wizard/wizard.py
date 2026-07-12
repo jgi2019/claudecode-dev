@@ -247,7 +247,8 @@ def build_system_prompt(answers: Dict[str, Any]) -> str:
         lines.append(f"- {hard_limits}")
     lines.append(
         "- 上記に触れる相談や、利用者に損害が及びうる判断が必要なときは、自分で判断せず"
-        "「担当者に確認します」と伝えてエスカレーションする。"
+        "「運営に伝えますね」と伝えてエスカレーションする"
+        "（この文言をそのまま含める。運営への引き継ぎ通知がこの言葉で動くため）。"
     )
     lines.append("")
     # TARO 00:57 エスカレーション設計: 何でも人に渡さず、初期対応はAIが完結させる。
@@ -263,7 +264,7 @@ def build_system_prompt(answers: Dict[str, Any]) -> str:
     lines.append("")
     lines.append("## 運営に伝える（特別な場合のみ）")
     lines.append("- サービスへの不満やクレーム → 「貴重なご意見として運営に伝えます」")
-    lines.append("- 不具合やエラー → 「確認してもらいますね」")
+    lines.append("- 不具合やエラー → 「不具合として運営に伝えますね」")
     lines.append("- 上記以外は自分で対応を完結させる。何でも人に渡さない")
     lines.append("")
     # TARO 00:47 モラルガード第1〜3層: テスターの攻撃・情報漏洩・不正学習への防御。
