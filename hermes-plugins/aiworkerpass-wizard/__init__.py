@@ -411,14 +411,18 @@ def _on_pre_gateway_dispatch(event=None, gateway=None, session_store=None, **_kw
                 return {"action": "skip"}
             a = _patch_answers(answers, q2_role_n=choice)
             store.update_tenant(user_id, {"onboarding_answers": a, "onboarding_step": 3, "role": wizard._ROLE_LABELS.get(choice)})
-            _schedule_send_quick_reply(gateway, source, wizard.Q3, wizard.Q3_QUICK_REPLY)
+            # Q3は複数選択仕様。Quick Replyボタン（1タップ=即送信で閉じる）だと
+            # 「1つしか選べない」と誤解させるUX矛盾が実機で判明したため、ボタンは付けず
+            # 手打ち（例：1 3）に戻す（TARO指示 2026-07-12）。
+            _schedule_send(gateway, source, wizard.Q3)
             return {"action": "skip"}
 
         # === Q3: AIとの付き合い方（複数番号 1..5） ===
         if step == 3:
             picks = wizard.parse_choice_multi(text)
             if not picks:
-                _schedule_send_quick_reply(gateway, source, "番号で教えてください（複数OK・例：1 3）。\n\n" + wizard.Q3, wizard.Q3_QUICK_REPLY)
+                # Q3は複数選択のためボタンなし（上記 step2→Q3 と同じ理由）。
+                _schedule_send(gateway, source, "番号で教えてください（複数OK・例：1 3）。\n\n" + wizard.Q3)
                 return {"action": "skip"}
             a = _patch_answers(answers, q3_ai=picks)
             store.update_tenant(user_id, {"onboarding_answers": a, "onboarding_step": 4})
