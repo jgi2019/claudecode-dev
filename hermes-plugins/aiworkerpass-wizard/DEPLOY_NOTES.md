@@ -4,6 +4,21 @@
 **プラグイン外＝Hermes本体への小パッチが1点**ある。`uv tool upgrade hermes-agent` や
 VPS への新規インストールで **site-packages が入れ替わると消える**ので、下記を再適用すること。
 
+## ★再適用は自動化済み（2026-07-12）— 手作業でやらない
+
+```bash
+cd ~/aiwp
+ops/scripts/reapply_patches.sh --upgrade   # uv tool upgrade→A-4/B-2再適用→検証→再起動→公開health
+ops/scripts/reapply_patches.sh             # upgrade済みの環境に再適用だけしたい時
+ops/scripts/reapply_patches.sh --check     # 適用状態の監査のみ（変更なし・cron向き）
+```
+
+- 冪等。A-4/B-2のアンカー検証・py_compile・plugin/hook symlink 確認・
+  **公開トンネル経由health(405)** までワンコマンド。検証NGなら再起動せず exit 1。
+- `uv tool upgrade hermes-agent` を**単体で叩くのは禁止**。必ず `--upgrade` 経由で。
+  （B-2が外れたまま運用＝テナント間メモリ混在＝情報漏洩事故のため）
+- 以下の A-4 節・B-2 節は仕組みの説明とスクリプト障害時の手動フォールバック。
+
 ## 本体パッチ A-4: 学習通知の日本語化（Self-improvement review バブル）
 
 - 対象: `<site-packages>/agent/background_review.py`
