@@ -1,0 +1,44 @@
+# AIWP 外形監視 — 公開トンネル経由で /line/webhook を5分間隔でプローブ
+#
+# 検知対象: 「プロセスは生きてるがトンネル経路が死んでる」パターン
+# （systemd/OnFailure では検知不能。quick tunnel揮発障害の教訓）。
+# 期待レスポンス: 405 Method Not Allowed（POST専用エンドポイントの生存証明）。
+# 405以外が3回連続 → Slack #aiwp-ops へ通知（secrets.SLACK_OPS_WEBHOOK）。
+# 注: GitHub Actions の schedule は数分遅延しうる（実効5〜15分間隔）。
+name: aiwp-health
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch: {}
+
+permissions: {}
+
+jobs:
+  health:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: probe public webhook
+        id: probe
+        run: |
+          code=000
+          for i in 1 2 3; do
+            code=$(curl -s -o /dev/null -m 15 -w '%{http_code}' https://api.aiwpsapp.com/line/webhook || echo 000)
+            if [ "$code" = "405" ]; then
+              echo "healthy (405)"
+              exit 0
+            fi
+            echo "attempt $i: code=$code"
+            sleep 20
+          done
+          echo "last_code=$code" >> "$GITHUB_OUTPUT"
+          exit 1
+      - name: notify slack ops
+        if: failure()
+        env:
+          SLACK_OPS_WEBHOOK: ${{ secrets.SLACK_OPS_WEBHOOK }}
+          LAST_CODE: ${{ steps.probe.outputs.last_code }}
+        run: |
+          [ -z "$SLACK_OPS_WEBHOOK" ] && { echo "SLACK_OPS_WEBHOOK 未設定"; exit 0; }
+          curl -sS -m 10 -X POST "$SLACK_OPS_WEBHOOK" -H 'Content-Type: application/json' \
+            -d "{\"text\":\"🌐 外形監視NG: https://api.aiwpsapp.com/line/webhook が405を返しません（最終=${LAST_CODE}）。トンネル/gatewayを確認してください。切り分けは①VPSローカルhealth ②公開トンネルhealth ③inboundログの3点。(GitHub Actions aiwp-health)\"}" >/dev/null
