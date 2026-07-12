@@ -21,3 +21,6 @@ CLAUDE.md.bak
 
 # Vercel
 .vercel/
+
+__pycache__/
+*.pyc
