@@ -75,6 +75,152 @@ def _schedule_send_many(gateway, source, texts) -> None:
         asyncio.run(_run())
 
 
+# --- Quick Reply（LINEボタン）送信 -------------------------------------------
+# adapter.send() はテキスト専用で quickReply を載せられない。本体 adapter を
+# 改変すると uv tool upgrade で毎回消える（A-4/B-2 と同じ再パッチ地獄＋情報漏洩
+# リスク）ため、プラグイン内で quickReply 付き message を組み、adapter の低レベル
+# クライアント（_client.reply / .push）へ直接流す。内部が無い旧環境では自動で
+# 通常テキスト送信にフォールバックし、gateway を決して壊さない。
+
+# LINE Quick Reply のハード制約
+_QR_MAX_ITEMS = 13   # 1メッセージあたり最大13ボタン
+_QR_LABEL_MAX = 20   # ボタン表示ラベル 20字
+_QR_TEXT_MAX = 300   # message アクションで送る text 300字
+_LINE_BUBBLE_MAX = 5000  # テキストバブル上限
+
+
+def _quick_reply_block(options) -> Optional[Dict[str, Any]]:
+    """(label, send_text) のリストから LINE quickReply dict を組む。空なら None。
+
+    send_text をタップ時にそのまま送信する message アクション。従来の番号手打ちと
+    同じ文字列を送るため、パーサ側は無改修で後方互換。
+    """
+    items = []
+    for pair in (options or [])[:_QR_MAX_ITEMS]:
+        try:
+            label, send_text = pair
+        except (TypeError, ValueError):
+            continue
+        if not send_text:
+            continue
+        items.append({
+            "type": "action",
+            "action": {
+                "type": "message",
+                "label": (str(label) or str(send_text))[:_QR_LABEL_MAX],
+                "text": str(send_text)[:_QR_TEXT_MAX],
+            },
+        })
+    return {"items": items} if items else None
+
+
+def _adapter_supports_low_level(adapter) -> bool:
+    """低レベル送信（quickReply 付与）に必要な内部が揃っているか。"""
+    return (
+        adapter is not None
+        and getattr(adapter, "_client", None) is not None
+        and hasattr(adapter, "_consume_reply_token")
+    )
+
+
+async def _send_text_with_quick_reply(adapter, chat_id: str, text: str, quick_reply) -> None:
+    """quickReply 付きの単一テキストバブルを、reply token 優先・push フォールバックで送る。
+
+    ウィザードの確定文言は短文（<5000字）なので分割・Markdown 剥がしは不要。
+    adapter._consume_reply_token を使うことで、通常の adapter.send と同じ
+    reply-token 消費規約に乗り、二重消費・順序崩れを避ける。
+    """
+    client = adapter._client
+    if len(text) > _LINE_BUBBLE_MAX:
+        text = text[: _LINE_BUBBLE_MAX - 1] + "…"
+    message: Dict[str, Any] = {"type": "text", "text": text}
+    if quick_reply:
+        message["quickReply"] = quick_reply
+    messages = [message]
+
+    token, used_reply = adapter._consume_reply_token(chat_id)
+    if used_reply:
+        try:
+            await client.reply(token, messages)
+            return
+        except Exception as exc:  # token 期限切れ等 → push へ
+            logger.info("aiworkerpass-wizard: reply token 却下(%s)、push へ", exc)
+    await client.push(chat_id, messages)
+
+
+def _schedule_send_quick_reply(gateway, source, text: str, options) -> None:
+    """text を Quick Reply ボタン（options=(label, send_text) のリスト）付きで送る。
+
+    ボタン非対応環境・内部欠如時は通常テキスト送信にフォールバック（番号手打ちは
+    従来どおり有効）。同期フックから async 送信をイベントループに載せる。
+    """
+    adapters = getattr(gateway, "adapters", {}) or {}
+    adapter = adapters.get(getattr(source, "platform", None))
+    if adapter is None:
+        logger.warning("aiworkerpass-wizard: LINE adapter 未取得。送信スキップ。")
+        return
+    chat_id = source.chat_id
+    quick_reply = _quick_reply_block(options)
+    if not quick_reply or not _adapter_supports_low_level(adapter):
+        _schedule_send(gateway, source, text)  # フォールバック（ボタンなし）
+        return
+
+    async def _run():
+        try:
+            await _send_text_with_quick_reply(adapter, chat_id, text, quick_reply)
+        except Exception as exc:  # 送信失敗 → 素のテキストで最終フォールバック
+            logger.warning("aiworkerpass-wizard: quick reply 送信失敗、通常送信へ: %s", exc)
+            try:
+                await adapter.send(chat_id, text)
+            except Exception as exc2:
+                logger.warning("aiworkerpass-wizard: フォールバック送信も失敗: %s", exc2)
+
+    try:
+        loop = asyncio.get_running_loop()
+        loop.create_task(_run())
+    except RuntimeError:
+        asyncio.run(_run())
+
+
+def _schedule_send_many_last_quick_reply(gateway, source, texts, options) -> None:
+    """複数バブルを順序保証で送り、最後のバブルにだけ Quick Reply を付ける。
+
+    呼び水フロー（完了文→ウェルカム→呼び水）用。並びは _schedule_send_many と同じく
+    1タスク内で逐次 await して順序を確定させる。先頭は reply token、以降は push。
+    最後のバブルは token 消費済み → push（push でも quickReply は有効）。
+    """
+    adapters = getattr(gateway, "adapters", {}) or {}
+    adapter = adapters.get(getattr(source, "platform", None))
+    if adapter is None:
+        logger.warning("aiworkerpass-wizard: LINE adapter 未取得。送信スキップ。")
+        return
+    chat_id = source.chat_id
+    msgs = [t for t in texts if t]
+    if not msgs:
+        return
+    quick_reply = _quick_reply_block(options)
+    if not quick_reply or not _adapter_supports_low_level(adapter):
+        _schedule_send_many(gateway, source, msgs)  # フォールバック（ボタンなし）
+        return
+
+    async def _run():
+        last = len(msgs) - 1
+        for i, t in enumerate(msgs):
+            try:
+                if i == last:
+                    await _send_text_with_quick_reply(adapter, chat_id, t, quick_reply)
+                else:
+                    await adapter.send(chat_id, t)
+            except Exception as exc:  # 1通失敗しても残りは続ける
+                logger.warning("aiworkerpass-wizard: 逐次(QR)送信で例外: %s", exc)
+
+    try:
+        loop = asyncio.get_running_loop()
+        loop.create_task(_run())
+    except RuntimeError:
+        asyncio.run(_run())
+
+
 def _purge_hermes_state(gateway, source, session_store) -> None:
     """「削除」時に Hermes 側の会話履歴・キャッシュエージェント・学習メモリを消す。
 
@@ -196,17 +342,20 @@ def _on_pre_gateway_dispatch(event=None, gateway=None, session_store=None, **_kw
             seed_name = display_name or "（確認中）"
             store.create_tenant(user_id, seed_name)
             if display_name:
-                # 表示名あり → 確認フロー（1/2で選ぶ）
+                # 表示名あり → 確認フロー（1/2で選ぶ）。Quick Reply ボタンを添える。
                 store.update_tenant(user_id, {"onboarding_step": 1})
                 first = wizard.DECLARATION + "\n\n" + wizard.q1_confirm_name(display_name)
+                q1_options = wizard.Q1_CONFIRM_QUICK_REPLY
             else:
-                # 表示名なし（ID等）→ 最初から名前を聞く。次の返信を名前として拾う。
+                # 表示名なし（ID等）→ 最初から名前を聞く（自由記述なのでボタンなし）。
                 store.update_tenant(user_id, {
                     "onboarding_step": 1,
                     "onboarding_answers": {"_awaiting_rename": True},
                 })
                 first = wizard.DECLARATION + "\n\n" + wizard.Q1_ASK_NAME
-            _schedule_send(gateway, source, first)
+                q1_options = None
+            # options=None のときは _schedule_send_quick_reply が通常送信にフォールバック。
+            _schedule_send_quick_reply(gateway, source, first, q1_options)
             return {"action": "skip", "reason": "wizard-start"}
 
         # --- オンボーディング済み → 通常応答 ---
@@ -221,10 +370,12 @@ def _on_pre_gateway_dispatch(event=None, gateway=None, session_store=None, **_kw
             if display_name:
                 store.update_tenant(user_id, {"onboarding_step": 1})
                 q1 = wizard.q1_confirm_name(display_name)
+                q1_options = wizard.Q1_CONFIRM_QUICK_REPLY
             else:
                 store.update_tenant(user_id, {"onboarding_step": 1, "onboarding_answers": {"_awaiting_rename": True}})
                 q1 = wizard.Q1_ASK_NAME
-            _schedule_send(gateway, source, wizard.DECLARATION + "\n\n" + q1)
+                q1_options = None
+            _schedule_send_quick_reply(gateway, source, wizard.DECLARATION + "\n\n" + q1, q1_options)
             return {"action": "skip", "reason": "wizard-restart-q1"}
 
         # === Q1: 呼び方の確認 ===
@@ -234,39 +385,40 @@ def _on_pre_gateway_dispatch(event=None, gateway=None, session_store=None, **_kw
                 a = _patch_answers(answers, q1_name=new_name)
                 a.pop("_awaiting_rename", None)
                 store.update_tenant(user_id, {"onboarding_answers": a, "onboarding_step": 2, "name": new_name})
-                _schedule_send(gateway, source, wizard.Q2)
+                _schedule_send_quick_reply(gateway, source, wizard.Q2, wizard.Q2_QUICK_REPLY)
                 return {"action": "skip"}
             choice = wizard.parse_choice_single(text)
             if choice == 1:
                 keep = display_name or "あなた"
                 a = _patch_answers(answers, q1_name=keep)
                 store.update_tenant(user_id, {"onboarding_answers": a, "onboarding_step": 2, "name": keep})
-                _schedule_send(gateway, source, wizard.Q2)
+                _schedule_send_quick_reply(gateway, source, wizard.Q2, wizard.Q2_QUICK_REPLY)
                 return {"action": "skip"}
             if choice == 2:
                 a = _patch_answers(answers, _awaiting_rename=True)
                 store.update_tenant(user_id, {"onboarding_answers": a})
-                _schedule_send(gateway, source, wizard.Q1_RENAME_PROMPT)
+                _schedule_send(gateway, source, wizard.Q1_RENAME_PROMPT)  # 自由記述なのでボタンなし
                 return {"action": "skip"}
-            _schedule_send(gateway, source, wizard.q1_confirm_name(display_name))  # 無効 → 再提示
+            # 無効 → 確認を Quick Reply 付きで再提示
+            _schedule_send_quick_reply(gateway, source, wizard.q1_confirm_name(display_name), wizard.Q1_CONFIRM_QUICK_REPLY)
             return {"action": "skip"}
 
         # === Q2: お仕事・立場（単一番号 1..5） ===
         if step == 2:
             choice = wizard.parse_choice_single(text)
             if choice not in (1, 2, 3, 4, 5):
-                _schedule_send(gateway, source, "番号（1〜5）で教えてください。\n\n" + wizard.Q2)
+                _schedule_send_quick_reply(gateway, source, "番号（1〜5）で教えてください。\n\n" + wizard.Q2, wizard.Q2_QUICK_REPLY)
                 return {"action": "skip"}
             a = _patch_answers(answers, q2_role_n=choice)
             store.update_tenant(user_id, {"onboarding_answers": a, "onboarding_step": 3, "role": wizard._ROLE_LABELS.get(choice)})
-            _schedule_send(gateway, source, wizard.Q3)
+            _schedule_send_quick_reply(gateway, source, wizard.Q3, wizard.Q3_QUICK_REPLY)
             return {"action": "skip"}
 
         # === Q3: AIとの付き合い方（複数番号 1..5） ===
         if step == 3:
             picks = wizard.parse_choice_multi(text)
             if not picks:
-                _schedule_send(gateway, source, "番号で教えてください（複数OK・例：1 3）。\n\n" + wizard.Q3)
+                _schedule_send_quick_reply(gateway, source, "番号で教えてください（複数OK・例：1 3）。\n\n" + wizard.Q3, wizard.Q3_QUICK_REPLY)
                 return {"action": "skip"}
             a = _patch_answers(answers, q3_ai=picks)
             store.update_tenant(user_id, {"onboarding_answers": a, "onboarding_step": 4})
@@ -305,11 +457,12 @@ def _on_pre_gateway_dispatch(event=None, gateway=None, session_store=None, **_kw
             # ③ 完了文 → ウェルカム → 呼び水 を、この順で確定文言（LLM非経由）で送る。
             # 呼び水の意味は build_system_prompt にも載っているので、番号返信は
             # onboarding_complete 後の通常応答（pre_llm_call 注入）で解釈される。
-            _schedule_send_many(gateway, source, [
+            # 最後の呼び水バブルにだけ Quick Reply（①〜④）を付ける。
+            _schedule_send_many_last_quick_reply(gateway, source, [
                 wizard.completion(a.get("q1_name") or "あなた"),
                 wizard.WELCOME_MESSAGE,
                 wizard.PRIMER_MESSAGE,
-            ])
+            ], wizard.PRIMER_QUICK_REPLY)
             return {"action": "skip", "reason": "wizard-complete"}
 
         # 想定外の step → 通常応答にフォールバック
