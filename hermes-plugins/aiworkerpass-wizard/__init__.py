@@ -477,10 +477,59 @@ def _on_pre_gateway_dispatch(event=None, gateway=None, session_store=None, **_kw
         return None
 
 
-def _on_pre_llm_call(sender_id=None, platform=None, **_kw):
+# --- C-2 会話自動保存 -------------------------------------------------------
+# post_llm_call は user_message / assistant_response をフル（未切詰め）で渡すが
+# user_id を渡さない（session_id / platform のみ）。一方 pre_llm_call は sender_id
+# (=LINE user_id) と session_id の両方を渡す。そこで pre_llm_call で
+# session_id → user_id を控え、post_llm_call でその往復を user_id 付きで保存する。
+# 対象はオンボ完了済みの通常会話のみ（オンボ中は pre_gateway_dispatch skip で
+# LLM非経由＝post_llm_call が発火しないため自然に除外。回答は onboarding_answers に
+# 構造化保存済み）。BANテナントも dispatch 層で遮断され発火しない。
+_conv_session_map: Dict[str, tuple] = {}  # session_id -> (line_user_id, tenant_id)
+_CONV_MAP_MAX = 2000
+
+
+def _remember_session(session_id: str, user_id: str, tenant_id) -> None:
+    if not session_id or not user_id or session_id in _conv_session_map:
+        return
+    if len(_conv_session_map) >= _CONV_MAP_MAX:
+        # 挿入順に古い1割を落として上限を保つ（プロセス内・保険的な会話保存用）。
+        for k in list(_conv_session_map.keys())[: _CONV_MAP_MAX // 10]:
+            _conv_session_map.pop(k, None)
+    _conv_session_map[session_id] = (user_id, tenant_id)
+
+
+def _schedule_save_conversation(user_id, tenant_id, user_message, assistant_response) -> None:
+    """会話1往復を fire-and-forget で Supabase(conversation_logs) に保存（同期requestsを別スレッドへ）。
+
+    応答は既に利用者へ送信済みの段階で呼ばれる。保存の成否はUXに影響させず、
+    例外は握り潰して gateway を絶対に壊さない。
+    """
+    async def _run():
+        try:
+            await asyncio.to_thread(
+                store.save_conversation, user_id, tenant_id, user_message, assistant_response
+            )
+        except Exception as exc:
+            logger.warning("aiworkerpass-wizard: 会話保存 失敗: %s", exc)
+
+    try:
+        loop = asyncio.get_running_loop()
+        loop.create_task(_run())
+    except RuntimeError:
+        # 稼働中ループが無い異常系のみ同期実行（保存が遅れてもgatewayは壊さない）。
+        try:
+            asyncio.run(_run())
+        except Exception as exc:
+            logger.warning("aiworkerpass-wizard: 会話保存(同期) 失敗: %s", exc)
+
+
+def _on_pre_llm_call(sender_id=None, platform=None, session_id=None, **_kw):
     """オンボ完了テナントの system_prompt を、毎ターンの user メッセージ末尾に
     ephemeral 注入する（Hermes 契約: context は user 側に入り、system prompt=
     キャッシュprefix は不変に保たれる）。sender_id は LINE user_id と同値。
+
+    併せて C-2 会話保存のため session_id → user_id を控える（オンボ完了・非BANのみ）。
 
     - 未完了 / 非LINE / prompt未生成 → None（素の応答）
     - 完了済み → {"context": ラップ済みsystem_prompt}
@@ -497,6 +546,9 @@ def _on_pre_llm_call(sender_id=None, platform=None, **_kw):
             # 保険: dispatch層で遮断済みのはずだが、万一ここまで来ても
             # persona注入はしない（素の応答のみ）。
             return None
+        # C-2: この往復を保存対象として session を記憶（post_llm_call で参照）。
+        # tenant_id は conversation_logs.tenant_id(FK tenants.id) 用。
+        _remember_session(session_id, sender_id, tenant.get("id"))
         sp = (tenant.get("system_prompt") or "").strip()
         if not sp:
             return None
@@ -518,7 +570,38 @@ def _on_pre_llm_call(sender_id=None, platform=None, **_kw):
         return None
 
 
+def _on_post_llm_call(
+    session_id=None, user_message=None, assistant_response=None,
+    model=None, platform=None, **_kw,
+):
+    """C-2 会話自動保存: LLM経由の通常応答が確定したターンで発火。
+
+    pre_llm_call が控えた session_id → user_id を引き、1往復を Supabase へ保存する。
+    - 非LINE / session未記憶（=オンボ未完・非対象）→ 何もしない
+    - user_message / assistant_response はフル（Hermes契約: post_llm_call は未切詰め）
+    副作用は fire-and-forget。戻り値は使わない（None）。
+    """
+    try:
+        if str(platform).lower() != "line":
+            return None
+        if not session_id:
+            return None
+        rec = _conv_session_map.get(session_id)
+        if not rec:
+            return None  # オンボ未完 or 保存対象外（pre_llm_callで記憶されていない）
+        user_id, tenant_id = rec
+        _schedule_save_conversation(
+            user_id, tenant_id, user_message, assistant_response
+        )
+    except Exception as exc:  # gateway を絶対に壊さない
+        logger.warning("aiworkerpass-wizard: post_llm_call 例外: %s", exc)
+    return None
+
+
 def register(ctx) -> None:
     ctx.register_hook("pre_gateway_dispatch", _on_pre_gateway_dispatch)
     ctx.register_hook("pre_llm_call", _on_pre_llm_call)
-    logger.info("aiworkerpass-wizard: registered pre_gateway_dispatch + pre_llm_call hooks")
+    ctx.register_hook("post_llm_call", _on_post_llm_call)
+    logger.info(
+        "aiworkerpass-wizard: registered pre_gateway_dispatch + pre_llm_call + post_llm_call hooks"
+    )

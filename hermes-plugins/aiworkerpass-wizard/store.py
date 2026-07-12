@@ -105,3 +105,56 @@ def update_tenant(line_user_id: str, patch: Dict[str, Any]) -> None:
         timeout=_TIMEOUT,
     )
     r.raise_for_status()
+
+
+def save_conversation(
+    line_user_id: str,
+    tenant_id: Optional[str],
+    user_message: Optional[str],
+    assistant_response: Optional[str],
+) -> None:
+    """C-2 会話自動保存: 1往復を既存 conversation_logs へINSERT（管理画面MVPと共用）。
+
+    conversation_logs は「1メッセージ=1行」モデル（role='user'|'assistant'|'system' +
+    content）。よって1往復を user 行と assistant 行の**2行**として一括INSERTする。
+    user 行の created_at を assistant 行より 1ms 早くして時系列順を保証する
+    （両方 default now() だと同値になり user→assistant の順が崩れるため）。
+
+    同期 requests。呼び出し側は fire-and-forget（別スレッド）で呼び、応答UX/gateway を
+    ブロックしないこと。未設定なら何もしない。エラーは呼び出し側で握り潰す前提で raise。
+    """
+    c = _creds()
+    if not c:
+        return
+    from datetime import datetime, timedelta, timezone
+
+    base = datetime.now(timezone.utc)
+    rows = []
+    um = (user_message or "").strip()
+    ar = (assistant_response or "").strip()
+    if um:
+        rows.append({
+            "line_user_id": line_user_id,
+            "tenant_id": tenant_id,
+            "role": "user",
+            "content": um,
+            "created_at": base.isoformat(),
+        })
+    if ar:
+        rows.append({
+            "line_user_id": line_user_id,
+            "tenant_id": tenant_id,
+            "role": "assistant",
+            "content": ar,
+            "created_at": (base + timedelta(milliseconds=1)).isoformat(),
+        })
+    if not rows:  # 両方空の往復は保存しない
+        return
+    url, key = c
+    r = requests.post(
+        f"{url}/rest/v1/conversation_logs",
+        headers=_headers(key, prefer="return=minimal"),
+        json=rows,  # 配列 = 複数行を1リクエストで一括INSERT
+        timeout=_TIMEOUT,
+    )
+    r.raise_for_status()
