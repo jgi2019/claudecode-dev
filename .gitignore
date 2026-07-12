@@ -11,6 +11,7 @@ acc_transport_20260415/
 .claude/*
 !.claude/settings.json
 !.claude/commands/
+!.claude/agents/
 .claude/settings.local.json
 
 # Nested subproject Claude dirs stay local

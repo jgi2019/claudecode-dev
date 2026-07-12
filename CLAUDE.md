@@ -35,6 +35,19 @@ Notion / Gmail / Google Calendar / Google Drive / Slack / Figma / GitHub / Verce
 - 抽象的な一般論で逃げるな。具体・固有名詞・数字で答えよ
 - 正本フォルダ以外で作業するな。~/Desktop/**claudecode_dev/ 配下で完結
 
+## 🏛 JIRO司令塔構造 v1 — 鉄の掟（5カ条・IMPORTANT）
+HEY承認済み（2026-07-12）。設計正本: Notion「JIRO司令塔構造 v1」(app.notion.com/p/39b505f6b5a581b794a5cada8ce469cb)
+1. **JIROセッションは常に1つ。** ターミナル複数タブ並列は禁止。並列は `.claude/agents/`（recon/builder/qa）のサブエージェントで実現
+2. **サブエージェントに名前をつけない。** 役割ID（recon/builder/qa）のみ。人格・独自メモリ・Slack発言権なし。報告は必ずJIRO経由
+3. **モデルはギア、人格ではない。** Fable5/Opus/Sonnetの切り替えはJIROの中の変速。「Fable5のJIRO-A」という概念は廃止
+4. **JIROの次セッション指示文はTAROが書く。** JIRO自身は書かない（自己永続化バイアス防止）
+5. **承認ルールは不変。** 本番書き込み=1（都度承認）、それ以外=2（auto-allow）
+
+### 線引き
+- ワーカーに任せる: 調査・コード読み・実装・ローカルテスト
+- JIRO本体が実行: 本番デプロイ（scp直送→reapply_patches.sh）・git push・本番DB書き込み・Slack報告
+- 剪定原則: 直近5セッション使われていない役割は統合・廃止候補。役割は最小数を維持（現在3）
+
 ## GOルール（IMPORTANT）
 以下は「GO」の明示的指示を待ってから実行。確認なしの自動実行は絶対禁止:
 - Base44 create/edit
