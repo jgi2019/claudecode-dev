@@ -45,6 +45,86 @@ def _schedule_send(gateway, source, text: str) -> None:
         asyncio.run(coro)
 
 
+def _schedule_send_many(gateway, source, texts) -> None:
+    """複数バブルを順序保証で送る（③ ウェルカム＋呼び水用）。
+
+    _schedule_send を複数回呼ぶと create_task が投げっぱなしで到着順が保証されず、
+    完了文より先にウェルカムが届く事故が起きうる。ここでは1タスク内で send を
+    逐次 await するため順序が確定する。先頭バブルは reply token、2通目以降は
+    adapter が push フォールバックする（adapter.send の確認済み契約）。
+    """
+    adapters = getattr(gateway, "adapters", {}) or {}
+    adapter = adapters.get(getattr(source, "platform", None))
+    if adapter is None:
+        logger.warning("aiworkerpass-wizard: LINE adapter 未取得。送信スキップ。")
+        return
+    chat_id = source.chat_id
+    msgs = [t for t in texts if t]
+
+    async def _run():
+        for t in msgs:
+            try:
+                await adapter.send(chat_id, t)
+            except Exception as exc:  # 1通失敗しても残りは続ける
+                logger.warning("aiworkerpass-wizard: 逐次送信で例外: %s", exc)
+
+    try:
+        loop = asyncio.get_running_loop()
+        loop.create_task(_run())
+    except RuntimeError:
+        asyncio.run(_run())
+
+
+def _purge_hermes_state(gateway, source, session_store) -> None:
+    """「削除」時に Hermes 側の会話履歴・キャッシュエージェント・学習メモリを消す。
+
+    我々の tenant レコード（Supabase）だけ消しても、Hermes 側に残る
+    ① セッション会話履歴（sessions.json / state.db）
+    ② キャッシュ済みエージェントが RAM に保持する記憶
+    ③ グローバル学習メモリ ~/.hermes/memories/USER.md（self-improvementが書く）
+    が生き残り、「削除したのに前の会話（例：領収書の件）を引きずる」ため。
+
+    ネイティブ /new・/reset は①②は消すが③（長期メモリ）は消さない設計。
+    「削除＝全部消せます」を満たすには③も明示的に空にする必要がある。
+
+    ※ ③のメモリは現状テナント非分離のグローバル1ファイル。単一利用者テスト前提で
+      全消しにしている。本番マルチテナントでは要スコープ化（TARO相談事項）。
+    """
+    # 1) session key を Hermes 正規経路で解決（自前再構築せず namespace ズレを回避）
+    skey = None
+    try:
+        if gateway is not None and hasattr(gateway, "_session_key_for_source"):
+            skey = gateway._session_key_for_source(source)
+    except Exception as exc:
+        logger.warning("aiworkerpass-wizard: session_key 解決失敗: %s", exc)
+
+    # 2) 会話履歴リセット（新 session_id を発行し旧履歴を切り離す）
+    if skey and session_store is not None and hasattr(session_store, "reset_session"):
+        try:
+            session_store.reset_session(skey)
+        except Exception as exc:
+            logger.warning("aiworkerpass-wizard: reset_session 失敗: %s", exc)
+
+    # 3) キャッシュ済みエージェントを evict（RAM上のメモリキャッシュを破棄＝
+    #    直後のUSER.md空化がpost-turn syncで書き戻される事故を防ぐ）
+    if skey and gateway is not None and hasattr(gateway, "_evict_cached_agent"):
+        try:
+            gateway._evict_cached_agent(skey)
+        except Exception as exc:
+            logger.warning("aiworkerpass-wizard: evict_cached_agent 失敗: %s", exc)
+
+    # 4) グローバル学習メモリ(USER.md)を空にする
+    try:
+        import os
+        home = os.environ.get("HERMES_HOME") or "~/.hermes"
+        mem_path = os.path.expanduser(os.path.join(home, "memories", "USER.md"))
+        if os.path.exists(mem_path):
+            with open(mem_path, "w", encoding="utf-8"):
+                pass
+    except Exception as exc:
+        logger.warning("aiworkerpass-wizard: memory(USER.md) clear 失敗: %s", exc)
+
+
 def _patch_answers(current: Optional[Dict[str, Any]], **updates) -> Dict[str, Any]:
     a = dict(current or {})
     a.update(updates)
@@ -69,15 +149,22 @@ def _on_pre_gateway_dispatch(event=None, gateway=None, session_store=None, **_kw
 
         tenant = store.get_tenant(user_id)
 
-        # 「削除」— どの段階でもデータをクリアして初期化
-        if text == _RESET_KEYWORD and tenant is not None:
-            store.update_tenant(user_id, {
-                "onboarding_step": 0,
-                "onboarding_complete": False,
-                "onboarding_answers": {},
-                "system_prompt": None,
-            })
-            _schedule_send(gateway, source, "承知しました。あなたの設定を消去しました。\nもう一度何か送っていただければ、最初から始めます。")
+        # 「削除」— どの段階でも全データをクリアして初期化。
+        # tenant の有無に関わらず Hermes 側（会話履歴・エージェント・学習メモリ）も消す。
+        if text == _RESET_KEYWORD:
+            _purge_hermes_state(gateway, source, session_store)
+            if tenant is not None:
+                store.update_tenant(user_id, {
+                    "onboarding_step": 0,
+                    "onboarding_complete": False,
+                    "onboarding_answers": {},
+                    "system_prompt": None,
+                })
+            _schedule_send(
+                gateway, source,
+                "承知しました。あなたの設定と、これまでの会話・記憶をすべて消去しました。\n"
+                "もう一度何か送っていただければ、最初から始めます。",
+            )
             return {"action": "skip", "reason": "wizard-reset"}
 
         # --- 新規ユーザー: 宣言 + Q1 を1通で送る（reply token 1つに収める） ---
@@ -191,7 +278,14 @@ def _on_pre_gateway_dispatch(event=None, gateway=None, session_store=None, **_kw
             if industry:
                 patch["industry"] = industry
             store.update_tenant(user_id, patch)
-            _schedule_send(gateway, source, wizard.completion(a.get("q1_name") or "あなた"))
+            # ③ 完了文 → ウェルカム → 呼び水 を、この順で確定文言（LLM非経由）で送る。
+            # 呼び水の意味は build_system_prompt にも載っているので、番号返信は
+            # onboarding_complete 後の通常応答（pre_llm_call 注入）で解釈される。
+            _schedule_send_many(gateway, source, [
+                wizard.completion(a.get("q1_name") or "あなた"),
+                wizard.WELCOME_MESSAGE,
+                wizard.PRIMER_MESSAGE,
+            ])
             return {"action": "skip", "reason": "wizard-complete"}
 
         # 想定外の step → 通常応答にフォールバック
