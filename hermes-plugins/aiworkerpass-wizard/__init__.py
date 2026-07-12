@@ -598,10 +598,99 @@ def _on_post_llm_call(
     return None
 
 
+# --- コスト計測（cost_tracking 日次加算）------------------------------------
+# post_llm_call はトークン量を渡さない。トークン/usage は post_api_request の
+# usage 引数（CanonicalUsage を asdict した dict）にしか来ないため、こちらで計測する。
+# post_api_request は1ユーザーターンで実API往復ごとに発火（tool-callループで複数回）。
+# user_id は渡らないので、pre_llm_call が控えた _conv_session_map（session_id →
+# (user_id, tenant_id)）から tenant_id を引く。session未マップ（オンボ中/非対象）は
+# 記録しない。cost_usd は hermes の価格表・算出関数を再利用する（自前単価計算しない）。
+def _estimate_cost_usd(model, provider, base_url, usage: Dict[str, Any]) -> float:
+    """usage(dict) から USD コストを見積もる。算出不能・未知モデルは 0.0。"""
+    try:
+        from agent.usage_pricing import CanonicalUsage, estimate_usage_cost
+        cu = CanonicalUsage(
+            input_tokens=int(usage.get("input_tokens", 0) or 0),
+            output_tokens=int(usage.get("output_tokens", 0) or 0),
+            cache_read_tokens=int(usage.get("cache_read_tokens", 0) or 0),
+            cache_write_tokens=int(usage.get("cache_write_tokens", 0) or 0),
+            reasoning_tokens=int(usage.get("reasoning_tokens", 0) or 0),
+            request_count=int(usage.get("request_count", 1) or 1),
+        )
+        res = estimate_usage_cost(
+            model, cu,
+            provider=provider, base_url=base_url,
+            api_key=os.environ.get("ANTHROPIC_API_KEY"),
+        )
+        amount = getattr(res, "amount_usd", None)
+        return float(amount) if amount is not None else 0.0
+    except Exception as exc:
+        logger.warning("aiworkerpass-wizard: コスト算出失敗（0で記録）: %s", exc)
+        return 0.0
+
+
+def _schedule_bump_cost(tenant_id, model, input_tokens, output_tokens, cost_usd) -> None:
+    """cost_tracking 日次加算を fire-and-forget（同期requestsを別スレッドへ）。"""
+    async def _run():
+        try:
+            await asyncio.to_thread(
+                store.bump_cost, tenant_id, model, 1, input_tokens, output_tokens, cost_usd
+            )
+        except Exception as exc:
+            logger.warning("aiworkerpass-wizard: コスト加算 失敗: %s", exc)
+
+    try:
+        loop = asyncio.get_running_loop()
+        loop.create_task(_run())
+    except RuntimeError:
+        try:
+            asyncio.run(_run())
+        except Exception as exc:
+            logger.warning("aiworkerpass-wizard: コスト加算(同期) 失敗: %s", exc)
+
+
+def _on_post_api_request(
+    session_id=None, platform=None, model=None, provider=None,
+    base_url=None, usage=None, **_kw,
+):
+    """実API往復ごとに発火。usage からトークン/コストを計測し cost_tracking へ日次加算。
+
+    - 非LINE / session未マップ（=オンボ未完・非対象）/ usage無し → 何もしない
+    - 入力トークンは cache 込みの実プロンプト規模（prompt_tokens）で記録する
+    副作用は fire-and-forget。戻り値は使わない（None）。
+    """
+    try:
+        if str(platform).lower() != "line":
+            return None
+        if not session_id or not usage:
+            return None
+        rec = _conv_session_map.get(session_id)
+        if not rec:
+            return None  # テナント未特定（オンボ中/非対象）は日次キーが立たないため記録しない
+        _user_id, tenant_id = rec
+        if not tenant_id:
+            return None
+        in_tok = usage.get("prompt_tokens")
+        if in_tok is None:
+            in_tok = (
+                int(usage.get("input_tokens", 0) or 0)
+                + int(usage.get("cache_read_tokens", 0) or 0)
+                + int(usage.get("cache_write_tokens", 0) or 0)
+            )
+        out_tok = int(usage.get("output_tokens", 0) or 0)
+        cost = _estimate_cost_usd(model, provider, base_url, usage)
+        _schedule_bump_cost(tenant_id, model, int(in_tok or 0), out_tok, cost)
+    except Exception as exc:  # gateway を絶対に壊さない
+        logger.warning("aiworkerpass-wizard: post_api_request 例外: %s", exc)
+    return None
+
+
 def register(ctx) -> None:
     ctx.register_hook("pre_gateway_dispatch", _on_pre_gateway_dispatch)
     ctx.register_hook("pre_llm_call", _on_pre_llm_call)
     ctx.register_hook("post_llm_call", _on_post_llm_call)
+    ctx.register_hook("post_api_request", _on_post_api_request)
     logger.info(
-        "aiworkerpass-wizard: registered pre_gateway_dispatch + pre_llm_call + post_llm_call hooks"
+        "aiworkerpass-wizard: registered pre_gateway_dispatch + pre_llm_call "
+        "+ post_llm_call + post_api_request hooks"
     )

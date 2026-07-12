@@ -32,6 +32,63 @@ def _phrases() -> list[str]:
     return [p.strip() for p in raw.split(",") if p.strip()]
 
 
+def _supabase_creds() -> tuple[str, str] | None:
+    url = (os.environ.get("SUPABASE_URL") or "").strip().rstrip("/")
+    key = (os.environ.get("SUPABASE_SERVICE_ROLE_KEY") or "").strip()
+    return (url, key) if url and key else None
+
+
+async def _insert_escalation(line_user_id: str, summary: str, detail: str) -> None:
+    """escalations テーブルへ1件INSERT（管理画面のエスカレーション画面と共用）。
+
+    このフックは plugin パッケージの store.py を import できない（sys.path が別）ため、
+    同じ env(SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY) から service_role で PostgREST を
+    直接叩く。tenant_id は line_user_id から tenants を1件引いて紐付ける（引けなければ
+    NULLのまま。schema上 null可）。例外は握り潰して gateway/通知を絶対に壊さない。
+    """
+    c = _supabase_creds()
+    if not c:
+        return
+    url, key = c
+    headers = {
+        "apikey": key,
+        "Authorization": f"Bearer {key}",
+        "Content-Type": "application/json",
+    }
+    try:
+        import aiohttp
+        async with aiohttp.ClientSession() as sess:
+            tenant_id = None
+            async with sess.get(
+                f"{url}/rest/v1/tenants",
+                params={"line_user_id": f"eq.{line_user_id}", "select": "id", "limit": "1"},
+                headers=headers,
+                timeout=aiohttp.ClientTimeout(total=8),
+            ) as tr:
+                if tr.status == 200:
+                    rows = await tr.json()
+                    if rows:
+                        tenant_id = rows[0].get("id")
+            payload = {
+                "tenant_id": tenant_id,
+                "line_user_id": line_user_id,
+                "summary": summary[:200] or "エスカレーション検知",
+                "detail": detail[:2000],
+                "source": "ai_auto",
+            }
+            async with sess.post(
+                f"{url}/rest/v1/escalations",
+                headers={**headers, "Prefer": "return=minimal"},
+                json=payload,
+                timeout=aiohttp.ClientTimeout(total=8),
+            ) as resp:
+                if resp.status not in (200, 201):
+                    body = await resp.text()
+                    logger.warning("aiwp-escalation: escalations INSERT %s: %s", resp.status, body[:200])
+    except Exception as exc:
+        logger.warning("aiwp-escalation: escalations INSERT 失敗: %s", exc)
+
+
 async def _push_line(to_user: str, text: str) -> None:
     token = (os.environ.get("LINE_CHANNEL_ACCESS_TOKEN") or "").strip()
     if not token:
@@ -83,7 +140,12 @@ async def handle(event_type: str, context: dict) -> None:
             "対応が必要か確認してください。"
         )
         # emit は handler の例外を握るが、こちらでも fire-and-forget にして
-        # agent:end の後続処理を一切遅らせない。
-        asyncio.get_running_loop().create_task(_push_line(hey, text))
+        # agent:end の後続処理を一切遅らせない。10分デデュープ内なので
+        # LINE通知と escalations INSERT は対で1回ずつ（DB行の乱立も防ぐ）。
+        loop = asyncio.get_running_loop()
+        loop.create_task(_push_line(hey, text))
+        summary = f"[自動検知] {excerpt}" if excerpt else "エスカレーション検知"
+        detail = f"利用者発言: {user_msg}\nAI応答(抜粋): {excerpt}"
+        loop.create_task(_insert_escalation(user_id, summary, detail))
     except Exception as exc:
         logger.warning("aiwp-escalation: handler 例外: %s", exc)

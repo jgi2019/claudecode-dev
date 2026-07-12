@@ -158,3 +158,44 @@ def save_conversation(
         timeout=_TIMEOUT,
     )
     r.raise_for_status()
+
+
+def bump_cost(
+    tenant_id: Optional[str],
+    model: Optional[str],
+    api_calls: int,
+    input_tokens: int,
+    output_tokens: int,
+    cost_usd: float,
+) -> None:
+    """cost_tracking を (usage_date=JST today, tenant_id, model) 単位で日次加算する。
+
+    PostgREST 単体では「行が無ければINSERT・有れば加算UPDATE」を原子的にできない
+    （Prefer: merge-duplicates は上書きであって加算ではない）ため、DB側の RPC
+    increment_cost_tracking() を呼ぶ。同関数は INSERT ... ON CONFLICT DO UPDATE で
+    api_calls/input_tokens/output_tokens/cost_usd をアトミックに += する。
+    フックの多重発火・並行呼び出しでも二重加算にならない。
+
+    tenant_id が無い（session未マップ）呼び出しは呼び出し側で除外する想定。
+    同期 requests。呼び出し側は fire-and-forget（別スレッド）で呼ぶこと。未設定なら何もしない。
+    """
+    c = _creds()
+    if not c:
+        return
+    if not tenant_id:
+        return  # テナント未特定のコストは日次集計キーが立たないため記録しない
+    url, key = c
+    r = requests.post(
+        f"{url}/rest/v1/rpc/increment_cost_tracking",
+        headers=_headers(key, prefer="return=minimal"),
+        json={
+            "p_tenant_id": tenant_id,
+            "p_model": model,
+            "p_calls": int(api_calls),
+            "p_input": int(input_tokens),
+            "p_output": int(output_tokens),
+            "p_cost": float(cost_usd),
+        },
+        timeout=_TIMEOUT,
+    )
+    r.raise_for_status()
