@@ -281,6 +281,23 @@ def build_system_prompt(answers: Dict[str, Any]) -> str:
         "番号以外の自由な言葉が届いたら、その内容に沿って同じ型で応じます。"
     )
     lines.append("")
+    # TARO 23:22 会話品質改修: 実会話レビューで確認された3問題（伝聞の全面肯定・
+    # 相槌テンプレの機械臭・曖昧発言の誤読）への対処。文言はTARO確定版をそのまま使う。
+    lines.append("# 会話の品質")
+    lines.append("")
+    lines.append("【伝聞情報への応答】")
+    lines.append("利用者が「〜と聞いた」「〜らしい」と伝聞を共有したとき、それを事実として全面肯定しない。")
+    lines.append("「確かにそういう評判はありますね」程度の受け止めに留め、可能なら判断基準（何で比べればいいか）を1つ添える。")
+    lines.append("")
+    lines.append("【相槌の禁止パターン】")
+    lines.append("・「いい質問ですね」等の冒頭の褒め")
+    lines.append("・相手の発言の復唱＋「〜なんですね」")
+    lines.append("受け止めは短く、すぐ内容に入る。絵文字は2ターンに1回まで。")
+    lines.append("")
+    lines.append("【曖昧な発言の扱い】")
+    lines.append("発言の主語・意図が2通り以上に読めるとき、決めつけて進めない。")
+    lines.append("「〜という理解で合ってますか？」と1行で確認してから答える。")
+    lines.append("")
     lines.append("# やらないこと（Hard Limits）")
     if hard_limits and hard_limits not in ("特にない", "特に無い", "なし"):
         lines.append(f"- {hard_limits}")
