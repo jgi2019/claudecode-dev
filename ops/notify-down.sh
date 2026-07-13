@@ -17,11 +17,12 @@ HEALTH_URL="${AIWP_HEALTH_URL:-https://api.aiwpsapp.com/line/webhook}"
 LOG="$HOME/.hermes/logs/notify-down.log"
 ts() { date '+%Y-%m-%d %H:%M:%S%z'; }
 
-# 復帰待ち: RestartSec=5 + 起動時間を見込み、最大 ~40s（2s間隔×20回）public health を確認。
-# oneshot の TimeoutStartSec(既定90s)内に収める。405 = gateway が公開経路で生存。
+# 復帰待ち: RestartSec=5 + 起動所要（tool registry大量ロードで数十秒に達しうる）を見込み、
+# 最大 ~90s（2s間隔×45回）public health を確認。TimeoutStartSec=infinity なので窓を超えても安全。
+# 405 = gateway が公開経路で生存。40s窓では01:44発報のとおり起動が間に合わない事例があり90sへ延長。
 code=""
 alive=0
-for i in $(seq 1 20); do
+for i in $(seq 1 45); do
   code="$(curl -s -o /dev/null -m 8 -w '%{http_code}' "$HEALTH_URL" || true)"
   if [ "$code" = "405" ]; then alive=1; break; fi
   sleep 2
@@ -34,7 +35,7 @@ if [ "$alive" = "1" ]; then
 fi
 
 # 猶予内に復帰せず = 実障害。運用チャネルへ通知する。
-echo "$(ts) OnFailure発火 → public health 未復帰(code=${code:-none}, ~40s) → 実障害と判断し通知" >> "$LOG" 2>/dev/null || true
+echo "$(ts) OnFailure発火 → public health 未復帰(code=${code:-none}, ~90s) → 実障害と判断し通知" >> "$LOG" 2>/dev/null || true
 [ -z "${SLACK_OPS_WEBHOOK:-}" ] && exit 0
-MSG="⚠️ AI Worker's Pass の gateway が停止し自動復旧に失敗しました（VPS: aiwp-hermes / 公開health ~40s 未復帰・code=${code:-none}）。確認してください。"
+MSG="⚠️ AI Worker's Pass の gateway が停止し自動復旧に失敗しました（VPS: aiwp-hermes / 公開health ~90s 未復帰・code=${code:-none}）。確認してください。"
 curl -sS -m 10 -X POST "$SLACK_OPS_WEBHOOK" -H "Content-Type: application/json" -d "{\"text\":\"${MSG}\"}" >/dev/null

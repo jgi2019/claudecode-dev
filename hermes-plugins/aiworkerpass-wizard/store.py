@@ -199,3 +199,26 @@ def bump_cost(
         timeout=_TIMEOUT,
     )
     r.raise_for_status()
+
+
+def daily_rally_count(tenant_id: Optional[str]) -> int:
+    """当日(JST)の tenant 合計ラリー数(api_calls)を返す。
+
+    日次上限（設計シート§6）の判定用。RPC aiwp_daily_rally_count を呼ぶ。同RPCは
+    cost_tracking.usage_date と同一の JST 式で当日行を集計するため、加算(increment_
+    cost_tracking)と必ず同じ日付バケットになる。未設定/tenant未特定は 0。
+    同期 requests。失敗は raise（呼び出し側でフェイルオープン=遮断しない）。
+    """
+    c = _creds()
+    if not c or not tenant_id:
+        return 0
+    url, key = c
+    r = requests.post(
+        f"{url}/rest/v1/rpc/aiwp_daily_rally_count",
+        headers=_headers(key),
+        json={"p_tenant_id": tenant_id},
+        timeout=_TIMEOUT,
+    )
+    r.raise_for_status()
+    val = r.json()
+    return int(val or 0)

@@ -1,14 +1,17 @@
-"""aiwp-escalation — エスカレーション検知 → HEY LINE push（gateway dir-hook）。
+"""aiwp-escalation — エスカレーション検知 → Slack #aiwp-ops 通知（gateway dir-hook）。
 
 agent:end イベント（gateway/run.py が emit。context に platform/user_id/
 chat_id/response[:500] を含む）で発火し、LINE利用者向け応答に
-エスカレーション文言が含まれた時だけ HEY の LINE へ push する。
+エスカレーション文言が含まれた時だけ 運営チャネル #aiwp-ops(SLACK_OPS_WEBHOOK) へ通知する。
 
 設計上の約束:
-- ユーザー本人には何も送らない（通知は運営=HEYのみ）
+- ユーザー本人には何も送らない（通知は運営のみ）
+- 通知は Slack 一本化（LINE push は課金ゼロ化のため停止・設計シート§6）。
+  HEY への LINE 通知は Slack で代替できている前提
+- escalations テーブルへは1件INSERT（管理画面 画面2 の受信箱と共用。Type A-D は画面で付与）
 - 例外は全て握り潰し、gateway を絶対に壊さない
 - 同一ユーザーからの連続発火は10分間デデュープ（通知スパム防止）
-- env 未設定なら無音で無効（SLACK_OPS_WEBHOOK と同じ思想）
+- SLACK_OPS_WEBHOOK 未設定なら通知は無音（INSERT は継続）
 """
 from __future__ import annotations
 
@@ -74,7 +77,9 @@ async def _insert_escalation(line_user_id: str, summary: str, detail: str) -> No
                 "line_user_id": line_user_id,
                 "summary": summary[:200] or "エスカレーション検知",
                 "detail": detail[:2000],
-                "source": "ai_auto",
+                # source は CHECK 制約 ('hook','slack','manual') 準拠。gatewayフック由来=hook。
+                # （旧 'ai_auto' は制約違反でINSERTが常に失敗していた＝2026-07-13修正）
+                "source": "hook",
             }
             async with sess.post(
                 f"{url}/rest/v1/escalations",
@@ -89,39 +94,37 @@ async def _insert_escalation(line_user_id: str, summary: str, detail: str) -> No
         logger.warning("aiwp-escalation: escalations INSERT 失敗: %s", exc)
 
 
-async def _push_line(to_user: str, text: str) -> None:
-    token = (os.environ.get("LINE_CHANNEL_ACCESS_TOKEN") or "").strip()
-    if not token:
+async def _notify_slack(text: str) -> None:
+    """運営チャネル #aiwp-ops(SLACK_OPS_WEBHOOK) へ通知。未設定なら無音。例外は握り潰す。"""
+    hook = (os.environ.get("SLACK_OPS_WEBHOOK") or "").strip()
+    if not hook:
         return
     try:
         import aiohttp
         async with aiohttp.ClientSession() as sess:
             async with sess.post(
-                "https://api.line.me/v2/bot/message/push",
-                headers={
-                    "Authorization": f"Bearer {token}",
-                    "Content-Type": "application/json",
-                },
-                json={"to": to_user, "messages": [{"type": "text", "text": text[:4900]}]},
+                hook,
+                json={"text": text[:3900]},
                 timeout=aiohttp.ClientTimeout(total=8),
             ) as resp:
-                if resp.status != 200:
+                if resp.status not in (200, 204):
                     body = await resp.text()
-                    logger.warning("aiwp-escalation: LINE push %s: %s", resp.status, body[:200])
+                    logger.warning("aiwp-escalation: Slack通知 %s: %s", resp.status, body[:200])
     except Exception as exc:
-        logger.warning("aiwp-escalation: LINE push 失敗: %s", exc)
+        logger.warning("aiwp-escalation: Slack通知 失敗: %s", exc)
 
 
 async def handle(event_type: str, context: dict) -> None:
     try:
         if str(context.get("platform", "")).lower() != "line":
             return
-        hey = (os.environ.get("AIWP_ESCALATION_LINE_USER") or "").strip()
-        if not hey:
-            return  # 未設定なら無効（無音）
         user_id = str(context.get("user_id") or "")
-        if not user_id or user_id == hey:
-            return  # HEY自身の会話では通知しない
+        if not user_id:
+            return
+        # HEY自身の会話は通知しない（AIWP_ESCALATION_LINE_USER 未設定なら判定スキップ）。
+        hey = (os.environ.get("AIWP_ESCALATION_LINE_USER") or "").strip()
+        if hey and user_id == hey:
+            return
         response = context.get("response") or ""
         if not any(p in response for p in _phrases()):
             return
@@ -133,17 +136,17 @@ async def handle(event_type: str, context: dict) -> None:
         user_msg = (context.get("message") or "")[:200]
         excerpt = response[:200]
         text = (
-            "🚨 AI Worker's Pass エスカレーション\n"
+            "🚨 AI Worker's Pass エスカレーション検知\n"
             f"利用者: {user_id}\n"
             f"直前の発言: {user_msg}\n"
             f"AI応答(抜粋): {excerpt}\n\n"
-            "対応が必要か確認してください。"
+            "管理画面のエスカレ受信箱にも記録済みです。対応要否とType(A-D)を確認してください。"
         )
         # emit は handler の例外を握るが、こちらでも fire-and-forget にして
         # agent:end の後続処理を一切遅らせない。10分デデュープ内なので
-        # LINE通知と escalations INSERT は対で1回ずつ（DB行の乱立も防ぐ）。
+        # Slack通知と escalations INSERT は対で1回ずつ（DB行の乱立も防ぐ）。
         loop = asyncio.get_running_loop()
-        loop.create_task(_push_line(hey, text))
+        loop.create_task(_notify_slack(text))
         summary = f"[自動検知] {excerpt}" if excerpt else "エスカレーション検知"
         detail = f"利用者発言: {user_msg}\nAI応答(抜粋): {excerpt}"
         loop.create_task(_insert_escalation(user_id, summary, detail))

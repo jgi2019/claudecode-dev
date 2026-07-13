@@ -15,6 +15,8 @@ from __future__ import annotations
 
 import asyncio
 import logging
+import os
+import threading
 from typing import Any, Dict, Optional
 
 from . import store, wizard
@@ -22,6 +24,62 @@ from . import store, wizard
 logger = logging.getLogger("aiworkerpass_wizard")
 
 _RESET_KEYWORD = "削除"  # §9.4: いつでも「削除」で消せる
+
+# --- 日次上限（コスト暴走遮断・設計シート§6）--------------------------------
+# 当日(JST)のラリー数が閾値以上なら LLM を呼ばず定型文で明日を案内する。
+# 「無応答BAN」とは挙動を分け、かかりつけ医の人格に沿ったクールダウンにする。
+# 閾値はハードコードせず設定値（テスター実データを見て調整）。既定200（TARO確定 150-200）。
+_CAP_MESSAGE = (
+    "今日はたくさん相談してくださって、ありがとうございます。\n"
+    "本日のご相談はここまでとさせてくださいね。\n"
+    "また明日、続きをお聞かせください🙏"
+)
+# tenant_id -> 通知済みのJST日付。1テナント日次1回だけ #aiwp-ops へ通知するためのデデュープ。
+_cap_notified: Dict[str, str] = {}
+
+
+def _jst_today() -> str:
+    from datetime import datetime, timezone, timedelta
+    return datetime.now(timezone(timedelta(hours=9))).strftime("%Y-%m-%d")
+
+
+def _daily_rally_cap() -> int:
+    """日次ラリー上限（設定値）。0以下で無効。既定200。"""
+    try:
+        return int(os.environ.get("AIWP_DAILY_RALLY_CAP", "200"))
+    except Exception:
+        return 200
+
+
+def _post_ops_slack(text: str) -> None:
+    """#aiwp-ops(SLACK_OPS_WEBHOOK) へ非同期POST。未設定なら無音。例外は握り潰す。"""
+    hook = (os.environ.get("SLACK_OPS_WEBHOOK") or "").strip()
+    if not hook:
+        return
+
+    def _run():
+        try:
+            import requests
+            requests.post(hook, json={"text": text}, timeout=8)
+        except Exception:
+            pass
+
+    threading.Thread(target=_run, daemon=True).start()
+
+
+def _maybe_notify_cap(user_id: str, tenant_id, used: int, cap: int) -> None:
+    """上限到達を #aiwp-ops へ通知（1テナント日次1回・JST日付デデュープ）。"""
+    key = str(tenant_id or user_id)
+    today = _jst_today()
+    if _cap_notified.get(key) == today:
+        return
+    _cap_notified[key] = today
+    _post_ops_slack(
+        "🧢 AI Worker's Pass 日次上限到達\n"
+        f"テナント: {key}\n"
+        f"当日ラリー数: {used}（上限 {cap}）\n"
+        "以降は本日、定型文で明日を案内します（LLM非呼出）。"
+    )
 
 
 def _is_line(source) -> bool:
@@ -360,6 +418,21 @@ def _on_pre_gateway_dispatch(event=None, gateway=None, session_store=None, **_kw
 
         # --- オンボーディング済み → 通常応答 ---
         if tenant.get("onboarding_complete"):
+            # 日次上限（設計シート§6）: 当日(JST)ラリー数が閾値以上なら LLM を呼ばず
+            # 定型文で明日を案内。参照失敗時はフェイルオープン（遮断しない）。
+            # 日付境界は cost_tracking の日次UPSERTと同一基準（JST）。
+            cap = _daily_rally_cap()
+            if cap > 0:
+                tid = tenant.get("id")
+                try:
+                    used = store.daily_rally_count(tid) if tid else 0
+                except Exception as exc:
+                    logger.warning("aiworkerpass-wizard: ラリー数参照失敗（上限判定スキップ）: %s", exc)
+                    used = 0
+                if used >= cap:
+                    _schedule_send(gateway, source, _CAP_MESSAGE)
+                    _maybe_notify_cap(user_id, tid, used, cap)
+                    return {"action": "skip", "reason": "daily-rally-cap"}
             return None
 
         step = int(tenant.get("onboarding_step") or 0)

@@ -27,9 +27,18 @@ python3 -c "import json,sys; d=json.load(open(sys.argv[1])); assert isinstance(d
   "$DEST/tenants-$TS.json" || fail "tenantsダンプが空/不正JSON"
 
 # 2) ~/.hermes 退避（ログ・キャッシュ除外）
+# 注: hermes稼働中は .hermes 配下(sqlite/memories/auth)へ並行書込があり、tar は
+#     "file changed as we read it" で exit 1 を返す（良性）。exit 1 は成功扱いとし、
+#     exit>=2（致命エラー）のみ失敗とする。生成物の空チェックも併せて行う。
+set +e
 tar czf "$DEST/hermes-$TS.tgz" -C "$HOME" \
+  --warning=no-file-changed \
   --exclude=".hermes/logs" --exclude="*.log" --exclude="__pycache__" \
-  .hermes || fail "hermes tar退避"
+  .hermes
+tar_rc=$?
+set -e
+[ "$tar_rc" -ge 2 ] && fail "hermes tar退避 (rc=$tar_rc)"
+[ -s "$DEST/hermes-$TS.tgz" ] || fail "hermes tgz が空"
 
 # 3) 14日ローテーション
 find "$DEST" -name "tenants-*.json" -mtime +14 -delete
