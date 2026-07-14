@@ -114,6 +114,49 @@ async def _notify_slack(text: str) -> None:
         logger.warning("aiwp-escalation: Slack通知 失敗: %s", exc)
 
 
+# HEY への Slack メンション先（ハードコード。将来 Operator 追加時に設定値化する前提）。
+_HEY_SLACK_MENTION = os.environ.get("AIWP_OPS_MENTION", "<@U05RJDCT6DN>").strip()
+
+
+async def _fetch_tenant_name(line_user_id: str) -> str:
+    """tenants.name（オンボで確定した表示名）を1件引く。取れなければ空文字を返す。"""
+    c = _supabase_creds()
+    if not c:
+        return ""
+    url, key = c
+    try:
+        import aiohttp
+        async with aiohttp.ClientSession() as sess:
+            async with sess.get(
+                f"{url}/rest/v1/tenants",
+                params={"line_user_id": f"eq.{line_user_id}", "select": "name", "limit": "1"},
+                headers={"apikey": key, "Authorization": f"Bearer {key}"},
+                timeout=aiohttp.ClientTimeout(total=8),
+            ) as tr:
+                if tr.status == 200:
+                    rows = await tr.json()
+                    if rows:
+                        return str(rows[0].get("name") or "").strip()
+    except Exception as exc:
+        logger.warning("aiwp-escalation: tenant名 取得失敗: %s", exc)
+    return ""
+
+
+async def _notify_slack_escalation(line_user_id: str, user_msg: str, excerpt: str) -> None:
+    """#aiwp-ops へエスカレ通知。HEYメンション＋利用者表示名＋管理画面直リンク。"""
+    name = await _fetch_tenant_name(line_user_id)
+    who = name or line_user_id  # 表示名が取れなければ ID にフォールバック
+    text = (
+        "🚨 AI Worker's Pass エスカレーション検知\n"
+        f"{_HEY_SLACK_MENTION}\n"
+        f"利用者: {who}\n"
+        f"直前の発言: {user_msg}\n"
+        f"AI応答(抜粋): {excerpt}\n\n"
+        "📋 https://aiwp-admin.vercel.app/escalations"
+    )
+    await _notify_slack(text)
+
+
 async def handle(event_type: str, context: dict) -> None:
     try:
         if str(context.get("platform", "")).lower() != "line":
@@ -135,18 +178,11 @@ async def handle(event_type: str, context: dict) -> None:
 
         user_msg = (context.get("message") or "")[:200]
         excerpt = response[:200]
-        text = (
-            "🚨 AI Worker's Pass エスカレーション検知\n"
-            f"利用者: {user_id}\n"
-            f"直前の発言: {user_msg}\n"
-            f"AI応答(抜粋): {excerpt}\n\n"
-            "管理画面のエスカレ受信箱にも記録済みです。対応要否とType(A-D)を確認してください。"
-        )
         # emit は handler の例外を握るが、こちらでも fire-and-forget にして
         # agent:end の後続処理を一切遅らせない。10分デデュープ内なので
         # Slack通知と escalations INSERT は対で1回ずつ（DB行の乱立も防ぐ）。
         loop = asyncio.get_running_loop()
-        loop.create_task(_notify_slack(text))
+        loop.create_task(_notify_slack_escalation(user_id, user_msg, excerpt))
         summary = f"[自動検知] {excerpt}" if excerpt else "エスカレーション検知"
         detail = f"利用者発言: {user_msg}\nAI応答(抜粋): {excerpt}"
         loop.create_task(_insert_escalation(user_id, summary, detail))
