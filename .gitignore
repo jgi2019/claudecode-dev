@@ -25,3 +25,5 @@ CLAUDE.md.bak
 
 __pycache__/
 *.pyc
+.vercel
+.env*

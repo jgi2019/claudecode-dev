@@ -10,7 +10,7 @@ CEO（HEY / 江頭淳）の右腕として、戦略実行・プロダクト開�
 - LLM: Anthropic API (Haiku 80% / Sonnet 20%), prompt caching required
 - DB: Supabase (PostgreSQL + pgvector)
 - Messaging: LINE Messaging API
-- Deploy: Vercel (project: claudecode-dev, prj_uuaARJVYyJhmWRRM8SxoYLDWBtNu)
+- Deploy: **このリポ(claudecode-dev)はWebアプリではない**。VercelのGit連携は切断済み(2026-07-14)。push=デプロイではない。静的LP群は別プロジェクト `jgi-sites` を参照（下記「インフラ再発防止」）
 - No-Code: Base44 / Repo: github.com/jgi2019/claudecode-dev
 - Working dir: ~/Desktop/**claudecode_dev/（**はFinder並び順用プレフィックス）
 
@@ -102,6 +102,16 @@ HEY承認済み（2026-07-12）。設計正本: Notion「JIRO司令塔構造 v1�
 - NEVER log user PII
 - NEVER commit node_modules/
 - NEVER make local-only files the source of truth
+
+## インフラ再発防止（2026-07-14 oms.udlr.jp 障害の教訓）
+**事象**: `claudecode-dev` リポは元々 oms/ai/dev/lab.udlr.jp の静的LPホストだったが、後にJIRO/Hermes設定リポへ転用。VercelのGit連携が生きていたため、Hermes系pushのたびに本番デプロイが走り、4ドメイン全てのLPを巻き添えで404にした。さらに oms LPは `.reveal{opacity:0}`+CSSアニメで表示する設計で、`prefers-reduced-motion:reduce` 環境ではアニメ無効化で opacity:0 固定→カード全消えのバグも併発（通常環境では見えるため気づきにくい）。
+**恒久対策（実施済み）**:
+- claudecode-dev の **Vercel Git連携は切断**。このリポはVercelにデプロイしない。復活させるな。
+- 静的LP群（oms/ai/dev/lab）は **専用プロジェクト `jgi-sites`（CLIデプロイ・Git未連携）** に物理分離。4ドメインは jgi-sites に割当済み。
+- **1リポ2用途を作らない**：設定/コードリポと公開Webホストは必ず別プロジェクト。
+- アニメで要素を隠す時は **`@media (prefers-reduced-motion:reduce)` で必ず可視の終了状態を担保**（`.reveal{opacity:1!important}` 等）。既定は表示、JS/アニメは上乗せ（プログレッシブエンハンスメント）。
+- ドメインのプロジェクト間移動は `vercel domains add <domain> <project> --force --scope jgi`。移動後は必ず公開URLで200＋描画を確認。
+- ⚠️ 未了フォロー：`jgi-sites` はCLIデプロイのためソースがローカル揮発。**専用GitHubリポ化して正本化**すること（「クラウドに正本」原則）。
 
 ## Context（詳細はここを読め）
 - `context/profile.md` → HEYの思考OS・CliftonStrengths・行動パターン・補完すべき下位資質
