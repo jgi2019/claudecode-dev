@@ -1,8 +1,11 @@
 name: aiwp-escalation
 description: >
   AI Worker's Pass エスカレーション通知。LINE応答に「運営に伝えます」等の
-  エスカレーション文言が含まれた時だけ、HEY の LINE に push 通知する。
+  エスカレーション文言が含まれた時だけ、運営チャネル Slack #aiwp-ops へ通知し
+  escalations テーブルへ1件INSERTする（ユーザー本人には何も送らない）。
+  LINE push は課金ゼロ化のため停止済み（Slack一本化・設計シート§6）。
   設置: このディレクトリを ~/.hermes/hooks/aiwp-escalation に symlink。
-  必要env: LINE_CHANNEL_ACCESS_TOKEN（既存）, AIWP_ESCALATION_LINE_USER（HEYのLINE user_id）
+  必要env: SLACK_OPS_WEBHOOK, SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY。
+  任意env: AIWP_ESCALATION_LINE_USER（HEY本人の会話を通知除外）, AIWP_ESCALATION_PHRASES（検知語上書き）。
 events:
   - "agent:end"
