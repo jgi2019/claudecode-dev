@@ -97,6 +97,12 @@ HEY承認済み（2026-07-12）。設計正本: Notion「JIRO司令塔構造 v1�
 - 失敗をSkillsに変換する（自己改善ループ）
 - 権限は段階的に渡す（Sea Chart: L0→L5）
 
+## スクリプト資産化ルール
+- ルーティン候補のスクリプトは `~/aiwp/scripts/`（VPS）に保存し、正本を GitHub(`jgi2019/claudecode-dev` の `scripts/`)へpushする。
+- 各スクリプトに **README.md で実行手順を明記**：引数・必要env・出力先・安全策。
+- **同じスクリプトを3回以上手動実行したら Skills 化を検討**する（自己改善ループ）。
+- 秘密情報はスクリプトに直書きせず env（`~/.hermes/.env` 等）から読む。
+
 ## Off-limits
 - NEVER commit .env or API keys
 - NEVER log user PII
