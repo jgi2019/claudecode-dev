@@ -69,6 +69,8 @@ HEY承認済み（2026-07-12）。設計正本: Notion「JIRO司令塔構造 v1�
 
 ## Session Protocol
 ### Start
+0. **鉄の掟が読めているか自己申告する**（2026-07-15 追加）。読めていなければ正本CLAUDE.mdを読みに行ってから着手。起動ディレクトリが `~/Desktop/**claudecode_dev/` 以外なら、憲法層 `~/.claude/CLAUDE.md` しか読まれていない可能性が高い旨を明示する
+0.5. **作業対象リポで `git fetch` → 遅れがあれば fast-forward pull**（2026-07-15 追加。詳細は「Git運用ルール」）
 1. Notion ハンドオフDB (ID: 27e1a509-0fb5-4a07-824e-799985d70a3f) を確認
 2. Morning Vision DB (ID: fb00fe5b8a494a5e83f17fad847a3445) で当日の文脈を把握
 3. 前回の残タスク・進捗を把握してから作業開始
@@ -102,6 +104,24 @@ HEY承認済み（2026-07-12）。設計正本: Notion「JIRO司令塔構造 v1�
 - 各スクリプトに **README.md で実行手順を明記**：引数・必要env・出力先・安全策。
 - **同じスクリプトを3回以上手動実行したら Skills 化を検討**する（自己改善ループ）。
 - 秘密情報はスクリプトに直書きせず env（`~/.hermes/.env` 等）から読む。
+
+## Git運用ルール
+
+### 作業開始時のpull（2026-07-15 「6コミット遅れ」事故の教訓）
+- **正本はGitHub origin/main。ローカルは全てチェックアウト（ビュー）にすぎない。**
+- セッション開始時、作業対象リポで必ず `git fetch` → 遅れがあれば fast-forward pull してから作業する。
+- 複数マシン（Mac/VPS）・複数チェックアウトからpushする運用のため、**「自分のローカルが最新」という前提を置くな。**
+
+### commit author規則
+- commit author は **`EgashiraAtsushi <a.egashira@udlr.jp>`** で統一する。別名義でcommitしない。
+
+### push前デプロイ連携確認
+- push前に、そのリポにデプロイ連携（Vercel/Cloudflare等のGit連携）が紐づいていないか必ず確認する。**push=安全と思うな**（詳細は「インフラ再発防止」）。
+
+## ルール層の構造（2026-07-15 確定）
+- **正本**: `~/Desktop/**claudecode_dev/CLAUDE.md`（= GitHub `jgi2019/claudecode-dev`）。ルール変更はここに書き、pushする
+- **憲法層（ミラー）**: `~/.claude/CLAUDE.md`。起動ディレクトリに依存せず全セッションで読まれる。鉄の掟・承認プロトコル・git規則の最小セットのみ。**正本を変更したら憲法層にも追従させる**。食い違ったら正本が勝つ
+- 憲法層を起点に編集しない（ミラーであって正本ではない）
 
 ## Off-limits
 - NEVER commit .env or API keys
