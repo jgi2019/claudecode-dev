@@ -41,6 +41,9 @@ Notion / Gmail / Google Calendar / Google Drive / Slack / Figma / GitHub / Verce
 |---|---|---|
 | claudecode-dev | `jgi2019/claudecode-dev` | `~/Desktop/**claudecode_dev/` |
 | jgi-brain | `jgi2019/jgi-brain`（private） | `~/Desktop/jgi-brain/` |
+| jgi-sites | `jgi2019/jgi-sites`（private） | `~/Desktop/jgi-sites/` ⚠️push=本番デプロイ |
+
+⚠️ **未登録の野良チェックアウトあり: `~/dev/claudecode-dev`**（旧ホストベースrewriteのvercel.json残骸を保持。正本と混同事故のもと）。整理・削除の要否をHEY判断待ち（2026-07-15 発見）。
 
 ## 🏛 JIRO司令塔構造 v1 — 鉄の掟（5カ条・IMPORTANT）
 HEY承認済み（2026-07-12）。設計正本: Notion「JIRO司令塔構造 v1」(app.notion.com/p/39b505f6b5a581b794a5cada8ce469cb)
@@ -140,11 +143,13 @@ HEY承認済み（2026-07-12）。設計正本: Notion「JIRO司令塔構造 v1�
 **事象**: `claudecode-dev` リポは元々 oms/ai/dev/lab.udlr.jp の静的LPホストだったが、後にJIRO/Hermes設定リポへ転用。VercelのGit連携が生きていたため、Hermes系pushのたびに本番デプロイが走り、4ドメイン全てのLPを巻き添えで404にした。さらに oms LPは `.reveal{opacity:0}`+CSSアニメで表示する設計で、`prefers-reduced-motion:reduce` 環境ではアニメ無効化で opacity:0 固定→カード全消えのバグも併発（通常環境では見えるため気づきにくい）。
 **恒久対策（実施済み）**:
 - claudecode-dev の **Vercel Git連携は切断**。このリポはVercelにデプロイしない。復活させるな。
-- 静的LP群（oms/ai/dev/lab）は **専用プロジェクト `jgi-sites`（CLIデプロイ・Git未連携）** に物理分離。4ドメインは jgi-sites に割当済み。
+- 静的LP群（oms/ai/dev/lab）は **専用プロジェクト `jgi-sites`** に物理分離。4ドメインは jgi-sites に割当済み。**jgi-sites は GitHub `jgi2019/jgi-sites`(private) とVercel Git連携済み（2026-07-15 確認）。main への push = 本番デプロイが発火する。** これは1リポ1用途の正しい状態であり、切断しない（claudecode-dev の切断とは意図が逆なので混同するな）。
 - **1リポ2用途を作らない**：設定/コードリポと公開Webホストは必ず別プロジェクト。
 - アニメで要素を隠す時は **`@media (prefers-reduced-motion:reduce)` で必ず可視の終了状態を担保**（`.reveal{opacity:1!important}` 等）。既定は表示、JS/アニメは上乗せ（プログレッシブエンハンスメント）。
 - ドメインのプロジェクト間移動は `vercel domains add <domain> <project> --force --scope jgi`。移動後は必ず公開URLで200＋描画を確認。
-- ⚠️ 未了フォロー：`jgi-sites` はCLIデプロイのためソースがローカル揮発。**専用GitHubリポ化して正本化**すること（「クラウドに正本」原則）。
+- ✅ 完了（2026-07-14）：`jgi-sites` を GitHub `jgi2019/jgi-sites`(private) にリポ化して正本化済み。ローカル正位置は `~/Desktop/jgi-sites/`（PJレジストリ参照）。
+- **noindex方針（2026-07-15 HEY確定）**：oms.udlr.jp = インデックス許可 ／ ai・dev・lab = noindex維持。noindexは **①X-Robots-Tag(vercel.json) ②robots.txt ③HTMLのmetaタグ の3経路**あり、1つでも残るとインデックスされない。特に `robots.txt` の `Disallow: /` はクロール自体を止めるため、X-Robots-Tagだけ直しても無意味。3点セットで確認せよ。
+- **Vercelはファイルシステム優先**（rewriteより先に実体ファイルを探す）。そのためルート直下に置いたファイル（robots.txt等）は**ホスト別rewriteを貫通して全ドメインに配られる**。ドメイン別に出し分けたいファイルはルートに置かず、各ドメインのrewrite先ディレクトリに置くこと。
 
 ## Context（詳細はここを読め）
 - `context/profile.md` → HEYの思考OS・CliftonStrengths・行動パターン・補完すべき下位資質
