@@ -43,19 +43,24 @@ def load_env(path=None):
 
 
 def fetch_tenants(url, key):
+    """オンボ完了テナントのみ退避対象。オンボ途中はsystem_prompt未生成が正常のため除外する。"""
     req = urllib.request.Request(
         f"{url.rstrip('/')}/rest/v1/tenants"
-        "?select=id,name,system_prompt,created_at&order=created_at.asc",
+        "?select=id,name,system_prompt,onboarding_complete,created_at&order=created_at.asc",
         headers={"apikey": key, "Authorization": f"Bearer {key}"},
     )
     with urllib.request.urlopen(req, timeout=30) as res:
         data = json.loads(res.read().decode("utf-8"))
     if not isinstance(data, list):
         raise ValueError("REST応答がリストでない")
-    for row in data:
+    completed = [r for r in data if r.get("onboarding_complete")]
+    for row in completed:
         if not row.get("id") or not (row.get("system_prompt") or "").strip():
-            raise ValueError(f"system_prompt欠落テナントあり: id={row.get('id')}")
-    return data
+            raise ValueError(f"オンボ完了なのにsystem_prompt欠落: id={row.get('id')}")
+    skipped = len(data) - len(completed)
+    if skipped:
+        print(f"INFO: オンボ未完了 {skipped}件は退避対象外")
+    return completed
 
 
 def main():
