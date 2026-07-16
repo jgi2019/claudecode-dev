@@ -35,16 +35,12 @@ Notion / Gmail / Google Calendar / Google Drive / Slack / Figma / GitHub / Verce
 - 抽象的な一般論で逃げるな。具体・固有名詞・数字で答えよ
 - 作業はPJレジストリに登録された正位置チェックアウトでのみ行う。**未登録の場所にチェックアウトを作らない**。PJ追加時は下記一覧を更新する
 
-### PJレジストリ（正位置チェックアウト一覧・2026-07-15 時点）
-※木曜のPJレジストリDB化の種。ここが唯一の「正しい置き場所」の正本
-| PJ | GitHub | ローカル正位置 |
-|---|---|---|
-| claudecode-dev | `jgi2019/claudecode-dev` | `~/Desktop/claudecode-dev/` |
-| jgi-brain | `jgi2019/jgi-brain`（private） | `~/Desktop/jgi-brain/` |
-| jgi-sites | `jgi2019/jgi-sites`（private） | `~/Desktop/jgi-sites/` ⚠️push=本番デプロイ |
-| tldv-mcp-server | `tldv-public/tldv-mcp-server`（upstream） | `~/tools/mcp/tldv-mcp-server/`（会議録MCP・稼働中） |
-
-✅ 野良チェックアウト `~/dev/claudecode-dev` はHEY承認のうえゴミ箱へ移動済み（2026-07-16）。tldv MCPサーバー実体は正本リポのsubmoduleから `~/tools/mcp/tldv-mcp-server`（standalone clone）へ正位置化済み（2026-07-16）。構想: tldv統合（中期: transcript→Notion/jgi-brainパイプライン）。
+### PJレジストリ（正位置チェックアウト一覧）
+**正本はNotion「PJレジストリ」DB**（app.notion.com/p/dd705d5de8fe4252a4c8036fb6a8a19a・2026-07-16 DB化）。PJ追加・変更はDBを更新する。以下はローカルパスの最小参照（DBと同期させる）:
+- claudecode-dev → `~/Desktop/claudecode-dev/`
+- jgi-brain → `~/Desktop/jgi-brain/`
+- jgi-sites → `~/Desktop/jgi-sites/` ⚠️push=本番デプロイ
+- tldv-mcp-server → `~/tools/mcp/tldv-mcp-server/`（会議録MCP）
 
 ## 🏛 JIRO司令塔構造 v1 — 鉄の掟（5カ条・IMPORTANT）
 HEY承認済み（2026-07-12）。設計正本: Notion「JIRO司令塔構造 v1」(app.notion.com/p/39b505f6b5a581b794a5cada8ce469cb)
