@@ -3,6 +3,27 @@
 ルーティン候補のスクリプト置き場。VPSでは `~/aiwp/scripts/` に配置（scp同期）、正本は本リポ。
 各スクリプトは引数・環境変数・出力先を以下に明記する。3回以上手動実行したら Skills 化を検討する。
 
+## faq_batch.py
+SHERPA FAQ候補の夜間バッチ生成。Stage1で Perplexity Sonar が課題ごとに一次情報（解決手法・ツール・出典URL）を集め、
+Stage2で Claude が FAQ（question/answer）に整形して品質スコアを付ける。数百件を回す前提の2段パイプライン。
+
+- 実行:
+  ```bash
+  python3 scripts/faq_batch.py --outdir ~/Desktop/faq_candidates --dry-run   # APIを叩かず対象件数のみ
+  python3 scripts/faq_batch.py --outdir ~/Desktop/faq_candidates --limit 5   # 先頭5件で試走
+  python3 scripts/faq_batch.py --outdir ~/Desktop/faq_candidates             # 全件
+  ```
+- 引数: `--outdir`（既定 `~/Desktop/faq_candidates`）/ `--limit`（0=全件）/ `--workers`（既定4）/
+  `--model`（`haiku`|`sonnet`|`opus`、既定 haiku）/ `--dry-run`
+- 必要env: `PERPLEXITY_API_KEY`, `ANTHROPIC_API_KEY`（`~/.hermes/.env` から自動読込。値はログに出さない）
+- 入力: `<outdir>/_input_issues.json`（Notion課題DBから抽出した配列）
+- 出力: `<outdir>/stage1/<id>.json`（Sonar生結果）/ `<outdir>/stage2/<id>.json`（FAQ 1件）/
+  `<outdir>/faq_candidates.json`（最終成果物）
+- 安全策: **レジューム可**。1件1ファイルで完了済みをファイル存在で判定しスキップするため、途中で落ちても
+  再実行でAPI費用を二重に払わない。本番書き込みは一切なし（ローカル出力のみ）。
+- コスト特性（2026-07-15実測）: Sonar はリクエスト固定手数料 $5/1000req が支配的で、コストの約8割。
+  **トークン量ではなく「何件叩くか」でほぼ決まる**ため、プロンプト短縮等の節約策は効かない。件数で絞ること。
+
 ## regen_system_prompts.py
 既存オンボ完了テナントの `tenants.system_prompt` を、現行 `wizard.build_system_prompt` で再生成・更新する。
 persona（wizard.py の静的文言）を変更した後、既存テナントへ反映するために使う（新規オンボは自動反映のため対象外）。
