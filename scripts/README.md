@@ -64,3 +64,16 @@ ai/dev.udlr.jp が「HTTP 200 / body 0バイト」で約3ヶ月放置されて�
 正常に配信するため、コードだけ見る監視は 200 OK=正常 と判定してすり抜ける。oms.udlr.jp の6日間沈黙
 (2026-07-14)も「配信は生きているが中身が出ない」同型。**「疎通している」と「中身が出ている」は別物**。
 なお `ops/notify-down.sh` はHermes gateway専用(期待値405)でLP群は見ていない。両者を混同しないこと。
+
+## hermes_snapshot.py
+テナント別 `tenants.system_prompt`（AIWPの売り「学習データ継続保証」の実体＝知の資本）を日次でgit退避する。
+7/14設計議論で確定した防御策。出力先は本リポ `ops/snapshots/hermes/system_prompts.json`（履歴はgitが持つ）。
+
+- 実行（VPS・cron 日次）:
+  ```bash
+  python3 ~/aiwp/scripts/hermes_snapshot.py --repo ~/aiwp/claudecode-dev --commit --push
+  ```
+- 引数: `--repo`（スナップショット置き場のgitリポ。既定=スクリプトのあるリポ）/ `--commit` / `--push` / `--force`
+- 必要env: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`（`~/.hermes/.env` から自動読込。値はログに出さない）
+- 安全策: テナント数が前回より減ったら上書きせず異常終了（本体DB異常の日にバックアップまで潰す事故を防止。意図的な削除時のみ `--force`）。差分がなければcommitしない（冪等）。
+- 注意: スナップショットにはテナントのニックネームとオンボ回答（軽度の個人情報）が含まれる。**privateリポ以外に置かない・ログに全文を出さない**。
