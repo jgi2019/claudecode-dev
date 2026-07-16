@@ -25,15 +25,17 @@ mkdir -p "$(dirname "$LOG")" "$STATE_DIR" 2>/dev/null || true
 ts() { date '+%Y-%m-%d %H:%M:%S%z'; }
 log() { echo "$(ts) $*" >> "$LOG" 2>/dev/null || true; }
 
-# 監視対象: <URL> <期待HTTPコード> <body下限バイト>
-# 下限は 2026-07-15 実測値の約半分。LPを作り替えて実サイズが下限を割る場合はここを更新する。
+# 監視対象: <URL> <期待HTTPコード> <body下限バイト> <必須文字列>
+# 下限は 2026-07-15 実測値の約半分（2026-07-16 再実測で整合確認済み）。
+# 必須文字列は「サイズは足りているが別物が返っている」（エラーページ・誤ルーティング等）を捕るため。
+# 空白を含まない1トークンで書くこと（行が空白分割されるため）。LP作り替え時は両方更新する。
 TARGETS=(
-  "https://oms.udlr.jp/            200 20000"
-  "https://ai.udlr.jp/             200  1000"
-  "https://dev.udlr.jp/            200  1000"
-  "https://lab.udlr.jp/            200  1000"
-  "https://ai.udlr.jp/blueprint/   200 100000"
-  "https://lab.udlr.jp/infra-case/ 200  5000"
+  "https://oms.udlr.jp/            200 20000  請求管理"
+  "https://ai.udlr.jp/             200  1000  UDLR"
+  "https://dev.udlr.jp/            200  1000  UDLR"
+  "https://lab.udlr.jp/            200  1000  UDLR"
+  "https://ai.udlr.jp/blueprint/   200 100000 Blueprint"
+  "https://lab.udlr.jp/infra-case/ 200  5000  インフラ設計"
 )
 
 notify() {
@@ -60,7 +62,7 @@ fail_count=0
 for entry in "${TARGETS[@]}"; do
   # shellcheck disable=SC2086
   set -- $entry
-  url="$1"; want_code="$2"; min_bytes="$3"
+  url="$1"; want_code="$2"; min_bytes="$3"; marker="${4:-}"
 
   body="$(curl -sS -L -m 20 "$url" 2>/dev/null)" || body=""
   code="$(curl -sS -L -o /dev/null -m 20 -w '%{http_code}' "$url" 2>/dev/null)" || code="000"
@@ -71,6 +73,10 @@ for entry in "${TARGETS[@]}"; do
     reason="HTTP ${code}（期待 ${want_code}）"
   elif [ "$size" -lt "$min_bytes" ]; then
     reason="HTTP ${code} だが body ${size}バイト（下限 ${min_bytes}バイトを下回る）"
+  # 文字列照合はパイプ+grepを使わない: set -o pipefail 下では grep -q のマッチ即終了で
+  # printf が SIGPIPE(141) を受け、大きいbodyだけ偽NGになる（263KBページで実発生）。
+  elif [ -n "$marker" ] && [[ "$body" != *"$marker"* ]]; then
+    reason="HTTP ${code} / ${size}バイトだが必須文字列「${marker}」が見つからない（別コンテンツが返っている可能性）"
   fi
 
   sf="$(state_file_for "$url")"

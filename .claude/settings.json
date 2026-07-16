@@ -1,12 +1,15 @@
 {
   "permissions": {
+    "disableBypassPermissionsMode": "disable",
     "allow": [
       "Read(**)",
-      "Write(context/**)",
-      "Write(src/**)",
-      "Write(projects/**)",
-      "Write(docs/**)",
-      "Write(.claude/skills/**)",
+      "Edit(context/**)",
+      "Edit(src/**)",
+      "Edit(projects/**)",
+      "Edit(docs/**)",
+      "Edit(scripts/**)",
+      "Edit(.claude/skills/**)",
+      "Edit(.claude/commands/**)",
       "Bash(npm run *)",
       "Bash(npx *)",
       "Bash(git add *)",
@@ -15,15 +18,49 @@
       "Bash(git status)",
       "Bash(git diff *)",
       "Bash(git log *)",
+      "Bash(git fetch *)",
+      "Bash(git pull --ff-only *)",
       "Bash(ls *)",
       "Bash(cat *)",
       "Bash(head *)",
       "Bash(tail *)"
     ],
+    "ask": [
+      "Bash(scp *)",
+      "Bash(rsync *)",
+      "Bash(vercel *)",
+      "mcp__claude_ai_Supabase__execute_sql",
+      "mcp__claude_ai_Supabase__apply_migration",
+      "mcp__claude_ai_Supabase__deploy_edge_function",
+      "mcp__claude_ai_Supabase__merge_branch",
+      "mcp__claude_ai_Supabase__pause_project",
+      "mcp__claude_ai_Supabase__restore_project",
+      "mcp__plugin_vercel_vercel__deploy_to_vercel",
+      "mcp__claude_ai_Base44__create_base44_app",
+      "mcp__claude_ai_Base44__edit_base44_app",
+      "mcp__claude_ai_Base44__edit_file",
+      "mcp__claude_ai_Base44__write_file",
+      "mcp__claude_ai_Base44__run_command",
+      "mcp__claude_ai_Base44__create_entities",
+      "mcp__claude_ai_Base44__update_entities",
+      "mcp__claude_ai_Base44__create_entity_schema",
+      "mcp__claude_ai_Base44__update_entity_schema"
+    ],
     "deny": [
-      "Write(.env*)",
-      "Write(**/node_modules/**)",
+      "Read(~/.hermes/.env)",
+      "Read(~/.hermes/.env.*)",
+      "Edit(~/.hermes/.env)",
+      "Edit(~/.hermes/.env.*)",
+      "Edit(.env*)",
+      "Edit(**/node_modules/**)",
       "Bash(rm -rf *)"
     ]
+  },
+  "sandbox": {
+    "filesystem": {
+      "denyRead": [
+        "~/.hermes/.env"
+      ]
+    }
   }
 }
