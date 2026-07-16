@@ -5,7 +5,16 @@ allowed-tools: Bash(git fetch:*), Bash(git pull --ff-only:*), Bash(git status:*)
 
 # /pj — 起動検証コマンド
 
+引数: $ARGUMENTS（PJラベル。例: `/pj オムロンNextWebUI` `/pj aiwp`。省略可）
+
 以下を上から順に実行し、最後に結果を1つのチェックリストで報告せよ。
+
+## 0. PJ特定（引数がある場合のみ）
+- $ARGUMENTS が指定されたら、PJレジストリDB（Notion dd705d5de8fe4252a4c8036fb6a8a19a）で該当PJを引き、正位置・指示ファイル・状態を把握する。
+- 以下を**自己宣言**する:
+  「このセッションは **[PJ:$ARGUMENTS]**。#taro-jiroでは自PJ宛＋[PJ:ソロプレナーOS]（共通基盤）宛のみ読み、他PJ宛の指示は読み飛ばす」
+- 以後このセッションのSlack投稿には必ず `[PJ:$ARGUMENTS]` 接頭辞を付ける。
+- 引数なしの場合は本節をスキップし、従来どおり起動検証のみ行う（読み分け宣言はしない）。
 
 ## 1. 起動ディレクトリ検証
 - `pwd` を実行。PJレジストリ（Notion「PJレジストリ」DB / CLAUDE.mdの最小参照一覧）に登録された正位置チェックアウト配下かを判定する。
