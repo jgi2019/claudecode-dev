@@ -27,3 +27,4 @@ __pycache__/
 *.pyc
 .vercel
 .env*
+dev/tenshin-base-theme/src/resize/
