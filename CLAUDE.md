@@ -12,7 +12,7 @@ CEO（HEY / 江頭淳）の右腕として、戦略実行・プロダクト開�
 - Messaging: LINE Messaging API
 - Deploy: **このリポ(claudecode-dev)はWebアプリではない**。VercelのGit連携は切断済み(2026-07-14)。push=デプロイではない。静的LP群は別プロジェクト `jgi-sites` を参照（下記「インフラ再発防止」）
 - No-Code: Base44 / Repo: github.com/jgi2019/claudecode-dev
-- Working dir: ~/Desktop/**claudecode_dev/（**はFinder並び順用プレフィックス）
+- Working dir: ~/Desktop/claudecode-dev/（旧名 `**claudecode_dev`。シェルグロブ衝突解消のため2026-07-16リネーム）
 
 ## MCP Connected
 Notion / Gmail / Google Calendar / Google Drive / Slack / Figma / GitHub / Vercel / Box
@@ -39,11 +39,12 @@ Notion / Gmail / Google Calendar / Google Drive / Slack / Figma / GitHub / Verce
 ※木曜のPJレジストリDB化の種。ここが唯一の「正しい置き場所」の正本
 | PJ | GitHub | ローカル正位置 |
 |---|---|---|
-| claudecode-dev | `jgi2019/claudecode-dev` | `~/Desktop/**claudecode_dev/` |
+| claudecode-dev | `jgi2019/claudecode-dev` | `~/Desktop/claudecode-dev/` |
 | jgi-brain | `jgi2019/jgi-brain`（private） | `~/Desktop/jgi-brain/` |
 | jgi-sites | `jgi2019/jgi-sites`（private） | `~/Desktop/jgi-sites/` ⚠️push=本番デプロイ |
+| tldv-mcp-server | `tldv-public/tldv-mcp-server`（upstream） | `~/tools/mcp/tldv-mcp-server/`（会議録MCP・稼働中） |
 
-⚠️ **未登録の野良チェックアウトあり: `~/dev/claudecode-dev`**（旧ホストベースrewriteのvercel.json残骸を保持。正本と混同事故のもと）。整理・削除の要否をHEY判断待ち（2026-07-15 発見）。
+✅ 野良チェックアウト `~/dev/claudecode-dev` はHEY承認のうえゴミ箱へ移動済み（2026-07-16）。tldv MCPサーバー実体は正本リポのsubmoduleから `~/tools/mcp/tldv-mcp-server`（standalone clone）へ正位置化済み（2026-07-16）。構想: tldv統合（中期: transcript→Notion/jgi-brainパイプライン）。
 
 ## 🏛 JIRO司令塔構造 v1 — 鉄の掟（5カ条・IMPORTANT）
 HEY承認済み（2026-07-12）。設計正本: Notion「JIRO司令塔構造 v1」(app.notion.com/p/39b505f6b5a581b794a5cada8ce469cb)
@@ -79,7 +80,7 @@ HEY承認済み（2026-07-12）。設計正本: Notion「JIRO司令塔構造 v1�
 
 ## Session Protocol
 ### Start
-0. **鉄の掟が読めているか自己申告する**（2026-07-15 追加）。読めていなければ正本CLAUDE.mdを読みに行ってから着手。起動ディレクトリが `~/Desktop/**claudecode_dev/` 以外なら、憲法層 `~/.claude/CLAUDE.md` しか読まれていない可能性が高い旨を明示する
+0. **鉄の掟が読めているか自己申告する**（2026-07-15 追加）。読めていなければ正本CLAUDE.mdを読みに行ってから着手。起動ディレクトリが `~/Desktop/claudecode-dev/` 以外なら、憲法層 `~/.claude/CLAUDE.md` しか読まれていない可能性が高い旨を明示する
 0.5. **作業対象リポで `git fetch` → 遅れがあれば fast-forward pull**（2026-07-15 追加。詳細は「Git運用ルール」）
 1. Notion ハンドオフDB (ID: 27e1a509-0fb5-4a07-824e-799985d70a3f) を確認
 2. Morning Vision DB (ID: fb00fe5b8a494a5e83f17fad847a3445) で当日の文脈を把握
@@ -129,7 +130,7 @@ HEY承認済み（2026-07-12）。設計正本: Notion「JIRO司令塔構造 v1�
 - push前に、そのリポにデプロイ連携（Vercel/Cloudflare等のGit連携）が紐づいていないか必ず確認する。**push=安全と思うな**（詳細は「インフラ再発防止」）。
 
 ## ルール層の構造（2026-07-15 確定）
-- **正本**: `~/Desktop/**claudecode_dev/CLAUDE.md`（= GitHub `jgi2019/claudecode-dev`）。ルール変更はここに書き、pushする
+- **正本**: `~/Desktop/claudecode-dev/CLAUDE.md`（= GitHub `jgi2019/claudecode-dev`）。ルール変更はここに書き、pushする
 - **憲法層（ミラー）**: `~/.claude/CLAUDE.md`。起動ディレクトリに依存せず全セッションで読まれる。鉄の掟・承認プロトコル・git規則の最小セットのみ。**正本を変更したら憲法層にも追従させる**。食い違ったら正本が勝つ
 - 憲法層を起点に編集しない（ミラーであって正本ではない）
 
