@@ -55,8 +55,10 @@ JIROは実ローカルFS・git・MCPを持つので、以下に翻訳する:
 ### AIOS v0.2本文（上記Markdownの前に置く）
 - `.claude/templates/aios-handoff-v0.2.yaml` の全フィールドを本文冒頭へ置く。既存DBのselect値は変更・追加しない。
 - `project_id` はPJレジストリ行のpage ID。親ページIDやDB IDで代用しない。
-- `execution.status`: `succeeded / partial / failed / unknown`。一部未完なら `partial`、外部結果を照合できなければ `unknown`。
-- `failed_steps` は現在の未完、`attempt_log` は過去の試行履歴、`notification_receipts` は送信成功の受領証を置く。
+- `execution.status`: `succeeded / partial / failed / unknown`。**今回の `approval.scope` 内の必須ステップ**で判定する。
+  - 許可範囲内の全必須ステップを検証済みなら `succeeded`。基盤全体の将来課題は `open_questions` に残し、この操作を `partial` にしない。
+  - 許可範囲内に未完が残れば `partial`。目的を達成できず成功成果物もなければ `failed`。外部結果を照合できず再実行すべきでなければ `unknown`。
+- `failed_steps` は今回の許可範囲内にある現在の未完、`attempt_log` は過去の試行履歴、`notification_receipts` は送信成功の受領証を置く。
 - 模擬出力は `simulation: true` とし、実行・承認の事実と混ぜない。
 - 保存後にページを再取得し、必須キー・値・URLが一致した成果物だけを `verified: true` とする。
 
@@ -126,6 +128,7 @@ Slack `#taro-jiro`（Channel ID: `C0BGKGN721X`）に、セッション終了時�
 - 成果物保存済みで通知未達が確定した場合、保存をやり直さず同じ `operation_id` で通知だけ再試行する。
 - 到達したか不明な場合は先に受信側を照合する。照合不能なら自動再送せず `unknown` として引き継ぐ。
 - 全ステップ成功前に「完了」と書かない。
+- 通知受領証をhandoffへ反映した後、**最終再実行判定**を行う。同じ `operation_id` の完成済み記録が1件あり、許可範囲内の必須ステップが揃っていれば追加書込みを省略する。これを最終状態のidempotency確認とする。
 
 ### 設計思想（なぜ二層か）
 - **Notion = 正本ハブ**（重い文脈・決定・判断理由を割愛せず格納）＝ ①②
@@ -143,5 +146,7 @@ Slack `#taro-jiro`（Channel ID: `C0BGKGN721X`）に、セッション終了時�
 - ②を作った場合、TARO側に同トピックの既存ドラフトが無いか確認したか？
 - 次のAgentが、正本の版・許可範囲・未完ステップ・再開地点を会話履歴なしで判断できるか？
 - 予定・提案・模擬と、検証済みの実行事実を混同していないか？
+- `status` は今回の許可範囲で判定したか？ 基盤全体の未実装事項だけを理由に `partial` にしていないか？
+- 通知受領証の反映後に最終再実行判定を行い、追加書込みがないことを確認したか？
 - 通知の送信要求成功だけで、受信側への到達を断定していないか？
 - 秘密情報・個人情報をhandoffやSlackへ含めていないか？
