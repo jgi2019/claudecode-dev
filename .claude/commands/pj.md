@@ -1,6 +1,6 @@
 ---
 description: セッション起動検証 — 正本照合・fetch/FF pull・鉄の掟自己申告を1コマンドで実行
-allowed-tools: Bash(git fetch:*), Bash(git pull --ff-only:*), Bash(git status:*), Bash(git rev-parse:*), Bash(git log:*), Bash(shasum:*), Bash(pwd), Bash(ls:*)
+allowed-tools: Bash(git fetch:*), Bash(git pull --ff-only:*), Bash(git status:*), Bash(git rev-parse:*), Bash(git remote get-url:*), Bash(git log:*), Bash(shasum:*), Bash(pwd), Bash(ls:*)
 ---
 
 # /pj — 起動検証コマンド
@@ -16,14 +16,20 @@ allowed-tools: Bash(git fetch:*), Bash(git pull --ff-only:*), Bash(git status:*)
 - 以後このセッションのSlack投稿には必ず `[PJ:$ARGUMENTS]` 接頭辞を付ける。
 - 引数なしの場合は本節をスキップし、従来どおり起動検証のみ行う（読み分け宣言はしない）。
 
-## 1. 起動ディレクトリ検証
-- `pwd` を実行。PJレジストリ（Notion「PJレジストリ」DB / CLAUDE.mdの最小参照一覧）に登録された正位置チェックアウト配下かを判定する。
-- claudecode-dev の正位置は `~/Desktop/claudecode-dev/`。それ以外の場所で起動している場合は**警告を出し、正位置への移動を促す**（未登録の場所での作業は禁止）。
+## 1. 実行環境とリポジトリ同一性の検証
+- `pwd` と `git remote get-url origin` を実行する。
+- Mac等の常設環境では、PJレジストリに登録された正位置（claudecode-devは `~/Desktop/claudecode-dev/`）を使う。別の常設checkoutは未登録として止める。
+- Claude Code on the web等、サービスが作る一時的なリモート実行環境ではパス一致を要求しない。代わりに次の全条件で同一性を確認する。
+  1. `origin` がPJレジストリで指定されたGitHub repoと一致する。
+  2. 対象commit/refをfetchし、`git rev-parse HEAD` で実際のSHAを記録する。
+  3. 作業ツリーがcleanである。
+- 開始カードへ `execution_environment: local_registered | remote_ephemeral`、実パス、origin、HEAD SHAを記録する。
+- リポジトリ不一致・origin不明・意図しない常設checkoutの場合は作業を止める。
 
 ## 2. CLAUDE.md読込確認（鉄の掟の自己申告）
 - 鉄の掟5カ条（①JIROセッション常に1つ ②サブエージェント無名 ③モデルはギア ④次セッション指示文はTAROが書く ⑤承認ルール不変）を**読めているか自己申告**する。
-- 読めていない（コンテキストに正本CLAUDE.mdがない）場合は、`~/Desktop/claudecode-dev/CLAUDE.md` をReadしてから続行する。
-- 起動ディレクトリが `~/Desktop/claudecode-dev/` 以外なら「憲法層 ~/.claude/CLAUDE.md のみ読込の可能性が高い」旨を明示する。
+- 読めていない場合、常設環境では `~/Desktop/claudecode-dev/CLAUDE.md`、リモート一時環境では同一性を確認したcheckout内の `CLAUDE.md` をReadしてから続行する。
+- パスの違いだけで未登録と断定せず、前節の `execution_environment` とorigin/HEADによる検証結果を明示する。
 
 ## 3. 正本ハッシュ照合
 - `git -C ~/Desktop/claudecode-dev fetch origin` を実行。
@@ -48,7 +54,8 @@ allowed-tools: Bash(git fetch:*), Bash(git pull --ff-only:*), Bash(git status:*)
 
 ## 7. 完了報告（チェックリスト形式）
 ```
-✅/❌ 起動ディレクトリ: <pwd> （正位置/未登録）
+✅/❌ 実行環境: <local_registered|remote_ephemeral> / <pwd>
+✅/❌ リポジトリ同一性: origin=<URL> / HEAD=<SHA>
 ✅/❌ 鉄の掟: 読込済み・自己申告OK
 ✅/❌ 正本同期: HEAD=origin/main（または N コミット遅れ→FF pull実施）
 ✅/❌ CLAUDE.md未コミット差分: なし/あり
