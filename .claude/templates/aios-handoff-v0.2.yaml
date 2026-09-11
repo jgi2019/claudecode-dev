@@ -1,0 +1,47 @@
+# AIOS handoff schema v0.2
+# Source: jgi2019/jgi-brain foundation/WORKFLOW.md
+# This block belongs in the body of the existing Notion handoff page.
+# Do not add or change Notion select properties merely to carry these fields.
+
+schema_version: "0.2"
+handoff_id: "<stable handoff id>"
+project_id: "<PJ registry page id>"
+session_id: "<agent session id or generated id>"
+source_agent: "<agent name>"
+execution_environment:
+  type: "<local_registered | remote_ephemeral | managed_cloud>"
+  path: "<path or not_applicable>"
+  origin: "<repository URL or not_applicable>"
+  head_sha: "<verified SHA or not_applicable>"
+goal: "<one sentence>"
+current_state: "<verified current state>"
+decisions:
+  - status: "adopted | proposed"
+    summary: "<decision>"
+    source_url: "<canonical URL>"
+constraints:
+  - "<constraint>"
+open_questions:
+  - "<unresolved item>"
+next_action:
+  owner: "<owner>"
+  action: "<specific next action>"
+outputs:
+  - name: "<output name>"
+    url: "<verified URL>"
+    verified: true
+read_versions:
+  - source: "<source URL or identifier>"
+    revision: "<Git commit SHA or Notion last_edited_time>"
+execution:
+  operation_id: "<stable operation id>"
+  status: "planned | running | succeeded | partial | failed | unknown" # judge only required steps within approval.scope
+  simulation: false
+  completed_steps: []
+  failed_steps: []
+  attempt_log: []
+  notification_receipts: []
+approval:
+  scope: "<allowed operations>"
+  evidence: "<instruction URL/message id or quoted instruction>"
+visibility: "<audience>"
