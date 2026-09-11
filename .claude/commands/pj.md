@@ -40,11 +40,18 @@ allowed-tools: Bash(git fetch:*), Bash(git pull --ff-only:*), Bash(git status:*)
 - 作業対象がPJレジストリの他リポ（jgi-brain / jgi-sites 等）の場合、そのリポでも同様に fetch → FF pull を行う。
 - ⚠️ jgi-sites は push=本番デプロイ発火。pullは安全だがpush時は必ず承認を取ること。
 
-## 6. 完了報告（チェックリスト形式）
+## 6. AIOS開始契約への接続
+- 同期確認後、`.claude/commands/start-session.md` の手順を続けて実行する。
+- PJレジストリで取得した行のpage IDを `project_id` とする。親ページIDやDB IDで代用しない。
+- 採用済みAgent Briefのcommitが未指定の場合、Draftを現行ルールとして適用せず、既存CLAUDE.mdを維持する。
+- 開始カードに `project_id` `session_id` `operation_id` `read_versions` `approval.scope` を表示してから作業へ入る。
+
+## 7. 完了報告（チェックリスト形式）
 ```
 ✅/❌ 起動ディレクトリ: <pwd> （正位置/未登録）
 ✅/❌ 鉄の掟: 読込済み・自己申告OK
 ✅/❌ 正本同期: HEAD=origin/main（または N コミット遅れ→FF pull実施）
 ✅/❌ CLAUDE.md未コミット差分: なし/あり
-次アクション: <ハンドオフDB確認 → 作業開始 等>
+✅/❌ AIOS開始カード: project_id・operation_id・参照版・許可範囲を記録
+次アクション: <最新handoffの具体的な再開地点 または HEYへの確認事項>
 ```
