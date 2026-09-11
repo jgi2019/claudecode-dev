@@ -8,6 +8,11 @@ handoff_id: "<stable handoff id>"
 project_id: "<PJ registry page id>"
 session_id: "<agent session id or generated id>"
 source_agent: "<agent name>"
+execution_environment:
+  type: "<local_registered | remote_ephemeral | managed_cloud>"
+  path: "<path or not_applicable>"
+  origin: "<repository URL or not_applicable>"
+  head_sha: "<verified SHA or not_applicable>"
 goal: "<one sentence>"
 current_state: "<verified current state>"
 decisions:
@@ -30,7 +35,7 @@ read_versions:
     revision: "<Git commit SHA or Notion last_edited_time>"
 execution:
   operation_id: "<stable operation id>"
-  status: "planned | running | succeeded | partial | failed | unknown"
+  status: "planned | running | succeeded | partial | failed | unknown" # judge only required steps within approval.scope
   simulation: false
   completed_steps: []
   failed_steps: []
