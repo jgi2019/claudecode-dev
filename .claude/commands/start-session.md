@@ -35,6 +35,11 @@
    session_id: "<session id>"
    operation_id: "<operation id>"
    source_agent: "Claude Code / JIRO"
+   execution_environment:
+     type: "<local_registered | remote_ephemeral>"
+     path: "<pwd>"
+     origin: "<git remote URL>"
+     head_sha: "<verified SHA>"
    goal: "<今回の目的>"
    handoff_url: "<latest valid handoff URL or none>"
    read_versions:
@@ -52,6 +57,7 @@
 
 ## 注意
 
+- ローカル正位置とリモート一時環境を混同しない。リモートはパスではなくorigin・HEAD・clean状態で同一性を確認する。
 - ハンドオフの判断理由・制約・未決事項を割愛しすぎない。
 - 過去のAgent記憶より、取得した正本と版を優先する。
 - `operation_id` はラベルであり、一意制約そのものではない。自動化されるまでは再取得・照合して重複を避ける。
