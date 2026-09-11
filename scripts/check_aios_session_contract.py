@@ -16,18 +16,18 @@ FILES = {
 REQUIRED = {
     "start": [
         "project_id", "session_id", "operation_id", "read_versions",
-        "approval", "last_edited_time", "Draft",
+        "approval", "last_edited_time", "Draft", "execution_environment",
     ],
     "end": [
         "operation_id", "notification_receipts", "attempt_log",
         "failed_steps", "partial", "unknown", "simulation",
-        "保存をやり直さず",
+        "保存をやり直さず", "approval.scope", "最終再実行判定",
     ],
-    "pj": ["AIOS開始契約", "project_id", "operation_id", "read_versions"],
+    "pj": ["AIOS開始契約", "project_id", "operation_id", "read_versions", "remote_ephemeral", "git remote get-url origin"],
     "template": [
         'schema_version: "0.2"', "handoff_id", "project_id",
         "operation_id", "attempt_log", "notification_receipts",
-        "approval", "visibility",
+        "approval", "visibility", "execution_environment",
     ],
 }
 
